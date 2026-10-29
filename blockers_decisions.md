@@ -23,9 +23,12 @@ DMs. He quoted two strings back at me, so those are directly witnessed: the `/en
 - **A refused `/end` names the rule** — `Game cannot end when someone is entering a win — @Bo is entering a
   win.` The Board's `⏳` line and the tap-time refusal stay as they were, per Jon.
 
-**Still owed:** a 60-second look at those two changed behaviours, listed below. The `@` you will see comes
-from `mjbot.py:248` (`'@' + username if username else first_name`) — an account that has never set a
-username reads as a bare first name, and nothing can promise the `@` for those.
+**Seen 2026-10-30 — Jon: "lgtm". Nothing owed on this file except reading it, then deleting it.**
+`/start` in a chat with a Table is one line with the Board untouched below it and no `/start` in the menu;
+the refused `/end` reads the new sentence. Slices 5 and 6 are ✅ in `tasking.md`.
+
+**The `@` you see** comes from `mjbot.py:248` (`'@' + username if username else first_name`) — an account
+that has never set a username reads as a bare first name, and nothing can promise the `@` for those.
 
 **One thing neither of us has seen:** the toast `@Al is already entering a win.`, which needs a *second*
 seated player to tap a winner while someone else holds a draft. If nobody ever taps out of turn, that path
