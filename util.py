@@ -6,6 +6,9 @@ from libraries import *
 #    shooter pay?
 #    maximum Tai
 
+# Payout multiplier per tai index (0..10), doubling each tai.
+TAI_LADDER = [0, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+
 
 class session:
     def __init__(self):
@@ -44,7 +47,7 @@ class session:
             factor[player_lose-1] = -1
 
         #calculate losses
-        x = np.array([0,4,8,16,32,64,128,256,512,1028,2056])
+        x = np.array(TAI_LADDER)
         p = self.rate*x
 
         #pay off losses
@@ -63,7 +66,7 @@ class session:
             factor[player_lose-1] = -0.5
 
         #calculate losses
-        x = np.array([0,4,8,16,32,64,128,256,512,1028,2056])
+        x = np.array(TAI_LADDER)
         p = self.rate*x
 
         #pay off losses

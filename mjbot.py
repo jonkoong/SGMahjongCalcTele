@@ -1,9 +1,19 @@
 from libraries import *
 from util import *
 import os
+import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+import telebot.apihelper as apihelper
+
 bot = telebot.TeleBot(config.token)
+
+# The route to api.telegram.org here drops the first connect and takes ~3s to warm up.
+# Retry inside the API layer so a single failed connect is not a dropped update.
+apihelper.RETRY_ON_ERROR = True
+apihelper.MAX_RETRIES = int(os.environ.get('MJ_MAX_RETRIES', 4))
+apihelper.RETRY_TIMEOUT = 2
+
 server = Flask(__name__)
 win = {}
 typz = {}
@@ -345,9 +355,28 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='...' + config.token)
+    bot.set_webhook(url=config.webhook_url + config.token)
     return "!", 200
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    if os.environ.get('MJ_MODE', 'polling') == 'webhook':
+        server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    else:
+        # Local development: polling needs no public HTTPS URL.
+        #
+        # MJ_POLL_TIMEOUT is the getUpdates hold time. telebot sends it as the API
+        # 'timeout' param. Keep it low: some networks drop long-held connections,
+        # and telebot 4.5.1 lets a ReadTimeout escape polling() and kill the process.
+        poll_timeout = int(os.environ.get('MJ_POLL_TIMEOUT', 5))
+        print('Bot online (polling, hold=%ss). Press Ctrl+C to stop.' % poll_timeout)
+        while True:
+            try:
+                bot.polling(none_stop=True, interval=1, skip_pending=False,
+                            long_polling_timeout=poll_timeout)
+            except KeyboardInterrupt:
+                raise
+            except Exception as e:
+                # Transient drop (ReadTimeout/ConnectionError): restart, don't die.
+                print('Polling dropped (%s: %s) - restarting in 3s' % (type(e).__name__, e))
+                time.sleep(3)
