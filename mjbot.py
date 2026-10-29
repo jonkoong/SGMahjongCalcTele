@@ -35,10 +35,10 @@ def _request(method, url, params=None, files=None, timeout=None, proxies=None):
     the poll hold.
     """
     connect, read = timeout
-    polling = method == "get"
-    if polling:
+    reading = method == "get"             # a read repeats harmlessly; a write may not have landed
+    if reading:
         read = max(read, int(os.environ.get('MJ_POLL_TIMEOUT', 5)) + 10)
-    tries = apihelper.MAX_RETRIES if polling else 2
+    tries = apihelper.MAX_RETRIES if reading else 2
     session = apihelper._get_req_session()
     failure = None
     for attempt in range(1, tries + 1):
@@ -48,9 +48,9 @@ def _request(method, url, params=None, files=None, timeout=None, proxies=None):
         except requests.exceptions.ConnectTimeout as e:
             failure = e                       # nothing was sent - safe to resend
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-            if not polling:
+            if not reading:
                 raise
-            failure = e                       # a poll is just a poll - hold again
+            failure = e                       # a read is just a read - hold again
         if attempt < tries and isinstance(failure, requests.exceptions.ConnectTimeout):
             time.sleep(apihelper.RETRY_TIMEOUT)
     raise failure
