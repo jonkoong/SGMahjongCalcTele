@@ -325,13 +325,15 @@ def start_reconciler(delivery, interval=None):
     return thread
 
 
-def polling_kwargs():
+def polling_kwargs(first=True):
     """
     MJ_POLL_TIMEOUT is the getUpdates hold time, sent as the API 'timeout' param. Keep it low:
-    some networks drop long-held connections. skip_pending is on because a restart dissolves every
-    Table anyway, so anything queued beforehand refers to a Table that no longer exists.
+    some networks drop long-held connections. skip_pending is on for the first poll because a cold
+    start dissolves every Table, so anything queued beforehand refers to a Table that no longer
+    exists. A poll restarted inside this process does not dissolve anything (F-04): the Tables are
+    still live and the queued taps name them, so a restart polls without it.
     """
-    return dict(non_stop=True, interval=1, skip_pending=True,
+    return dict(non_stop=True, interval=1, skip_pending=first,
                 long_polling_timeout=int(os.environ.get('MJ_POLL_TIMEOUT', 5)))
 
 
@@ -352,3 +354,5 @@ if __name__ == "__main__":
                 # Transient drop (ReadTimeout/ConnectionError): restart, don't die.
                 print('Polling dropped (%s: %s) - restarting in 3s' % (type(e).__name__, _brief(e)))
                 time.sleep(3)
+                # The Tables survived this restart, so the queued updates are tonight's, not stale.
+                poll = polling_kwargs(first=False)

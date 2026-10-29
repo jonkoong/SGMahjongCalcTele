@@ -75,11 +75,14 @@ def test_a_stalled_api_call_gives_up_within_ten_seconds():
     assert apihelper.CONNECT_TIMEOUT <= 10
 
 
-# S1.20 — taps queued before a restart describe a Table that no longer exists.
+# S1.20 — taps queued before a *cold start* describe a Table that no longer exists: the process is
+# new, so every Table went with the old one. A poll restarted inside this process is the other case
+# (F-04) — those Tables are alive and those taps name them.
 def test_updates_queued_before_a_restart_are_skipped():
     options = mjbot.polling_kwargs()
     assert options["skip_pending"] is True
     assert options["non_stop"] is True
+    assert mjbot.polling_kwargs(first=False)["skip_pending"] is False
 
 
 # --- S1.21–S1.24: resend only what provably never arrived -------------------------------------
