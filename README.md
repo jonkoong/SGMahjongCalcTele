@@ -58,6 +58,12 @@ attempt. All of them are in the table above.
 Set `MJ_MODE=webhook`, `MJ_WEBHOOK_URL=https://<your-host>/` and run `python mjbot.py`.
 The Flask app serves `POST /<token>`; the original deployment target was Heroku.
 
+**Polling is the supported mode**, and this block is the 2022 bot's, kept so a deploy that already
+points at it still runs. It does not carry what the night now leans on: the reconciliation beat does
+not start in this mode, Flask's own server is threaded so the one-worker rule that keeps two players
+from interleaving a win does not hold, and nothing but the token in the request path guards the route.
+Running it means running the bot before slice 2 in those three respects.
+
 ## Flow diagrams
 
 `docs/flow.md` maps the Table flow: opening and joining, seating, the three-stage Entry (winner →
@@ -74,17 +80,18 @@ verbs below need no table code after them.
 | `/start` | new chat only | Starts the bot — the greeting a chat gets before it has a Table |
 | `/new` | anyone not at a Table | Open a Table, become its host, pick a wind |
 | `/join CODE` | anyone not at a Table | Sit in at someone else's Table; a bare `/join` asks for the code first |
-| `/board` | seated | Refresh the Board and name what you can tap |
+| `/board` | at a Table | Refresh the Board and name what you can tap |
 | `/history` | seated | Every win of the night, oldest first |
 | `/settings` | host | Pay rate, shooter pay, max tai |
 | `/end` | seated | Settle up — it asks first — then zero the balances and keep the players |
-| `/leave` | seated | Free your wind seat; the money in that seat stays there |
+| `/leave` | at a Table | Free your wind seat and leave; the money that seat earned stays there |
 | `/close` | host | Dissolve the Table and free everyone |
 
 The **Board** is the only message the bot keeps editing in your chat: the four winds, who sits where,
 each seat's balance, what the Table pays, and the last three wins. Older wins are counted, not hidden —
 `… 4 earlier — /history`. Every button carries the Table's version, so a screen you left open is refused
-as out of date instead of scoring a second time.
+as out of date instead of scoring a second time. Two buttons are excepted: a wind you sit at is judged on
+whether the wind is free, and **Back** is how you leave a screen that *is* out of date.
 
 Payouts are the numbers the bot has always produced, quirks included — `docs/flow.md` § Money per tap
 is the table of factors.

@@ -265,13 +265,13 @@ short-handed night, and it is settled by hand — four seated is what a night is
 | Command | Who | Notes |
 | --- | --- | --- |
 | `/start` | new chat only | Starts the bot. Once a chat has a Table the verb leaves the menu — the menu already carries every verb *and* its description, so a help listing in the chat was a reprint of it |
-| `/new` | unbound | You become the host. There is no host transfer, so the role survives `/leave` |
+| `/new` | unbound | You become the host. There is no host transfer, so the Table keeps naming them its host even after `/leave` — refusals still name that name, though the departed host's own menu has lost both host verbs by then |
 | `/join CODE` | unbound | A bare `/join` asks for the code; your next message is the answer, and one attempt only |
-| `/board` | seated | Refresh, plus one line naming what you can tap |
+| `/board` | at a Table | Refresh, plus one line naming what you can tap |
 | `/history` | seated | Every Entry of the night, in your own message; `Back` returns the score |
 | `/settings` | host | Pay rate (typed), shooter, max tai (both picked). Refusals name the host |
 | `/end` | seated | Asks, then settles; refuses while anyone holds a draft |
-| `/leave` | seated | Frees your wind and your binding; its balance stays |
+| `/leave` | at a Table | Frees your wind and your binding; its balance stays |
 | `/close` | host | Dissolves the Table and frees everyone's binding |
 
 `/history` and `/end` never appear in a player's slash menu until they can use them — the menu is set per
@@ -285,9 +285,9 @@ same reasoning removed `/start` from the menu of a chat that already has a Table
 | Behaviour | Code |
 | --- | --- |
 | Telegram: handlers, keyboards, delivery, breaker, polling | `mjbot.py` — the only file that imports `telebot` |
-| Table state, seats, settings, drafts, tap rules, tokens | `table.py` — `Room` (verbs and taps) and `Table` (state) |
+| Table state, seats, settings, drafts, tap rules, tokens | `table.py` — `Room` (verbs and taps) and `Table` (state). Also which buttons a screen carries, and the one-line refusals: a button is a token, and a token is a rule |
 | Payout math, settlement lines, the tai ladder | `score.py` — pure functions, no state, no Telegram |
-| Every word a player reads | `render.py` — `board`, `history`, `settlement`, `entry_line`, `settings` |
+| Every sentence a player reads | `render.py` — `board`, `history`, `settlement`, `entry_line`, `settings` |
 | One Board message per chat, edits not sends; retries and write holding | `mjbot.py` — `Delivery`, `reconcile` |
 | Which verbs a player is offered | `table.py` — `commands_for`, `COMMAND_HELP` |
 | The frozen numbers | `tests/golden_payouts.json` — 640 tai cases, the bonus kinds, full nights, settlements |

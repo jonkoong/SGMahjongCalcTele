@@ -1,4 +1,9 @@
-"""Text the players read. The Board and everything inside it, settlement, help."""
+"""
+The sentences the players read. The Board and everything inside it, settlement, history, help.
+
+Button labels are not here: a button is a `kind.code.version.meaning` token, and which tokens a screen
+offers is a rule, so that lives with the rules in `table.py` (docs/flow.md § 10).
+"""
 import score
 
 # How many of the night's Entries the Board keeps visible. A real night is a few dozen hands,
