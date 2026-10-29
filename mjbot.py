@@ -105,6 +105,10 @@ BoardInChat = namedtuple('BoardInChat', 'message_id stamp')
 # each player queue behind another dead 10 s attempt. The beat resumes what is still owed.
 BREAKER_AFTER = int(os.environ.get('MJ_BREAKER_AFTER', 2))
 BREAKER_COOLDOWN = float(os.environ.get('MJ_BREAKER_COOLDOWN', 15))
+# A parked write that Telegram will never take — a message the player deleted, a chat that blocked
+# the bot — must not sit at the head of the queue forever, because everything earned after it is
+# behind it. Three beats, then it is said and gone.
+PARK_TRIES = 3
 
 
 class Delivery:
@@ -120,7 +124,7 @@ class Delivery:
         self.bot = bot
         self.boards = {}
         self.intended = {}
-        self.owed = []                       # writes never sent while the route was down
+        self.owed = []                       # [write, tries left] for writes the route never got to
         self.menus = {}                      # last command list each chat was given
         self.lock = threading.Lock()
         self.clock = clock
@@ -137,18 +141,20 @@ class Delivery:
         """
         with self.lock:
             for effect in effects:
+                retry = None
                 if isinstance(effect, Retired):
                     # the slot goes back even if the write has to wait
-                    write = self._spend(effect)
+                    write, retriable = self._spend(effect)
+                    retry = write if retriable else None
                 else:
                     if isinstance(effect, Board):
                         self.intended[effect.chat_id] = effect      # stays dirty until it lands
                     write = lambda e=effect: self._deliver(e, callback_id)
                 if self._held():
                     if isinstance(effect, (Line, Retired, Commands)):
-                        self.owed.append(write)         # never attempted, so it cannot duplicate
+                        self.owed.append([write, PARK_TRIES])   # never attempted, so it cannot duplicate
                     continue
-                self._try(write, 'Delivery')
+                self._try(write, 'Delivery', retry)
 
     def reconcile(self):
         """
@@ -160,8 +166,12 @@ class Delivery:
                 return
             while self.owed:
                 before = self.failures
-                self._try(self.owed[0], 'Flush')
+                self._try(self.owed[0][0], 'Flush')
                 if self.failures > before:
+                    self.owed[0][1] -= 1
+                    if not self.owed[0][1]:
+                        print('Flush given up on — that write never landed')
+                        self.owed.pop(0)
                     break                               # still down — the queue keeps its order
                 self.owed.pop(0)
             for chat_id, board in list(self.intended.items()):
@@ -170,11 +180,16 @@ class Delivery:
     def _held(self):
         return self.clock() < self.retry_after
 
-    def _try(self, deliver, note):
+    def _try(self, deliver, note, retry=None):
         """
         A kicked chat, a too-old tap or a dead route must not take the polling thread down with it.
         The Board stamp is left unrecorded, so the next reconcile edits it again. Enough failures
         in a row and writes are held rather than stalling every player behind them.
+
+        A failed `Retired` is parked like a write the route never got to (AD19), because its text —
+        the settlement — is said once and exists nowhere else: `clear_round` has already zeroed the
+        balances it came from. An edit is safe to attempt twice where a send is not, because an edit
+        names the message it writes; AD16's at-most-once rule is about duplication, not about edits.
         """
         if self._held():
             return
@@ -182,6 +197,8 @@ class Delivery:
             deliver()
         except (apihelper.ApiTelegramException, requests.exceptions.RequestException) as e:
             print('%s dropped (%s: %s)' % (note, type(e).__name__, _brief(e)))
+            if retry is not None:
+                self.owed.append([retry, PARK_TRIES])   # the beat flushes it in order, with the rest
             self.failures += 1
             if self.failures >= BREAKER_AFTER:
                 self.retry_after = self.clock() + BREAKER_COOLDOWN
@@ -223,18 +240,25 @@ class Delivery:
         held = self.boards.pop(effect.chat_id, None)
         self.intended.pop(effect.chat_id, None)
         message_id = held.message_id if held else None
-        return lambda: self._retire(effect.chat_id, message_id, effect.text)
+        return (lambda: self._retire(effect.chat_id, message_id, effect.text),
+                message_id is not None)          # an edit names its message; a send does not
 
     def _retire(self, chat_id, message_id, text):
         """
         An edit with no reply_markup keeps the keyboard it already has, so clearing a spent Board
         means sending an explicitly empty one.
         """
-        if message_id:
+        if message_id is None:
+            self.bot.send_message(chat_id, text)
+            return
+        try:
             self.bot.edit_message_text(text=text, chat_id=chat_id, message_id=message_id,
                                        reply_markup=types.InlineKeyboardMarkup())
-        else:
-            self.bot.send_message(chat_id, text)
+        except apihelper.ApiTelegramException as e:
+            # An edit that changes nothing is not a failure — that is the notice already being on
+            # screen, which is what the retry was asking. AD9 says the same for a Board.
+            if 'not modified' not in str(e):
+                raise
 
     def _board(self, effect):
         held = self.boards.get(effect.chat_id)

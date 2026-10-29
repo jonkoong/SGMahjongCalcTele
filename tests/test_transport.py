@@ -330,6 +330,33 @@ def test_a_delivery_that_gets_through_clears_the_streak():
     assert bot.attempted == 4                                   # 2 + 2: nothing was held back
 
 
+# F-01 — `/end` zeroes the balances its own settlement was computed from, so a settlement write that
+# dies is the only copy of the night's money leaving existence: `/history` reads a zeroed Board and
+# `/end` again says the night is empty. AD19 parks a write the route never got to; an edit that died
+# mid-call is just as safe to attempt again, because it names the message it writes — AD16's
+# at-most-once rule is about duplicating a send, and no send can duplicate an edit.
+def test_a_settlement_whose_edit_died_is_said_on_the_beat():
+    r, t = seated_table()
+    clock, bot = FrozenClock(), RouteDown(up=True)
+    delivery = mjbot.Delivery(bot, clock=clock)
+    delivery.run(r.message(HOST, "/board"))
+    for kind, meaning in (("w", 0), ("a", "t3"), ("p", 1)):     # Al wins 3 Tai off Bo
+        delivery.run(r.tap(HOST, table.token(kind, t.code, t.version, meaning)))
+    settled = lambda: sorted(c for c, _, text, _ in bot.edited if "settled" in text)
+
+    bot.script = [False]                                        # the next edit dies mid-call
+    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "end")))
+    bot.script = None
+
+    assert settled() == [GUEST.user_id], "Al's settlement is the one that died"
+    assert len(delivery.owed) == 1, "parked for the beat, not discarded"
+
+    delivery.reconcile()
+
+    assert settled() == sorted([HOST.user_id, GUEST.user_id]), "the beat said it after all"
+    assert delivery.owed == []
+
+
 # S3.12 — a Table closed while the route is down must not go on showing its score afterwards: the
 # notice replaces what the chat was owed, so the beat has nothing stale left to push.
 def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns():
@@ -348,6 +375,33 @@ def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns
 
     texts = [text for _, _, text, _ in bot.edited]
     assert len(texts) == 2 and all("closed" in text for text in texts)
+
+
+# F-01 — the retry is bounded. A parked write Telegram will never take (a message the player deleted,
+# a chat that blocked the bot) would otherwise sit at the head of the queue forever, with everything
+# the players earn after it stranded behind it.
+def test_a_parked_write_telegram_wont_take_is_given_up_on():
+    r, t = seated_table()
+    clock, bot = FrozenClock(), RouteDown(up=True)
+    delivery = mjbot.Delivery(bot, clock=clock)
+    delivery.run(r.message(HOST, "/board"))
+    for kind, meaning in (("w", 0), ("a", "t3"), ("p", 1)):
+        delivery.run(r.tap(HOST, table.token(kind, t.code, t.version, meaning)))
+    bot.up = False                                              # the route dies on edits
+    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "end")))
+    assert delivery.owed, "both settlements are parked, having never landed"
+
+    for _ in range(2):                                          # a bad minute is not a give-up
+        clock.advance(mjbot.BREAKER_COOLDOWN + 1)
+        delivery.reconcile()
+    assert delivery.owed, "still trying"
+
+    for _ in range(10):                                         # a message that is gone is gone
+        clock.advance(mjbot.BREAKER_COOLDOWN + 1)
+        delivery.reconcile()
+
+    assert delivery.owed == [], "the queue moves on rather than hold tonight's writes behind it"
+
 
 class TokenQuotingBot(FakeBot):
     """The way `requests` reports a dead connection: the URL, token and all."""
