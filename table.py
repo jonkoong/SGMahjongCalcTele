@@ -99,8 +99,9 @@ class Commands(NamedTuple):
 def commands_for(table, user_id):
     """
     The verbs one player can use. A player is bound to one live Table (FR4), so these resolve
-    without a code; the host's two commands go only to the host (FR18, FR21) — and since nothing
-    transfers the role, a host who has /leave'd still owns them.
+    without a code; the host's two commands go only to the host (FR18, FR21). Nothing transfers the
+    role, so the Table keeps naming its host after they /leave — and a player who is not at the Table
+    is offered none of it, because `table_of` finds nothing for them any more.
 
     `/start` is offered only to a chat with no Table (FR26): it says the bot is running, which is news
     exactly once. After that the menu holds things a player at a Table does.
@@ -318,6 +319,8 @@ class Room:
                 return [Toast("That tap makes no sense here.")]
             return self._seat(table, user, wind)
         if kind in ("w", "a", "p", "k") and table.seat_of(user.user_id) is None:
+            # `x` is absent here because only the holder of a draft may cancel one, which the check
+            # below owns; `g` and `v` are refused by the host check further down.
             return [Toast("Take a seat before scoring — pick a wind first.")]
         if kind in ("a", "p", "x") and table.pending is not None and (
                 table.pending["holder"] != user.user_id):
@@ -446,7 +449,7 @@ class Room:
         """
         table = self.table_of(user)
         if table is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         draft = table.pending
         theirs = draft is not None and (draft["holder"] == user.user_id
                                         or table.occupants[draft["winner"]] == user.user_id)
@@ -480,7 +483,7 @@ class Room:
         """
         table = self.table_of(user)
         if table is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         if table.host_id != user.user_id:
             return [Line(user.user_id, self._only_host_can(table, "change settings at"))]
         if table.seat_of(user.user_id) is None:
@@ -496,6 +499,13 @@ class Room:
         """
         return [self._seat_offer(table, user),
                 Line(user.user_id, "Take a seat first — pick a wind, then %s." % then)]
+
+    def _no_table(self, user):
+        """
+        The one answer a chat with no Table gets, whichever verb it asked with. Seven verbs end here,
+        so the sentence lives once — the same move slice 5 made of the seat refusal above.
+        """
+        return [Line(user.user_id, "You are not at a table. " + HELP)]
 
     def _settings_rows(self, table):
         """The three settings, then a way out that costs the host no typed command — the old bot's
@@ -595,7 +605,7 @@ class Room:
         Every rung the frozen ladder can pay, two to a row like the specials. The ladder's whole span,
         not the Table's current cap: the picker exists to move the cap (AD23).
         """
-        rungs = [("%d Tai" % n, token("v", table.code, table.version, "maxtai%d" % n))
+        rungs = [(amount_label("tai", n), token("v", table.code, table.version, "maxtai%d" % n))
                  for n in range(1, score.MAX_TAI + 1)]
         return [rungs[i:i + 2] for i in range(0, len(rungs), 2)]
 
@@ -607,7 +617,7 @@ class Room:
         """FR21 — dissolving a Table is the host's call alone."""
         table = self.table_of(user)
         if table is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         if table.host_id != user.user_id:
             return [Line(user.user_id, self._only_host_can(table, "close"))]
         del self.tables[table.code]
@@ -629,13 +639,13 @@ class Room:
         """
         held = self.table_of(user)
         if held is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         return [Line(user.user_id, "You are at table %s — send /board to see it." % held.code)]
 
     def _board(self, user):
         table = self.table_of(user)
         if table is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         if table.seat_of(user.user_id) is None:
             return [self._seat_offer(table, user)]
         if table.pending is not None:
@@ -706,7 +716,7 @@ class Room:
         """
         table = self.table_of(user)
         if table is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         if table.seat_of(user.user_id) is None:
             return self._take_a_seat(table, user, "settle it up")
         return [Board(user.user_id, render.settlement(table), self._end_rows(table))]
@@ -727,7 +737,7 @@ class Room:
         """
         table = self.table_of(user)
         if table is None:
-            return [Line(user.user_id, "You are not at a table. " + HELP)]
+            return self._no_table(user)
         if table.seat_of(user.user_id) is None:
             # The night's wins belong to the players sitting through them.
             return self._take_a_seat(table, user, "read the night back")
@@ -771,7 +781,7 @@ class Room:
 
     def _amount_rows(self, table):
         """The tai ladder, then the specials two to a row — six across is unusable on a phone."""
-        tai = [("%d Tai" % n, token("a", table.code, table.version, "t%d" % n))
+        tai = [(amount_label("tai", n), token("a", table.code, table.version, "t%d" % n))
                for n in range(1, table.tai_cap() + 1)]
         buttons = [(label, token("a", table.code, table.version, key))
                    for key, label in SPECIAL_AMOUNTS.items()]
