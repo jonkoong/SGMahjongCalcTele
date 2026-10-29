@@ -212,13 +212,21 @@ class Room:
         command = parts[0].lower() if text.startswith("/") else ""
         if not command:
             asked = self.asked.pop(user.user_id, None)          # one attempt per ask
+            answer = text.strip()
+            if asked and not answer:
+                # A sticker, a photo, a forwarded nothing: it is input, so it ends the ask (AD21), but it
+                # is not an attempt at an answer. Reading it as one refused a player for a message they
+                # never typed — `No live table called .` — so they are shown where they stand instead.
+                return self._board(user)
             if asked == "code":
-                return self._join(user, text.strip())
+                return self._join(user, answer)
             if asked == "rate":
-                return self._apply_rate(user, text.strip())
-            # /start, /board, a stray photo: anything else shows them where they stand.
+                return self._apply_rate(user, answer)
+            # /board, /start, a stray photo: anything else shows them where they stand.
             return self._board(user)
         self.asked.pop(user.user_id, None)                      # a command is never an answer
+        if command == "/start":
+            return self._start(user)
         if command == "/new":
             return self._open(user)
         if command == "/join":
@@ -575,6 +583,25 @@ class Room:
         gone = list(table.members)
         return ([self._retired(uid, "Table %s is closed." % table.code) for uid in gone]
                 + [Commands(uid, commands_for(None, uid)) for uid in gone])
+
+    def _start(self, user):
+        """
+        FR26 — help, plus where the player stands, and nothing else. It was the same branch as /board, so
+        COMMAND_HELP never once reached a chat: a player could see the verbs in Telegram's slash menu or
+        not at all, but never read what one does.
+
+        The verbs listed are *this* player's, from the same `commands_for` the menu is built from (AD20) —
+        help that offered /close to a member would be a second menu lying. One Board, to one chat: this is
+        one player asking, and `_show_board` would have edited everyone's screen with it.
+        """
+        held = self.table_of(user)
+        if held is None:
+            return [Line(user.user_id, "You are not at a table. " + HELP)]
+        screen = ([self._seat_offer(held, user)] if held.seat_of(user.user_id) is None else
+                  [Board(user.user_id, render.board(held), self._table_rows(held, user.user_id))])
+        verbs = "\n".join("%s — %s" % (verb, COMMAND_HELP[verb])
+                          for verb in commands_for(held, user.user_id))
+        return screen + [Line(user.user_id, verbs)]
 
     def _board(self, user):
         table = self.table_of(user)

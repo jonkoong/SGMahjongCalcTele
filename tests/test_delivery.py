@@ -259,3 +259,20 @@ def test_an_ended_night_leaves_one_live_message_beneath_the_settlement():
     assert len(bot.sent) == sent + 2, "each chat earns one fresh live Board"
     assert len(delivery.boards) == 2 and all(b.message_id not in asked.values()
                                              for b in delivery.boards.values())
+
+
+# S6.8 — whatever a plain message posts beneath the Board, it must never leave a second Board above it:
+# the refresh is an edit of the slot the chat already holds, however many stray messages a night holds.
+def test_a_night_of_plain_messages_never_stacks_a_second_board():
+    r, t = seated_table()
+    bot = FakeBot()
+    delivery = mjbot.Delivery(bot)
+    delivery.run(r.message(HOST, "/board"))
+    slot = {chat: b.message_id for chat, b in delivery.boards.items()}
+
+    for text in ("hi", "", "👍", "anyone about?"):
+        delivery.run(r.message(HOST, text))
+
+    assert len(delivery.boards) == 2, "two chats, two live messages — never a third thing"
+    assert {c: b.message_id for c, b in delivery.boards.items()} == slot, "the same two messages, edited"
+    assert len([1 for _, text, _ in bot.sent if "seated" in text]) == 2, "one Board ever sent per chat"
