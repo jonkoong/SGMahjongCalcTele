@@ -348,3 +348,23 @@ def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns
 
     texts = [text for _, _, text, _ in bot.edited]
     assert len(texts) == 2 and all("closed" in text for text in texts)
+
+class TokenQuotingBot(FakeBot):
+    """The way `requests` reports a dead connection: the URL, token and all."""
+
+    def send_message(self, chat_id, text, reply_markup=None):
+        raise requests.exceptions.ConnectionError(
+            "HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded "
+            "with url: /bot%s/sendMessage" % mjbot.config.token)
+
+
+def test_a_dropped_write_logs_the_failure_without_the_token(capsys, monkeypatch):
+    monkeypatch.setattr(mjbot.config, "token", "123456:AA-a-live-token")
+    delivery = mjbot.Delivery(TokenQuotingBot())
+
+    delivery.run([table.Line(1, "One")])
+
+    logged = capsys.readouterr().out
+    assert "dropped" in logged                            # the line is still there to read
+    assert "AA-a-live-token" not in logged
+    assert "<token>" in logged

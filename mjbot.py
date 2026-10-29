@@ -76,6 +76,17 @@ MESSAGES = ['text', 'audio', 'voice', 'video', 'video_note', 'animation', 'docum
             'photo', 'sticker', 'location', 'contact', 'venue', 'poll']
 
 
+def _brief(error):
+    """
+    One line about a failed call, with the token out of it.
+
+    A `requests` exception quotes the request path, and every telebot path is
+    `bot<TOKEN>/<method>` — so logging the exception verbatim writes a live token into the log, on the
+    dead-route path this file exists to survive. F-02.
+    """
+    return str(error).replace(config.token, '<token>')
+
+
 def keyboard(rows):
     if not rows:
         return None
@@ -170,7 +181,7 @@ class Delivery:
         try:
             deliver()
         except (apihelper.ApiTelegramException, requests.exceptions.RequestException) as e:
-            print('%s dropped (%s: %s)' % (note, type(e).__name__, e))
+            print('%s dropped (%s: %s)' % (note, type(e).__name__, _brief(e)))
             self.failures += 1
             if self.failures >= BREAKER_AFTER:
                 self.retry_after = self.clock() + BREAKER_COOLDOWN
@@ -315,5 +326,5 @@ if __name__ == "__main__":
                 raise
             except Exception as e:
                 # Transient drop (ReadTimeout/ConnectionError): restart, don't die.
-                print('Polling dropped (%s: %s) - restarting in 3s' % (type(e).__name__, e))
+                print('Polling dropped (%s: %s) - restarting in 3s' % (type(e).__name__, _brief(e)))
                 time.sleep(3)
