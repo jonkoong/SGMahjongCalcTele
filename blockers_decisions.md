@@ -51,6 +51,29 @@ impression.
 
 ---
 
+## Slice 6 — decisions I took on your recommendation
+
+| # | Decision | Why, and what to reverse if you disagree |
+| --- | --- | --- |
+| 1 | **A message with no text is not an attempted answer.** An empty payload still forgets the ask (a code question left lying around would otherwise turn their next real message into a table code), but it answers nothing. |
+| 2 | **`/start` is a no-reset screen.** It edits or shows their Board and never posts a second live message; the help listing is built from `commands_for`, so a spectator's `/start` cannot advertise `/end`. |
+| 3 | **A help line is allowed to ride the one Board message** — as text, one blank line under the state — rather than as its own message. | Costs one scroll. A second message would strand it below a live keyboard, which is FR12's whole point. |
+| 4 | **A bare word is a refresh, not an attempted answer.** Spec FR14 literally says an answer "either advances its stage or is refused"; a word can never advance a stage (the stage advances on *taps* now), and the typed-answer exceptions are the two named by AD21. | I recorded this reading in `tasking.md`. If you want a stray `asdkjh` refused instead of refreshing, that is a one-line change and one test. |
+
+---
+
+## Slice 7 — docs: the wall, not the prose
+
+| # | Decision | Why, and what to reverse if you disagree |
+| --- | --- | --- |
+| 1 | **The first act was a test, not a rewrite.** `tests/test_docs.py` checks both docs against the code: verbs named must exist, retired ones must appear nowhere, and the README's `MJ_*` table must match what `mjbot.py`/`config.py` read — in both directions. | `flow.md` was accurate in August and wrong by October with nothing noticing. Prose rots; a wall does not. |
+| 2 | **Ban, don't name.** The wall forbids the retired verbs anywhere in the player docs, so there is no "these used to exist, don't type them" section. The README's command table is the record. | If you want a migration note for players who learned the old verb, put it here or in a CHANGELOG — somewhere the wall does not reach. |
+| 3 | **The money tables were re-derived, not copied.** Every factor row in § 7 was recomputed from `score._tai/_kang/_flower` at rate 0.1 before being kept. They matched — including the two quirks, which stay documented rather than fixed (FR23). |
+| 4 | **telebot internals left alone.** Smoke-testing showed telebot's `skip_pending` probe sends `long_polling_timeout=20` whatever `MJ_POLL_TIMEOUT` says, and `TeleBot(...)` fires a `validate_token` request at construction. Harmless (a poll is safe to repeat; `_request` gives polls a read window of `MJ_POLL_TIMEOUT + 10`), and out of a docs slice's way. | Flagged for `/review` if you disagree. |
+| 5 | **The README's screenshots are labelled, not deleted** — they show the retired reply-keyboard UI, and the URLs are the only record of what the 2022 bot looked like. |
+
+---
+
 ## Repo-hygiene decisions (reversible in one command each)
 
 - **`.fac-a/`, `.pi/`, `scratchpad.md` are now in `.gitignore` and were NOT pushed.** AGENTS.md § Project

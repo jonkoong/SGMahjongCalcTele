@@ -1,7 +1,7 @@
 # SGMahjongCalcTele
 Telegram bot that helps track winnings based on the Singaporean mahjong rules <br>
 https://telegram.me/sg_mj_bot  <br>
-Deployed via Heroku webhook
+Runs on long polling by default; the webhook target is still there for a deploy.
 
 ## How to use
 1. Clone this project.
@@ -36,13 +36,22 @@ Set `PYTHONIOENCODING=utf-8` if the console raises `UnicodeEncodeError` on the
 | `MJ_MODE` | `polling` | `polling` for local, `webhook` for deploy |
 | `MJ_WEBHOOK_URL` | — | Public HTTPS base URL, webhook mode only |
 | `MJ_POLL_TIMEOUT` | `5` | `getUpdates` hold time in seconds |
-| `MJ_MAX_RETRIES` | `4` | API-layer retries per request |
+| `MJ_MAX_RETRIES` | `4` | API-layer retries per request (polls only — a write is never resent) |
+| `MJ_CONNECT_TIMEOUT` | `10` | Seconds to wait for the connection to api.telegram.org |
+| `MJ_READ_TIMEOUT` | `10` | Seconds to wait for the response; one stalled call blocks every player, because there is one worker |
+| `MJ_BREAKER_AFTER` | `2` | Consecutive failures before writes are held |
+| `MJ_BREAKER_COOLDOWN` | `15` | Seconds to hold writes for; a reconciliation beat re-pushes whatever never landed |
+| `MJ_RECONCILE_SECONDS` | `5` | How often the beat re-pushes a Board that never landed, and flushes writes the breaker held |
 | `MJ_DEBUG` | off | `1` logs each batch of incoming updates (telebot diagnostics) |
 
 `MJ_POLL_TIMEOUT` is deliberately short. Some networks drop long-held connections to
-`api.telegram.org`, and telebot 4.5.1 lets a `ReadTimeout` escape `polling()` and kill the
+`api.telegram.org`, and telebot has historically let a `ReadTimeout` escape `polling()` and kill the
 process — `non_stop=True` does not prevent this. `mjbot.py` therefore retries inside the API
 layer and restarts polling if it still drops.
+
+Two more knobs exist for the route rather than the polling: the connect/read timeouts, and the breaker
+that holds writes after a couple of failures in a row instead of making every player queue behind a dead
+attempt. All of them are in the table above.
 
 ## Deploying (webhook)
 
@@ -51,18 +60,40 @@ The Flask app serves `POST /<token>`; the original deployment target was Heroku.
 
 ## Flow diagrams
 
-`docs/flow.md` maps the play flow and the four reply keyboards as mermaid diagrams:
-the tap-a-win → payer → totals loop, the Kang / 🐈 / 🥀 bonus rows, and `/end` settlement.
+`docs/flow.md` maps the Table flow: opening and joining, seating, the three-stage Entry (winner →
+amount → who fed it), the keyboard states the Board moves between, one tap end to end, the money per
+tap, and how `/end` settles a night and then wipes it.
 
 ## Commands
-**/start:** Restart the Bot<br>
-**/settings:** Manage Settings<br>
-    > payrate, shooter, maxtai<br>
-**/play:** Play the Game (start counting)<br>
-    > tai, kang, animals, flowers, manual edits<br>
-**/end:** End the Game (allocate payment) <br>
+
+One Table per night, four private DMs, one shared Board. A player is bound to one live Table, so the
+verbs below need no table code after them.
+
+| Command | Who | What it does |
+| --- | --- | --- |
+| `/start` | anyone | Help — the verbs *you* can use — and where you stand |
+| `/new` | anyone not at a Table | Open a Table, become its host, pick a wind |
+| `/join CODE` | anyone not at a Table | Sit in at someone else's Table; a bare `/join` asks for the code first |
+| `/board` | seated | Refresh the Board and name what you can tap |
+| `/history` | seated | Every win of the night, oldest first |
+| `/settings` | host | Pay rate, shooter pay, max tai |
+| `/end` | seated | Settle up — it asks first — then zero the balances and keep the players |
+| `/leave` | seated | Free your wind seat; the money in that seat stays there |
+| `/close` | host | Dissolve the Table and free everyone |
+
+The **Board** is the only message the bot keeps editing in your chat: the four winds, who sits where,
+each seat's balance, what the Table pays, and the last three wins. Older wins are counted, not hidden —
+`… 4 earlier — /history`. Every button carries the Table's version, so a screen you left open is refused
+as out of date instead of scoring a second time.
+
+Payouts are the numbers the bot has always produced, quirks included — `docs/flow.md` § Money per tap
+is the table of factors.
 
 ## Screenshots
+
+_The 2022 reply-keyboard UI, retired: one chat, one game, and a keyboard that had to be resent after
+every tap. The bot now runs on inline buttons carried by one Board message per player. Kept for history._
+
 <p align="center">
   /start <br>
   <img height = "400" src=https://github.com/RyanTanYiWei/SGMahjongCalcTele/blob/main/pics/start.jpg/>
@@ -72,7 +103,7 @@ the tap-a-win → payer → totals loop, the Kang / 🐈 / 🥀 bonus rows, and 
   <img height = "400" src=https://github.com/RyanTanYiWei/SGMahjongCalcTele/blob/main/pics/settings.jpg/>
 </p>
 <p align="center">
-  /play <br>
+  scoring keypad <br>
   <img height = "400" src=https://github.com/RyanTanYiWei/SGMahjongCalcTele/blob/main/pics/play1.jpg/>
   <img height = "400" src=https://github.com/RyanTanYiWei/SGMahjongCalcTele/blob/main/pics/play2.jpg/>
  </p>
