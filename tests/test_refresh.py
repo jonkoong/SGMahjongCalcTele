@@ -2,7 +2,7 @@
 import random
 
 import table
-from tests.support import CYD, GUEST, HOST, board_text, keyboard_for, seated_table, tap
+from tests.support import CYD, GUEST, HOST, board_text, keyboard_for, menu_for, seated_table, tap
 
 
 # S6.3 — 🔴 with a code ask outstanding, a sticker used to be read as a code and refused as a bad one:
@@ -38,45 +38,60 @@ def test_a_sticker_while_asked_for_a_rate_is_not_read_as_a_rate():
     assert isinstance(effects[0], table.Board), "the host is shown the Table they are still sitting at"
 
 
-# S6.5 — FR26: /start re-shows help and current state. It had no branch of its own, so it was literally
-# the same line of code as /board and no chat ever saw COMMAND_HELP. And it must change nothing.
-def test_start_shows_the_verbs_this_player_can_use_and_the_board():
+# S6.5 — FR26 as amended (Jon, 2026-10-30): `/start` starts the bot, and nothing else. Telegram's own
+# slash menu already carries every verb *with* its description, straight from COMMAND_HELP (mjbot.py:200),
+# so the listing /start printed was that menu reprinted into the chat. It changes nothing — a command that
+# wipes a live Table is the one thing this bot has never allowed.
+def test_start_is_a_greeting_that_touches_no_screen():
     r, t = seated_table()
     before = (list(t.balances), list(t.log), list(t.occupants), t.version)
 
     effects = r.message(HOST, "/start")
 
-    assert [b.chat_id for b in e_boards(effects)] == [HOST.user_id], "one player asks, one screen moves"
-    help_line = next(e.text for e in effects if isinstance(e, table.Line))
-    for verb in table.commands_for(t, HOST.user_id):
-        assert verb in help_line
-    assert table.COMMAND_HELP["/history"] in help_line, "the words the menu carries, not just the verbs"
+    assert e_boards(effects) == [], "a greeting does not re-put the Board, let alone everyone's"
+    lines = [e.text for e in effects if isinstance(e, table.Line)]
+    assert len(lines) == 1, lines
+    assert t.code in lines[0] and "/board" in lines[0], \
+        "a chat already at a table is pointed at it, not told to /new"
     assert (t.balances, t.log, t.occupants, t.version) == before, "no command in this bot wipes a night"
 
-    member = next(e.text for e in r.message(GUEST, "/start") if isinstance(e, table.Line))
-    assert "/close" not in member and "/settings" not in member   # AD20: a member's help, not the host's
 
-
-# S6.6 — help is asked for mid-hand, so it cannot cost the player their draft.
-def test_start_mid_draft_keeps_the_draft_and_the_ladder():
+# S6.6 — help is asked for mid-hand, so it cannot cost the player their draft. It cannot re-put their
+# stage buttons either: a greeting that repaints the Board would bump the version and stale the ladder
+# the player is one tap from.
+def test_start_mid_draft_keeps_the_draft_and_costs_nothing():
     r, t = seated_table()
     tap(r, t, GUEST, "w", 1)
     stage = t.version
 
     effects = r.message(GUEST, "/start")
 
-    assert "Cancel" in keyboard_for(effects, GUEST.user_id)
+    assert e_boards(effects) == []
     assert t.pending is not None and t.version == stage
 
 
-# S6.7 — and from a chat with no Table it stays one line of help that opens and destroys nothing.
-def test_start_from_an_unbound_chat_is_help_only():
+# S6.7 — from a chat with no Table it is the one line that tells them how to get to a Table, and it
+# creates nothing.
+def test_start_from_an_unbound_chat_opens_nothing():
     r = table.Room(rng=random.Random(7))
 
     effects = r.message(CYD, "/start")
 
     assert e_boards(effects) == [] and r.tables == {}
-    assert "/new" in next(e.text for e in effects if isinstance(e, table.Line))
+    line = next(e.text for e in effects if isinstance(e, table.Line))
+    assert "/new" in line and "/join" in line, line
+
+
+# S6.8 — the greeting is for a chat that has no conversation yet. Once a chat is bound, `/start` leaves
+# the menu: the verbs that remain are all things a player at a Table does, and a verb that only says
+# "Bot is running" beside them is noise in the one place players look for what to do next (AD20).
+def test_start_is_offered_only_to_a_chat_that_has_no_table_yet():
+    r = table.Room(rng=random.Random(7))
+
+    assert "/start" in menu_for(r.message(CYD, "/start"))
+    r.message(CYD, "/new")
+    assert "/start" not in menu_for(r.message(CYD, "/board")), \
+        "a chat with a Table standing is not offered a greeting"
 
 
 def e_boards(effects):

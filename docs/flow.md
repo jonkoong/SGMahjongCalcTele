@@ -234,7 +234,7 @@ flowchart TD
     E["/end"] --> Q["your Board becomes:<br/>totals + transfers + Confirm end / Keep playing"]
     Q -->|"Keep playing"| B["your Board comes back,<br/>nothing settled"]
     Q -->|"Confirm end"| D{"someone mid-Entry?"}
-    D -->|yes| R["refused, and named —<br/>only they can finish their draft"]
+    D -->|yes| R["refused — 'Game cannot end when someone is<br/>entering a win — @Bo is entering a win'<br/>the holder is instead told what to tap"]
     D -->|no| S["settlement, from score.settle()"]
     S --> Z["balances → 0 · log → empty"]
     Z --> F["every seated DM: their message becomes the settlement,<br/>and a fresh $0.00 Board is sent beneath it"]
@@ -264,7 +264,7 @@ short-handed night, and it is settled by hand — four seated is what a night is
 
 | Command | Who | Notes |
 | --- | --- | --- |
-| `/start` | anyone | The verbs *you* can use and what they do, plus your Board. Never resets anything |
+| `/start` | new chat only | Starts the bot. Once a chat has a Table the verb leaves the menu — the menu already carries every verb *and* its description, so a help listing in the chat was a reprint of it |
 | `/new` | unbound | You become the host. There is no host transfer, so the role survives `/leave` |
 | `/join CODE` | unbound | A bare `/join` asks for the code; your next message is the answer, and one attempt only |
 | `/board` | seated | Refresh, plus one line naming what you can tap |
@@ -275,7 +275,8 @@ short-handed night, and it is settled by hand — four seated is what a night is
 | `/close` | host | Dissolves the Table and frees everyone's binding |
 
 `/history` and `/end` never appear in a player's slash menu until they can use them — the menu is set per
-player, because a menu offering a verb that only re-shows the Board teaches players that menus lie.
+player, because a menu offering a verb that only re-shows the Board teaches players that menus lie. The
+same reasoning removed `/start` from the menu of a chat that already has a Table (FR26).
 
 ---
 

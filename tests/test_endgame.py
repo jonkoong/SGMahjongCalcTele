@@ -216,7 +216,24 @@ def test_confirming_end_while_someone_is_entering_a_win_refuses_and_names_them()
 
     effects = tap(r, t, HOST, "k", "end")
 
-    assert "Bo is entering a win" in next(e.text for e in effects if isinstance(e, table.Line))
+    refusal = next(e.text for e in effects if isinstance(e, table.Line))
+    # FR27 (Jon, 2026-10-30) — the sentence names the reason, not just the holder. It replaces the wording
+    # the tap-time refusal uses, because "only they can finish it" answers a question the refuser did not ask.
+    assert refusal == "Game cannot end when someone is entering a win — Bo is entering a win.", refusal
     assert (t.balances, t.log, t.version) == before, "no money said, no slate wiped, nothing bumped"
     assert t.pending is not None, "Bo's draft is untouched"
     assert "⏳ Bo is entering a win" in board_text(effects, HOST.user_id)   # the Board says why too
+
+
+# S5.15b — the holder, told the same sentence, would not be told what to do next. Their own `/end` still
+# reads the stage they are standing in (the one line that makes the refusal actionable).
+def test_the_holder_who_tries_to_end_reads_what_to_tap_next():
+    r, t = a_night_two_up_two_down()
+    tap(r, t, GUEST, "w", 1)
+    r.message(GUEST, "/end")
+
+    effects = tap(r, t, GUEST, "k", "end")
+
+    assert next(e.text for e in effects if isinstance(e, table.Line)) == \
+        "You are entering a win — tap an amount, or Cancel."
+    assert t.pending is not None

@@ -4,7 +4,8 @@ import re
 
 import table
 
-from tests.support import CYD, DEB, GUEST, HOST, board_text, keyboard_for, seated_table, tap
+from tests.support import (CYD, DEB, GUEST, HOST, board_text, keyboard_for, menu_for,
+                           seated_table, tap)
 
 
 def bo_wins_a_tai(r, t):
@@ -215,25 +216,22 @@ def test_the_close_refusal_survives_a_host_who_walked_out():
     assert effects[0].text == "Only the host can close table %s." % t.code
 
 
-def menu_for(effects):
-    return next(e.names for e in effects if isinstance(e, table.Commands))
-
-
 # S3.21 — the slash menu should match where the player stands, so /leave is not offered to somebody
-# with no Table and /close is not offered to somebody who cannot use it.
+# with no Table and /close is not offered to somebody who cannot use it. `/start` drops out once the
+# chat has a Table: it only ever says "the bot is running" (FR26 as amended).
 def test_the_command_menu_matches_where_the_player_stands():
     r = table.Room(rng=random.Random(7))
 
     assert menu_for(r.message(CYD, "/start")) == ("/start", "/new", "/join")
 
     r.message(CYD, "/new")
-    assert menu_for(r.message(CYD, "/board")) == ("/start", "/board", "/leave")
+    assert menu_for(r.message(CYD, "/board")) == ("/board", "/leave")
 
     tap(r, r.table_of(CYD), CYD, "s", 0)
     # Every verb in the Command Surface is now live, so the menu is the whole surface for a seated host —
     # /history and /end joined with slice 5, /settings with slice 4, each the day it started doing
     # something. NOT_BUILT is empty by ruling, and kept as a marker of that rule (see tasking.md S5.20).
-    assert menu_for(r.message(CYD, "/board")) == ("/start", "/board", "/leave", "/history", "/end",
+    assert menu_for(r.message(CYD, "/board")) == ("/board", "/leave", "/history", "/end",
                                                  "/settings", "/close")
 
 
@@ -241,7 +239,7 @@ def test_the_command_menu_matches_where_the_player_stands():
 def test_a_seated_member_is_not_offered_the_host_commands():
     r, t = seated_table()
 
-    assert menu_for(r.message(GUEST, "/board")) == ("/start", "/board", "/leave", "/history", "/end")
+    assert menu_for(r.message(GUEST, "/board")) == ("/board", "/leave", "/history", "/end")
 
 
 # S3.24 — /join from the command menu has no argument to carry, so it must ask for the code instead

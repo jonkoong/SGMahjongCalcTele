@@ -6,12 +6,38 @@ commit and push, and take my own recommendations on anything blocked — this is
 
 ---
 
-## 🔴 Blocker: the live self-check for slices 5, 6, 7 has not been witnessed
+## ✅ Cleared: the live self-check — Jon ran it, 2026-10-30
 
-Step 9 of `/trace-n` needs a real human in a real Telegram DM. You were out, and a bot cannot witness its
-own chat — so **no slice after slice 4 has a witnessed self-check**. Slices 5–7 close ⚠️, not ✅, for that
-reason alone. The tests are green (see each slice's TDD record in `.fac-a/01-pooled-table/tasking.md`) and
-each slice carries an offline wire transcript against `FakeBot` — auditable, but *not* the same evidence.
+Jon ran the ten-step protocol with Jess on the live bot: **"other than the above all lgtm"**. The fan-out
+witness every slice after 4 leaned on is now seen rather than inferred — her screen moving while he typed,
+`/history` leaving it alone, settlement landing where the Board was with a zeroed Board beneath it in both
+DMs. He quoted two strings back at me, so those are directly witnessed: the `/end` refusal, and the Board's
+`⏳ @koongster is entering a win`.
+
+**Two amendments came out of it**, both implemented and green (1028 passed), both recorded in full in
+`.fac-a/01-pooled-table/tasking.md` under *Self-check round 7*:
+
+- **`/start` starts the bot and nothing more** — the verb listing is gone. `mjbot.py:200` sends every verb
+  to Telegram *with* its `COMMAND_HELP` description, so what `/start` printed was the slash menu reprinted
+  into the chat. `/start` now returns one line, edits no Board, and leaves the menu once the chat has a Table.
+- **A refused `/end` names the rule** — `Game cannot end when someone is entering a win — @Bo is entering a
+  win.` The Board's `⏳` line and the tap-time refusal stay as they were, per Jon.
+
+**Still owed:** a 60-second look at those two changed behaviours, listed below. The `@` you will see comes
+from `mjbot.py:248` (`'@' + username if username else first_name`) — an account that has never set a
+username reads as a bare first name, and nothing can promise the `@` for those.
+
+**One thing neither of us has seen:** the toast `@Al is already entering a win.`, which needs a *second*
+seated player to tap a winner while someone else holds a draft. If nobody ever taps out of turn, that path
+stays unexercised in the wild.
+
+---
+
+## The protocol as run (round 7, 2026-10-30) — kept so the wording is auditable
+
+Step 9 of `/trace-n` needs a real human in a real Telegram DM. Jon was out when slices 5–7 landed, so the
+protocol below was written for him to run later, and he ran it. Steps 1–10 are what he ticked; the two
+amendments are at the top of this file.
 
 **The 5-minute protocol that closes all three at once** (Jon + Jess, real DMs, `MJ_DEBUG=1`, log to a file):
 

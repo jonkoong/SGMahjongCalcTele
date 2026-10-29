@@ -53,6 +53,11 @@ def tokens_of(effects):
     return [tok for e in effects for row in getattr(e, "rows", ()) for _, tok in row]
 
 
+def menu_for(effects):
+    """The verbs Telegram's slash menu now offers this chat (AD20)."""
+    return next(e.names for e in effects if isinstance(e, table.Commands))
+
+
 def seated_four():
     """All four winds filled — the night as it is actually played (AS4)."""
     r, t = seated_table()

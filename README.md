@@ -71,7 +71,7 @@ verbs below need no table code after them.
 
 | Command | Who | What it does |
 | --- | --- | --- |
-| `/start` | anyone | Help — the verbs *you* can use — and where you stand |
+| `/start` | new chat only | Starts the bot — the greeting a chat gets before it has a Table |
 | `/new` | anyone not at a Table | Open a Table, become its host, pick a wind |
 | `/join CODE` | anyone not at a Table | Sit in at someone else's Table; a bare `/join` asks for the code first |
 | `/board` | seated | Refresh the Board and name what you can tap |

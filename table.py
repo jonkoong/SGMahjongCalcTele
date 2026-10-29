@@ -27,7 +27,7 @@ SETTINGS = {"rate": "Pay Rate", "shooter": "Shooter", "maxtai": "Max Tai"}
 # The verbs and what the slash menu says each one does — the spec's Command Surface table,
 # in the one place both the menu and any help text can read it from.
 COMMAND_HELP = {
-    "/start": "Help and where you stand",
+    "/start": "Start the bot",
     "/new": "Open a table",
     "/join": "Join a table with its code",
     "/board": "Show the board",
@@ -95,13 +95,16 @@ def commands_for(table, user_id):
     The verbs one player can use. A player is bound to one live Table (FR4), so these resolve
     without a code; the host's two commands go only to the host (FR18, FR21) — and since nothing
     transfers the role, a host who has /leave'd still owns them.
+
+    `/start` is offered only to a chat with no Table (FR26): it says the bot is running, which is news
+    exactly once. After that the menu holds things a player at a Table does.
     """
     if table is None:
         wanted = ("/start", "/new", "/join")
     elif table.seat_of(user_id) is None:
-        wanted = ("/start", "/board", "/leave")
+        wanted = ("/board", "/leave")
     else:
-        wanted = ["/start", "/board", "/leave", "/history", "/end"]
+        wanted = ["/board", "/leave", "/history", "/end"]
         if table.host_id == user_id:
             wanted += ["/settings", "/close"]
     return tuple(command for command in wanted if command not in NOT_BUILT)
@@ -586,22 +589,20 @@ class Room:
 
     def _start(self, user):
         """
-        FR26 — help, plus where the player stands, and nothing else. It was the same branch as /board, so
-        COMMAND_HELP never once reached a chat: a player could see the verbs in Telegram's slash menu or
-        not at all, but never read what one does.
+        FR26 as amended (Jon, 2026-10-30) — `/start` starts the bot, and that is all it does. It used to
+        print this player's verbs above their Board, which was the slash menu reprinted into the chat:
+        `setMyCommands` already sends every verb with its `COMMAND_HELP` description (mjbot.py), so the
+        listing was a second menu, one the player had to scroll to.
 
-        The verbs listed are *this* player's, from the same `commands_for` the menu is built from (AD20) —
-        help that offered /close to a member would be a second menu lying. One Board, to one chat: this is
-        one player asking, and `_show_board` would have edited everyone's screen with it.
+        A chat with a Table standing does not need a greeting, it needs a pointer, so the line names the
+        Table and the verb that shows it. Neither branch touches the Board: a greeting that rewrote the
+        chat's live message would replace a player's own stage buttons with the score for the sake of
+        saying hello.
         """
         held = self.table_of(user)
         if held is None:
             return [Line(user.user_id, "You are not at a table. " + HELP)]
-        screen = ([self._seat_offer(held, user)] if held.seat_of(user.user_id) is None else
-                  [Board(user.user_id, render.board(held), self._table_rows(held, user.user_id))])
-        verbs = "\n".join("%s — %s" % (verb, COMMAND_HELP[verb])
-                          for verb in commands_for(held, user.user_id))
-        return screen + [Line(user.user_id, verbs)]
+        return [Line(user.user_id, "You are at table %s — send /board to see it." % held.code)]
 
     def _board(self, user):
         table = self.table_of(user)
@@ -642,7 +643,7 @@ class Room:
         shows them the reason next to the words that say it (FR9, FR15).
         """
         if table.pending is not None:
-            return [Line(user.user_id, self._holder_notice(table, user)),
+            return [Line(user.user_id, self._end_refusal(table, user)),
                     Board(user.user_id, render.board(table), self._table_rows(table, user.user_id))]
         settled = render.settlement(table)
         table.clear_round()
@@ -650,6 +651,20 @@ class Room:
         return [effect for uid in table.seated_ids()
                 for effect in (self._retired(uid, settled),
                                Board(uid, render.board(table), self._table_rows(table, uid)))]
+
+    def _end_refusal(self, table, user):
+        """
+        FR27 (Jon, 2026-10-30) — what a refused `/end` reads. It names the rule the confirm ran into, where
+        `_holder_notice`'s "only they can finish it" answers a question the refuser never asked.
+
+        The holder is the exception and keeps the other wording: told that the game cannot end, they still
+        need to know which tap they are standing at.
+        """
+        holder = table.pending["holder"]
+        if holder == user.user_id:
+            return self._holder_notice(table, user)
+        return "Game cannot end when someone is entering a win — %s is entering a win." % (
+            table.names[holder])
 
     def _end(self, user):
         """
