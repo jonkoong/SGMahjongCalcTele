@@ -362,7 +362,7 @@ class Room:
     def _pick_amount(self, table, user, meaning):
         if table.pending is None:
             return [Toast("Pick who won first.")]
-        if meaning in score.AMOUNTS:
+        if meaning in SPECIAL_AMOUNTS:
             kind, ntai = meaning, None
         else:
             ntai = _tai_number(meaning, table.tai_cap())
@@ -379,6 +379,10 @@ class Room:
         pending = table.pending
         if pending is None or pending["amount"] is None:
             return [Toast("Nothing is waiting for a payer.")]
+        if meaning != "z" and _seat_index(meaning) is None:
+            # A meaning that is neither Zi Mo nor a seat is not a payer choice — the same rule the
+            # amount stage follows (S4.20): the keyboard is not the rule, the tap is refused.
+            return [Toast("Pick another seated player, or Zi Mo.")]
         payer = None if meaning == "z" else _seat_index(meaning)
         if payer is not None and (payer == pending["winner"] or table.occupants[payer] is None):
             return [Toast("Pick another seated player, or Zi Mo.")]

@@ -2,7 +2,7 @@
 import pytest
 
 import table
-from tests.support import GUEST, HOST, board_text, buttons, seated_table, tap
+from tests.support import GUEST, HOST, board_text, buttons, buttons_for, seated_table, tap
 
 
 # S2.1
@@ -211,3 +211,58 @@ def test_a_late_seat_pick_is_judged_on_the_seat_not_the_version():
 
     assert t.occupants[2] == late.user_id
     assert not [e for e in effects if isinstance(e, table.Toast)]
+
+
+# F-04 — "tai" is a key of score.AMOUNTS because the kernel names its ladder that way, which is a
+# different fact from "a player may tap tai". The tap was taken as a concealed win at zero tai and
+# died in the entry line on SPECIAL_AMOUNTS["tai"] — out through the polling thread, where F-04 threw
+# away the taps queued behind it. Same accident, two layers. The keyboard is not the rule; S4.20
+# ruled that for the winner stage already.
+def test_tapping_the_name_of_the_ladder_is_refused_where_a_rung_would_score():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)
+    version = t.version
+
+    refused = tap(r, t, HOST, "a", "tai")
+
+    assert t.pending["amount"] is None
+    assert t.version == version, "a refused tap spends nothing"
+    assert "not on the board" in next(e.text for e in refused if isinstance(e, table.Toast))
+
+    tap(r, t, HOST, "a", "t3")                             # the ladder itself is unharmed
+    assert t.pending["amount"] == ("tai", 3)
+
+
+# F-05 — a payer meaning that is neither Zi Mo nor a seat fell through to `payer = None`, which is
+# exactly what Zi Mo means: a stale or forged tap booked a self-fed win at the frozen number. The
+# amount stage refuses its own junk; the payer stage refused nothing.
+def test_a_payer_that_is_neither_a_seat_nor_zi_mo_is_refused():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)
+    tap(r, t, HOST, "a", "kang")
+    before, log = list(t.balances), len(t.log)
+
+    refused = tap(r, t, HOST, "p", "9")
+
+    assert t.pending is not None, "the draft is still open — nothing was booked"
+    assert t.balances == before and len(t.log) == log
+    assert "Pick another seated player" in next(e.text for e in refused
+                                                if isinstance(e, table.Toast))
+
+
+# F-09 — the FR10 sentence is the whole answer a spectator gets, and nothing pinned it: both holder
+# tests assert `pending is None` and a substring the seat-refusal branch also satisfies, and neither
+# looks at the keyboard the non-holder is shown. That Al is offered no way to finish Bo's win is what
+# was witnessed live and has never been tested.
+def test_a_member_who_taps_the_finish_their_own_screen_never_offered_is_named_the_holder():
+    r, t = seated_table()
+    stage = tap(r, t, GUEST, "w", 1)                           # Bo is entering a win
+    assert "3 Tai" not in buttons_for(stage, HOST.user_id), "Al was never offered a way to finish it"
+    finish = buttons_for(stage, GUEST.user_id)["3 Tai"]        # what Bo's screen offered
+
+    refused = r.tap(HOST, finish)                              # Al taps it from somewhere else
+
+    assert t.pending is not None and t.pending["amount"] is None, "Al may not finish Bo's win"
+    assert t.balances == [0.0, 0.0, 0.0, 0.0]
+    assert "Bo is entering that win" in next(e.text for e in refused
+                                             if isinstance(e, table.Toast))
