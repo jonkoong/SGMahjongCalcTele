@@ -30,3 +30,12 @@ class FakeBot:
     def answer_callback_query(self, callback_query_id, text=None, **kwargs):
         self.toasts.append((callback_query_id, text))
         return True
+
+    def boards(self):
+        """
+        The Board sends and only them — a Board is the one message that counts seats.
+
+        Five assertions used to carry the literal themselves, so the rule for telling a Board from a
+        one-line reply lived in five places (F-19).
+        """
+        return [s for s in self.sent if "seated" in s[1]]

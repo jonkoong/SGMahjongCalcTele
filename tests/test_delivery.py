@@ -16,11 +16,11 @@ def labels(markup):
 
 
 def board_sends(bot):
-    return {chat: markup for chat, text, markup in bot.sent if "seated" in text}
+    return {chat: markup for chat, text, markup in bot.boards()}
 
 
 def board_texts(bot):
-    return {chat: text for chat, text, _ in bot.sent if "seated" in text}
+    return {chat: text for chat, text, _ in bot.boards()}
 
 
 def score_a_win(r, t, ntai):
@@ -60,8 +60,7 @@ def test_a_board_that_did_not_change_is_not_sent_again():
 
 def _board_traffic(bot):
     """Board traffic only — the one-line reply to a message is meant to repeat."""
-    sent = [1 for chat, text, _ in bot.sent if "seated" in text]
-    return (len(sent), len(bot.edited))
+    return (len(bot.boards()), len(bot.edited))
 
 
 # S1.12 at the Telegram edge
@@ -111,7 +110,7 @@ def test_seating_edits_the_seat_offer_in_place():
 
     delivery.run(r.tap(HOST, table.token("s", code, r.table_of(HOST).version, 0)))
 
-    assert len([1 for chat, text, _ in bot.sent if "seated" in text]) == 1     # never a second one
+    assert len(bot.boards()) == 1                             # never a second one
     edited = {chat: (mid, text, markup) for chat, mid, text, markup in bot.edited}
     assert edited[HOST.user_id][0] == delivery.boards[HOST.user_id].message_id
     assert "東  Al" in edited[HOST.user_id][1]
@@ -122,7 +121,7 @@ def test_seating_edits_the_seat_offer_in_place():
 # table XYZA" message, so the live Board appeared buried up the chat instead of at the bottom.
 def test_a_table_opened_after_leaving_is_sent_afresh_not_written_over_the_notice():
     r = table.Room(rng=random.Random(7))
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))            # a plain "not at a table" refusal line
     delivery.run(r.message(HOST, "/new"))
@@ -142,7 +141,7 @@ def test_a_table_opened_after_leaving_is_sent_afresh_not_written_over_the_notice
 # on this route with one worker behind it. A win now costs three stages of edits and nothing else.
 def test_a_whole_win_costs_edits_and_no_messages_at_all():
     r, t = seated_table()
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))
     sent, edited = len(bot.sent), len(bot.edited)
@@ -159,7 +158,7 @@ def test_a_whole_win_costs_edits_and_no_messages_at_all():
 # spend an API call on it.
 def test_the_command_menu_is_set_per_chat_and_only_when_it_changes():
     r, t = seated_table()
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
 
     delivery.run(r.message(HOST, "/board"))
@@ -180,7 +179,7 @@ def test_the_command_menu_is_set_per_chat_and_only_when_it_changes():
 # caller's.
 def test_closing_resets_every_member_s_menu():
     r, t = seated_table()
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))
     delivery.run(r.message(GUEST, "/board"))
@@ -196,7 +195,7 @@ def test_closing_resets_every_member_s_menu():
 # exact defect FR12 exists for, so this counts messages rather than trusting the effect types.
 def test_changing_a_setting_edits_the_one_message_and_posts_nothing_new():
     r, t = seated_table()
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))                       # both Boards out
     sent, edits = len(bot.sent), len(bot.edited)
@@ -219,7 +218,7 @@ def test_reading_the_history_edits_the_one_message_and_posts_nothing():
     r, t = seated_table()
     for ntai in (1, 2, 3, 4):                         # longer than the Board's window, or nothing to read
         score_a_win(r, t, ntai)
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))
     sent, edits = len(bot.sent), len(bot.edited)
@@ -239,7 +238,7 @@ def test_reading_the_history_edits_the_one_message_and_posts_nothing():
 def test_an_ended_night_leaves_one_live_message_beneath_the_settlement():
     r, t = seated_table()
     score_a_win(r, t, 3)
-    bot, delivery = FakeBot(), mjbot.Delivery(FakeBot())
+    bot = FakeBot()
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))
     asked = {chat: b.message_id for chat, b in delivery.boards.items()}
@@ -275,4 +274,4 @@ def test_a_night_of_plain_messages_never_stacks_a_second_board():
 
     assert len(delivery.boards) == 2, "two chats, two live messages — never a third thing"
     assert {c: b.message_id for c, b in delivery.boards.items()} == slot, "the same two messages, edited"
-    assert len([1 for _, text, _ in bot.sent if "seated" in text]) == 2, "one Board ever sent per chat"
+    assert len(bot.boards()) == 2, "one Board ever sent per chat"
