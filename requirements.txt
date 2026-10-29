@@ -9,8 +9,7 @@ importlib-metadata
 itsdangerous
 Jinja2
 MarkupSafe
-numpy
-pyTelegramBotAPI==4.5.1
+pyTelegramBotAPI==4.37.1
 requests==2.27.1
 soupsieve
 urllib3==1.26.9

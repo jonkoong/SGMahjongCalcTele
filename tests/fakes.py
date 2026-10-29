@@ -1,0 +1,32 @@
+"""Stand-ins for Telegram, shared by the delivery tests."""
+
+
+class Sent:
+    def __init__(self, message_id):
+        self.message_id = message_id
+
+
+class FakeBot:
+    def __init__(self):
+        self.sent = []
+        self.edited = []
+        self.toasts = []
+        self.menus = []                  # (chat_id, command names) per set_my_commands call
+        self.next_id = 100
+
+    def set_my_commands(self, commands, scope=None, language_code=None):
+        self.menus.append((getattr(scope, "chat_id", None), tuple(c.command for c in commands)))
+        return True
+
+    def send_message(self, chat_id, text, reply_markup=None):
+        self.next_id += 1
+        self.sent.append((chat_id, text, reply_markup))
+        return Sent(self.next_id)
+
+    def edit_message_text(self, text=None, chat_id=None, message_id=None, reply_markup=None):
+        self.edited.append((chat_id, message_id, text, reply_markup))
+        return True
+
+    def answer_callback_query(self, callback_query_id, text=None, **kwargs):
+        self.toasts.append((callback_query_id, text))
+        return True

@@ -4,3 +4,9 @@ __pycache__/
 bot.log
 venv/
 .venv/
+
+# Personal mission state and pi config — see AGENTS.md § Project Context Folders
+.fac-a/
+.pi/
+scratchpad.md
+.pytest_cache/

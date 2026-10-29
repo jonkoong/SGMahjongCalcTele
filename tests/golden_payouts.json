@@ -1,0 +1,15320 @@
+{
+ "flower": [
+  {
+   "after": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.1,
+    -0.1,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.1,
+    0.0,
+    -0.1,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.1,
+    0.0,
+    0.0,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.1,
+    0.30000000000000004,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    0.1,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.1,
+    -0.1,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.1,
+    0.0,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.30000000000000004,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    0.0,
+    0.1,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.1,
+    0.1,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.1,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.1,
+    0.0,
+    0.0,
+    0.1
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.1,
+    0.0,
+    0.1
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.1,
+    0.1
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.1,
+    0.30000000000000004,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.30000000000000004,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.1,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.2,
+    -0.2,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.2,
+    0.0,
+    -0.2,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.2,
+    0.0,
+    0.0,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.2,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.2,
+    -0.2,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.2,
+    0.0,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    0.0,
+    0.2,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.2,
+    0.2,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    0.0,
+    0.0,
+    0.2
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.2,
+    0.0,
+    0.2
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.2,
+    0.2
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.3,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.3,
+    -0.3,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.3,
+    0.0,
+    -0.3,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.3,
+    0.0,
+    0.0,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.3,
+    0.8999999999999999,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    0.3,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.3,
+    -0.3,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.3,
+    0.0,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    0.8999999999999999,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    0.0,
+    0.3,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.3,
+    0.3,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    -0.3,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.3,
+    0.0,
+    0.0,
+    0.3
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.3,
+    0.0,
+    0.3
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.3,
+    0.3
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.7999999999999998,
+    -0.6,
+    -0.6,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.6,
+    1.7999999999999998,
+    -0.6,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    1.7999999999999998,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    -0.6,
+    1.7999999999999998
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.3,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.3,
+    0.8999999999999999,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    0.8999999999999999,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    -0.3,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.7999999999999998,
+    -0.6,
+    -0.6,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.6,
+    1.7999999999999998,
+    -0.6,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    1.7999999999999998,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    -0.6,
+    1.7999999999999998
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    3.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.0,
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.0,
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.0,
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1.0,
+    3.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    1.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    1.0,
+    -1.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    1.0,
+    0.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    3.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    0.0,
+    1.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -1.0,
+    1.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -1.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -1.0,
+    0.0,
+    1.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -1.0,
+    1.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    6.0,
+    -2.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -2.0,
+    6.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    6.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -2.0,
+    6.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    3.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1.0,
+    3.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    3.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -1.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    6.0,
+    -2.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -2.0,
+    6.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    6.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -2.0,
+    6.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  }
+ ],
+ "kang": [
+  {
+   "after": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    -0.30000000000000004,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    0.0,
+    -0.30000000000000004,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    0.0,
+    0.0,
+    -0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.1,
+    0.30000000000000004,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.30000000000000004,
+    0.30000000000000004,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.30000000000000004,
+    -0.30000000000000004,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.30000000000000004,
+    0.0,
+    -0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.30000000000000004,
+    -0.1
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.30000000000000004,
+    0.0,
+    0.30000000000000004,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.30000000000000004,
+    0.30000000000000004,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.30000000000000004,
+    -0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.1,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.30000000000000004,
+    0.0,
+    0.0,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.30000000000000004,
+    0.0,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.30000000000000004,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    0.30000000000000004,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    0.30000000000000004,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    0.30000000000000004,
+    -0.1,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.30000000000000004,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.30000000000000004,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.30000000000000004,
+    -0.1
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.1,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.1,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.1,
+    0.30000000000000004
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.6000000000000001,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    0.0,
+    -0.6000000000000001,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    0.0,
+    0.0,
+    -0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.6000000000000001,
+    0.6000000000000001,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.6000000000000001,
+    -0.6000000000000001,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.6000000000000001,
+    0.0,
+    -0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.6000000000000001,
+    0.0,
+    0.6000000000000001,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.6000000000000001,
+    0.6000000000000001,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.6000000000000001,
+    -0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.6000000000000001,
+    0.0,
+    0.0,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.6000000000000001,
+    0.0,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.6000000000000001,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    2.4000000000000004,
+    -0.8,
+    -0.8,
+    -0.8
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.8,
+    2.4000000000000004,
+    -0.8,
+    -0.8
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    2.4000000000000004,
+    -0.8
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    -0.8,
+    2.4000000000000004
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.2,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.3,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.8999999999999999,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    0.0,
+    -0.8999999999999999,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    0.0,
+    0.0,
+    -0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.3,
+    0.8999999999999999,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8999999999999999,
+    0.8999999999999999,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.8999999999999999,
+    -0.8999999999999999,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.8999999999999999,
+    0.0,
+    -0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    0.8999999999999999,
+    -0.3
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8999999999999999,
+    0.0,
+    0.8999999999999999,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.8999999999999999,
+    0.8999999999999999,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.8999999999999999,
+    -0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    -0.3,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.8999999999999999,
+    0.0,
+    0.0,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.8999999999999999,
+    0.0,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.8999999999999999,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.7999999999999998,
+    -0.6,
+    -0.6,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.6,
+    1.7999999999999998,
+    -0.6,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    1.7999999999999998,
+    -0.6
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    -0.6,
+    1.7999999999999998
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.7999999999999998,
+    -0.6,
+    -0.6,
+    -0.6
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.3,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.3,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8999999999999999,
+    -0.3,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.6,
+    1.7999999999999998,
+    -0.6,
+    -0.6
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    0.8999999999999999,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    0.8999999999999999,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.3,
+    0.8999999999999999,
+    -0.3,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    1.7999999999999998,
+    -0.6
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    0.8999999999999999,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    0.8999999999999999,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    0.8999999999999999,
+    -0.3
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.6,
+    -0.6,
+    -0.6,
+    1.7999999999999998
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    -0.3,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    -0.3,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.3,
+    -0.3,
+    -0.3,
+    0.8999999999999999
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    3.5999999999999996,
+    -1.2,
+    -1.2,
+    -1.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1.2,
+    3.5999999999999996,
+    -1.2,
+    -1.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.2,
+    -1.2,
+    3.5999999999999996,
+    -1.2
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.2,
+    -1.2,
+    -1.2,
+    3.5999999999999996
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 0.3,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    3.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.0,
+    -3.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.0,
+    0.0,
+    -3.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.0,
+    0.0,
+    0.0,
+    -3.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1.0,
+    3.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.0,
+    3.0,
+    0.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    3.0,
+    -3.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    3.0,
+    0.0,
+    -3.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    3.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.0,
+    0.0,
+    3.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -3.0,
+    3.0,
+    0.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    3.0,
+    -3.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -1.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -3.0,
+    0.0,
+    0.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -3.0,
+    0.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -3.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    6.0,
+    -2.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -2.0,
+    6.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    6.0,
+    -2.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -2.0,
+    6.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    6.0,
+    -2.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -2.0,
+    6.0,
+    -2.0,
+    -2.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    3.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    3.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    3.0,
+    -1.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    6.0,
+    -2.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    3.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    3.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    3.0,
+    -1.0
+   ],
+   "blind": false,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -2.0,
+    6.0
+   ],
+   "blind": false,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -1.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -1.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -1.0,
+    3.0
+   ],
+   "blind": false,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    12.0,
+    -4.0,
+    -4.0,
+    -4.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -4.0,
+    12.0,
+    -4.0,
+    -4.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    12.0,
+    -4.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    -4.0,
+    12.0
+   ],
+   "blind": true,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "blind": true,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  }
+ ],
+ "sequences": [
+  {
+   "board": "Al's total: $0.10\nBo's total: $5.20\nCy's total: $-6.50\nDi's total: $1.20\n",
+   "rate": 0.1,
+   "settlement": "Cy pays Al: $0.10\nCy pays Bo: $5.20\nCy pays Di: $1.20\n",
+   "shooter": true,
+   "steps": [
+    [
+     1.6,
+     -1.6,
+     0.0,
+     0.0
+    ],
+    [
+     1.4000000000000001,
+     -1.8,
+     -0.2,
+     0.6000000000000001
+    ],
+    [
+     1.4000000000000001,
+     4.6000000000000005,
+     -6.6000000000000005,
+     0.6000000000000001
+    ],
+    [
+     1.1,
+     4.6000000000000005,
+     -6.300000000000001,
+     0.6000000000000001
+    ],
+    [
+     0.9000000000000001,
+     4.4,
+     -6.500000000000001,
+     1.2000000000000002
+    ],
+    [
+     0.10000000000000009,
+     5.2,
+     -6.500000000000001,
+     1.2000000000000002
+    ]
+   ]
+  },
+  {
+   "board": "Al's total: $-0.90\nBo's total: $5.90\nCy's total: $-3.90\nDi's total: $-1.10\n",
+   "rate": 0.1,
+   "settlement": "Al pays Bo: $0.90\nCy pays Bo: $3.90\nDi pays Bo: $1.10\n",
+   "shooter": false,
+   "steps": [
+    [
+     1.6,
+     -0.8,
+     -0.4,
+     -0.4
+    ],
+    [
+     1.4000000000000001,
+     -1.0,
+     -0.6000000000000001,
+     0.20000000000000007
+    ],
+    [
+     -0.19999999999999996,
+     5.4,
+     -3.8000000000000003,
+     -1.4
+    ],
+    [
+     -0.29999999999999993,
+     5.300000000000001,
+     -3.5,
+     -1.5
+    ],
+    [
+     -0.49999999999999994,
+     5.1000000000000005,
+     -3.7,
+     -0.8999999999999999
+    ],
+    [
+     -0.8999999999999999,
+     5.9,
+     -3.9000000000000004,
+     -1.0999999999999999
+    ]
+   ]
+  },
+  {
+   "board": "Al's total: $0.20\nBo's total: $10.40\nCy's total: $-13.00\nDi's total: $2.40\n",
+   "rate": 0.2,
+   "settlement": "Cy pays Al: $0.20\nCy pays Bo: $10.40\nCy pays Di: $2.40\n",
+   "shooter": true,
+   "steps": [
+    [
+     3.2,
+     -3.2,
+     0.0,
+     0.0
+    ],
+    [
+     2.8000000000000003,
+     -3.6,
+     -0.4,
+     1.2000000000000002
+    ],
+    [
+     2.8000000000000003,
+     9.200000000000001,
+     -13.200000000000001,
+     1.2000000000000002
+    ],
+    [
+     2.2,
+     9.200000000000001,
+     -12.600000000000001,
+     1.2000000000000002
+    ],
+    [
+     1.8000000000000003,
+     8.8,
+     -13.000000000000002,
+     2.4000000000000004
+    ],
+    [
+     0.20000000000000018,
+     10.4,
+     -13.000000000000002,
+     2.4000000000000004
+    ]
+   ]
+  },
+  {
+   "board": "Al's total: $-9.00\nBo's total: $59.00\nCy's total: $-39.00\nDi's total: $-11.00\n",
+   "rate": 1,
+   "settlement": "Al pays Bo: $9.00\nCy pays Bo: $39.00\nDi pays Bo: $11.00\n",
+   "shooter": false,
+   "steps": [
+    [
+     16.0,
+     -8.0,
+     -4.0,
+     -4.0
+    ],
+    [
+     14.0,
+     -10.0,
+     -6.0,
+     2.0
+    ],
+    [
+     -2.0,
+     54.0,
+     -38.0,
+     -14.0
+    ],
+    [
+     -3.0,
+     53.0,
+     -35.0,
+     -15.0
+    ],
+    [
+     -5.0,
+     51.0,
+     -37.0,
+     -9.0
+    ],
+    [
+     -9.0,
+     59.0,
+     -39.0,
+     -11.0
+    ]
+   ]
+  }
+ ],
+ "settlement": [
+  {
+   "balances": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "No Payment"
+  },
+  {
+   "balances": [
+    1.6,
+    -1.6,
+    0.0,
+    0.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Bo pays Al: $1.60\n"
+  },
+  {
+   "balances": [
+    4.0,
+    -1.0,
+    5.0,
+    -3.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Di pays Cy: $3.00\nBo pays Cy: $2.00\nBo pays Al: $4.00\n"
+  },
+  {
+   "balances": [
+    6.0,
+    3.0,
+    -4.0,
+    -5.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Di pays Al: $5.00\nCy pays Al: $1.00\nCy pays Bo: $3.00\n"
+  },
+  {
+   "balances": [
+    -5.0,
+    1.0,
+    2.0,
+    2.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Al pays Bo: $1.00\nAl pays Cy: $2.00\nAl pays Di: $2.00\n"
+  },
+  {
+   "balances": [
+    3.0,
+    4.0,
+    -1.0,
+    -6.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Di pays Bo: $4.00\nDi pays Al: $2.00\nCy pays Al: $1.00\n"
+  },
+  {
+   "balances": [
+    0.30000000000000004,
+    -0.1,
+    -0.1,
+    -0.1
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Bo pays Al: $0.10\nCy pays Al: $0.10\nDi pays Al: $0.10\n"
+  },
+  {
+   "balances": [
+    2.5,
+    2.5,
+    -2.5,
+    -2.5
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Di pays Al: $2.50\nCy pays Bo: $2.50\n"
+  },
+  {
+   "balances": [
+    -1.0,
+    -2.0,
+    3.0,
+    0.0
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Al pays Cy: $1.00\nBo pays Cy: $2.00\n"
+  },
+  {
+   "balances": [
+    0.0,
+    -0.0,
+    1.5,
+    -1.5
+   ],
+   "names": [
+    "Al",
+    "Bo",
+    "Cy",
+    "Di"
+   ],
+   "text": "Di pays Cy: $1.50\n"
+  }
+ ],
+ "source": {
+  "captured_from_class": "session",
+  "commit": "145b24b",
+  "file": "util.py",
+  "note": "Numbers are the frozen contract. Includes both known quirks."
+ },
+ "tai": [
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.4,
+    -0.4,
+    0.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.4,
+    0.0,
+    -0.4,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.4,
+    0.0,
+    0.0,
+    -0.4
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    0.4,
+    0.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.4,
+    -0.4,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.4,
+    0.0,
+    -0.4
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    0.0,
+    0.4,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.4,
+    0.4,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.4,
+    -0.4
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.4,
+    0.0,
+    0.0,
+    0.4
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.4,
+    0.0,
+    0.4
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.4,
+    0.4
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8,
+    -0.8,
+    0.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8,
+    0.0,
+    -0.8,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8,
+    0.0,
+    0.0,
+    -0.8
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    0.8,
+    0.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.8,
+    -0.8,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    0.8,
+    0.0,
+    -0.8
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    0.0,
+    0.8,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -0.8,
+    0.8,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    0.8,
+    -0.8
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.8,
+    0.0,
+    0.0,
+    0.8
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -0.8,
+    0.0,
+    0.8
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -0.8,
+    0.8
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    2.4000000000000004,
+    -0.8,
+    -0.8,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.6,
+    -1.6,
+    0.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.6,
+    0.0,
+    -1.6,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.6,
+    0.0,
+    0.0,
+    -1.6
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.8,
+    2.4000000000000004,
+    -0.8,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.6,
+    1.6,
+    0.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    1.6,
+    -1.6,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    1.6,
+    0.0,
+    -1.6
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    2.4000000000000004,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.6,
+    0.0,
+    1.6,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -1.6,
+    1.6,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    1.6,
+    -1.6
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    -0.8,
+    2.4000000000000004
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.6,
+    0.0,
+    0.0,
+    1.6
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -1.6,
+    0.0,
+    1.6
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -1.6,
+    1.6
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    4.800000000000001,
+    -1.6,
+    -1.6,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.2,
+    -3.2,
+    0.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.2,
+    0.0,
+    -3.2,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.2,
+    0.0,
+    0.0,
+    -3.2
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1.6,
+    4.800000000000001,
+    -1.6,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.2,
+    3.2,
+    0.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    3.2,
+    -3.2,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    3.2,
+    0.0,
+    -3.2
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.6,
+    -1.6,
+    4.800000000000001,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.2,
+    0.0,
+    3.2,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -3.2,
+    3.2,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    3.2,
+    -3.2
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.6,
+    -1.6,
+    -1.6,
+    4.800000000000001
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -3.2,
+    0.0,
+    0.0,
+    3.2
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -3.2,
+    0.0,
+    3.2
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -3.2,
+    3.2
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    9.600000000000001,
+    -3.2,
+    -3.2,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    6.4,
+    -6.4,
+    0.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    6.4,
+    0.0,
+    -6.4,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    6.4,
+    0.0,
+    0.0,
+    -6.4
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -3.2,
+    9.600000000000001,
+    -3.2,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -6.4,
+    6.4,
+    0.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    6.4,
+    -6.4,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    6.4,
+    0.0,
+    -6.4
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.2,
+    -3.2,
+    9.600000000000001,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -6.4,
+    0.0,
+    6.4,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -6.4,
+    6.4,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    6.4,
+    -6.4
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.2,
+    -3.2,
+    -3.2,
+    9.600000000000001
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -6.4,
+    0.0,
+    0.0,
+    6.4
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -6.4,
+    0.0,
+    6.4
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -6.4,
+    6.4
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    19.200000000000003,
+    -6.4,
+    -6.4,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    12.8,
+    -12.8,
+    0.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    12.8,
+    0.0,
+    -12.8,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    12.8,
+    0.0,
+    0.0,
+    -12.8
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -6.4,
+    19.200000000000003,
+    -6.4,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -12.8,
+    12.8,
+    0.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    12.8,
+    -12.8,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    12.8,
+    0.0,
+    -12.8
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -6.4,
+    -6.4,
+    19.200000000000003,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -12.8,
+    0.0,
+    12.8,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -12.8,
+    12.8,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    12.8,
+    -12.8
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -6.4,
+    -6.4,
+    -6.4,
+    19.200000000000003
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -12.8,
+    0.0,
+    0.0,
+    12.8
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -12.8,
+    0.0,
+    12.8
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -12.8,
+    12.8
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    38.400000000000006,
+    -12.8,
+    -12.8,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    25.6,
+    -25.6,
+    0.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    25.6,
+    0.0,
+    -25.6,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    25.6,
+    0.0,
+    0.0,
+    -25.6
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -12.8,
+    38.400000000000006,
+    -12.8,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -25.6,
+    25.6,
+    0.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    25.6,
+    -25.6,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    25.6,
+    0.0,
+    -25.6
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -12.8,
+    -12.8,
+    38.400000000000006,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -25.6,
+    0.0,
+    25.6,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -25.6,
+    25.6,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    25.6,
+    -25.6
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -12.8,
+    -12.8,
+    -12.8,
+    38.400000000000006
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -25.6,
+    0.0,
+    0.0,
+    25.6
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -25.6,
+    0.0,
+    25.6
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -25.6,
+    25.6
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    76.80000000000001,
+    -25.6,
+    -25.6,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    51.2,
+    -51.2,
+    0.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    51.2,
+    0.0,
+    -51.2,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    51.2,
+    0.0,
+    0.0,
+    -51.2
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -25.6,
+    76.80000000000001,
+    -25.6,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -51.2,
+    51.2,
+    0.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    51.2,
+    -51.2,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    51.2,
+    0.0,
+    -51.2
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -25.6,
+    -25.6,
+    76.80000000000001,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -51.2,
+    0.0,
+    51.2,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -51.2,
+    51.2,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    51.2,
+    -51.2
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -25.6,
+    -25.6,
+    -25.6,
+    76.80000000000001
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -51.2,
+    0.0,
+    0.0,
+    51.2
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -51.2,
+    0.0,
+    51.2
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -51.2,
+    51.2
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    153.60000000000002,
+    -51.2,
+    -51.2,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    102.4,
+    -102.4,
+    0.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    102.4,
+    0.0,
+    -102.4,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    102.4,
+    0.0,
+    0.0,
+    -102.4
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -51.2,
+    153.60000000000002,
+    -51.2,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -102.4,
+    102.4,
+    0.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    102.4,
+    -102.4,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    102.4,
+    0.0,
+    -102.4
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -51.2,
+    -51.2,
+    153.60000000000002,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -102.4,
+    0.0,
+    102.4,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -102.4,
+    102.4,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    102.4,
+    -102.4
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -51.2,
+    -51.2,
+    -51.2,
+    153.60000000000002
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -102.4,
+    0.0,
+    0.0,
+    102.4
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -102.4,
+    0.0,
+    102.4
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -102.4,
+    102.4
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    307.20000000000005,
+    -102.4,
+    -102.4,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    204.8,
+    -204.8,
+    0.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    204.8,
+    0.0,
+    -204.8,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    204.8,
+    0.0,
+    0.0,
+    -204.8
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -102.4,
+    307.20000000000005,
+    -102.4,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -204.8,
+    204.8,
+    0.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    204.8,
+    -204.8,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    204.8,
+    0.0,
+    -204.8
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -102.4,
+    -102.4,
+    307.20000000000005,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -204.8,
+    0.0,
+    204.8,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -204.8,
+    204.8,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    204.8,
+    -204.8
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -102.4,
+    -102.4,
+    -102.4,
+    307.20000000000005
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -204.8,
+    0.0,
+    0.0,
+    204.8
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -204.8,
+    0.0,
+    204.8
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -204.8,
+    204.8
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.6000000000000001,
+    -0.2,
+    -0.2,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.4,
+    -0.2,
+    -0.1,
+    -0.1
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.4,
+    -0.1,
+    -0.2,
+    -0.1
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.4,
+    -0.1,
+    -0.1,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.2,
+    0.6000000000000001,
+    -0.2,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.4,
+    -0.1,
+    -0.1
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    0.4,
+    -0.2,
+    -0.1
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.1,
+    0.4,
+    -0.1,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.6000000000000001,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.1,
+    0.4,
+    -0.1
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.2,
+    0.4,
+    -0.1
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    0.4,
+    -0.2
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.2,
+    0.6000000000000001
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    -0.1,
+    -0.1,
+    0.4
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.1,
+    -0.2,
+    -0.1,
+    0.4
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.1,
+    -0.1,
+    -0.2,
+    0.4
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    1.2000000000000002,
+    -0.4,
+    -0.4,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8,
+    -0.4,
+    -0.2,
+    -0.2
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8,
+    -0.2,
+    -0.4,
+    -0.2
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    0.8,
+    -0.2,
+    -0.2,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.4,
+    1.2000000000000002,
+    -0.4,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    0.8,
+    -0.2,
+    -0.2
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.8,
+    -0.4,
+    -0.2
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.2,
+    0.8,
+    -0.2,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.2000000000000002,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.2,
+    0.8,
+    -0.2
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.4,
+    0.8,
+    -0.2
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    0.8,
+    -0.4
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.4,
+    1.2000000000000002
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.4,
+    -0.2,
+    -0.2,
+    0.8
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    -0.4,
+    -0.2,
+    0.8
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.2,
+    -0.2,
+    -0.4,
+    0.8
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    2.4000000000000004,
+    -0.8,
+    -0.8,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.6,
+    -0.8,
+    -0.4,
+    -0.4
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.6,
+    -0.4,
+    -0.8,
+    -0.4
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    1.6,
+    -0.4,
+    -0.4,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -0.8,
+    2.4000000000000004,
+    -0.8,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    1.6,
+    -0.4,
+    -0.4
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    1.6,
+    -0.8,
+    -0.4
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.4,
+    1.6,
+    -0.4,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    2.4000000000000004,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    -0.4,
+    1.6,
+    -0.4
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.8,
+    1.6,
+    -0.4
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    1.6,
+    -0.8
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    -0.8,
+    2.4000000000000004
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.8,
+    -0.4,
+    -0.4,
+    1.6
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.4,
+    -0.8,
+    -0.4,
+    1.6
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.4,
+    -0.4,
+    -0.8,
+    1.6
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    4.800000000000001,
+    -1.6,
+    -1.6,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.2,
+    -1.6,
+    -0.8,
+    -0.8
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.2,
+    -0.8,
+    -1.6,
+    -0.8
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    3.2,
+    -0.8,
+    -0.8,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1.6,
+    4.800000000000001,
+    -1.6,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.6,
+    3.2,
+    -0.8,
+    -0.8
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    3.2,
+    -1.6,
+    -0.8
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -0.8,
+    3.2,
+    -0.8,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.6,
+    -1.6,
+    4.800000000000001,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.6,
+    -0.8,
+    3.2,
+    -0.8
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    -1.6,
+    3.2,
+    -0.8
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    3.2,
+    -1.6
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.6,
+    -1.6,
+    -1.6,
+    4.800000000000001
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.6,
+    -0.8,
+    -0.8,
+    3.2
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.8,
+    -1.6,
+    -0.8,
+    3.2
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -0.8,
+    -0.8,
+    -1.6,
+    3.2
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    9.600000000000001,
+    -3.2,
+    -3.2,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    6.4,
+    -3.2,
+    -1.6,
+    -1.6
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    6.4,
+    -1.6,
+    -3.2,
+    -1.6
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    6.4,
+    -1.6,
+    -1.6,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -3.2,
+    9.600000000000001,
+    -3.2,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.2,
+    6.4,
+    -1.6,
+    -1.6
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.6,
+    6.4,
+    -3.2,
+    -1.6
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.6,
+    6.4,
+    -1.6,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.2,
+    -3.2,
+    9.600000000000001,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.2,
+    -1.6,
+    6.4,
+    -1.6
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.6,
+    -3.2,
+    6.4,
+    -1.6
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.6,
+    -1.6,
+    6.4,
+    -3.2
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.2,
+    -3.2,
+    -3.2,
+    9.600000000000001
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -3.2,
+    -1.6,
+    -1.6,
+    6.4
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.6,
+    -3.2,
+    -1.6,
+    6.4
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.6,
+    -1.6,
+    -3.2,
+    6.4
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    19.200000000000003,
+    -6.4,
+    -6.4,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    12.8,
+    -6.4,
+    -3.2,
+    -3.2
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    12.8,
+    -3.2,
+    -6.4,
+    -3.2
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    12.8,
+    -3.2,
+    -3.2,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -6.4,
+    19.200000000000003,
+    -6.4,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -6.4,
+    12.8,
+    -3.2,
+    -3.2
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.2,
+    12.8,
+    -6.4,
+    -3.2
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -3.2,
+    12.8,
+    -3.2,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -6.4,
+    -6.4,
+    19.200000000000003,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -6.4,
+    -3.2,
+    12.8,
+    -3.2
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.2,
+    -6.4,
+    12.8,
+    -3.2
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -3.2,
+    -3.2,
+    12.8,
+    -6.4
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -6.4,
+    -6.4,
+    -6.4,
+    19.200000000000003
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -6.4,
+    -3.2,
+    -3.2,
+    12.8
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -3.2,
+    -6.4,
+    -3.2,
+    12.8
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -3.2,
+    -3.2,
+    -6.4,
+    12.8
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    38.400000000000006,
+    -12.8,
+    -12.8,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    25.6,
+    -12.8,
+    -6.4,
+    -6.4
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    25.6,
+    -6.4,
+    -12.8,
+    -6.4
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    25.6,
+    -6.4,
+    -6.4,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -12.8,
+    38.400000000000006,
+    -12.8,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -12.8,
+    25.6,
+    -6.4,
+    -6.4
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -6.4,
+    25.6,
+    -12.8,
+    -6.4
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -6.4,
+    25.6,
+    -6.4,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -12.8,
+    -12.8,
+    38.400000000000006,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -12.8,
+    -6.4,
+    25.6,
+    -6.4
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -6.4,
+    -12.8,
+    25.6,
+    -6.4
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -6.4,
+    -6.4,
+    25.6,
+    -12.8
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -12.8,
+    -12.8,
+    -12.8,
+    38.400000000000006
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -12.8,
+    -6.4,
+    -6.4,
+    25.6
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -6.4,
+    -12.8,
+    -6.4,
+    25.6
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -6.4,
+    -6.4,
+    -12.8,
+    25.6
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    76.80000000000001,
+    -25.6,
+    -25.6,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    51.2,
+    -25.6,
+    -12.8,
+    -12.8
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    51.2,
+    -12.8,
+    -25.6,
+    -12.8
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    51.2,
+    -12.8,
+    -12.8,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -25.6,
+    76.80000000000001,
+    -25.6,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -25.6,
+    51.2,
+    -12.8,
+    -12.8
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -12.8,
+    51.2,
+    -25.6,
+    -12.8
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -12.8,
+    51.2,
+    -12.8,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -25.6,
+    -25.6,
+    76.80000000000001,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -25.6,
+    -12.8,
+    51.2,
+    -12.8
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -12.8,
+    -25.6,
+    51.2,
+    -12.8
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -12.8,
+    -12.8,
+    51.2,
+    -25.6
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -25.6,
+    -25.6,
+    -25.6,
+    76.80000000000001
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -25.6,
+    -12.8,
+    -12.8,
+    51.2
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -12.8,
+    -25.6,
+    -12.8,
+    51.2
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -12.8,
+    -12.8,
+    -25.6,
+    51.2
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    153.60000000000002,
+    -51.2,
+    -51.2,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    102.4,
+    -51.2,
+    -25.6,
+    -25.6
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    102.4,
+    -25.6,
+    -51.2,
+    -25.6
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    102.4,
+    -25.6,
+    -25.6,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -51.2,
+    153.60000000000002,
+    -51.2,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -51.2,
+    102.4,
+    -25.6,
+    -25.6
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -25.6,
+    102.4,
+    -51.2,
+    -25.6
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -25.6,
+    102.4,
+    -25.6,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -51.2,
+    -51.2,
+    153.60000000000002,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -51.2,
+    -25.6,
+    102.4,
+    -25.6
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -25.6,
+    -51.2,
+    102.4,
+    -25.6
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -25.6,
+    -25.6,
+    102.4,
+    -51.2
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -51.2,
+    -51.2,
+    -51.2,
+    153.60000000000002
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -51.2,
+    -25.6,
+    -25.6,
+    102.4
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -25.6,
+    -51.2,
+    -25.6,
+    102.4
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -25.6,
+    -25.6,
+    -51.2,
+    102.4
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    307.20000000000005,
+    -102.4,
+    -102.4,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    204.8,
+    -102.4,
+    -51.2,
+    -51.2
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    204.8,
+    -51.2,
+    -102.4,
+    -51.2
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    204.8,
+    -51.2,
+    -51.2,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -102.4,
+    307.20000000000005,
+    -102.4,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -102.4,
+    204.8,
+    -51.2,
+    -51.2
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -51.2,
+    204.8,
+    -102.4,
+    -51.2
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -51.2,
+    204.8,
+    -51.2,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -102.4,
+    -102.4,
+    307.20000000000005,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -102.4,
+    -51.2,
+    204.8,
+    -51.2
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -51.2,
+    -102.4,
+    204.8,
+    -51.2
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -51.2,
+    -51.2,
+    204.8,
+    -102.4
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -102.4,
+    -102.4,
+    -102.4,
+    307.20000000000005
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -102.4,
+    -51.2,
+    -51.2,
+    204.8
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -51.2,
+    -102.4,
+    -51.2,
+    204.8
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -51.2,
+    -51.2,
+    -102.4,
+    204.8
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 0.1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    6.0,
+    -2.0,
+    -2.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    4.0,
+    -4.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    4.0,
+    0.0,
+    -4.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    4.0,
+    0.0,
+    0.0,
+    -4.0
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -2.0,
+    6.0,
+    -2.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    4.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    4.0,
+    -4.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    4.0,
+    0.0,
+    -4.0
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    6.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    0.0,
+    4.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -4.0,
+    4.0,
+    0.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    4.0,
+    -4.0
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -2.0,
+    6.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -4.0,
+    0.0,
+    0.0,
+    4.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -4.0,
+    0.0,
+    4.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -4.0,
+    4.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    12.0,
+    -4.0,
+    -4.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    8.0,
+    -8.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    8.0,
+    0.0,
+    -8.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    8.0,
+    0.0,
+    0.0,
+    -8.0
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -4.0,
+    12.0,
+    -4.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -8.0,
+    8.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    8.0,
+    -8.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    8.0,
+    0.0,
+    -8.0
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    12.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -8.0,
+    0.0,
+    8.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -8.0,
+    8.0,
+    0.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    8.0,
+    -8.0
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    -4.0,
+    12.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -8.0,
+    0.0,
+    0.0,
+    8.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -8.0,
+    0.0,
+    8.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -8.0,
+    8.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    24.0,
+    -8.0,
+    -8.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    16.0,
+    -16.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    16.0,
+    0.0,
+    -16.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    16.0,
+    0.0,
+    0.0,
+    -16.0
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -8.0,
+    24.0,
+    -8.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -16.0,
+    16.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    16.0,
+    -16.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    16.0,
+    0.0,
+    -16.0
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -8.0,
+    -8.0,
+    24.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -16.0,
+    0.0,
+    16.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -16.0,
+    16.0,
+    0.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    16.0,
+    -16.0
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -8.0,
+    -8.0,
+    -8.0,
+    24.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -16.0,
+    0.0,
+    0.0,
+    16.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -16.0,
+    0.0,
+    16.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -16.0,
+    16.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    48.0,
+    -16.0,
+    -16.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    32.0,
+    -32.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    32.0,
+    0.0,
+    -32.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    32.0,
+    0.0,
+    0.0,
+    -32.0
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -16.0,
+    48.0,
+    -16.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -32.0,
+    32.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    32.0,
+    -32.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    32.0,
+    0.0,
+    -32.0
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -16.0,
+    -16.0,
+    48.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -32.0,
+    0.0,
+    32.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -32.0,
+    32.0,
+    0.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    32.0,
+    -32.0
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -16.0,
+    -16.0,
+    -16.0,
+    48.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -32.0,
+    0.0,
+    0.0,
+    32.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -32.0,
+    0.0,
+    32.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -32.0,
+    32.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    96.0,
+    -32.0,
+    -32.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    64.0,
+    -64.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    64.0,
+    0.0,
+    -64.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    64.0,
+    0.0,
+    0.0,
+    -64.0
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -32.0,
+    96.0,
+    -32.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -64.0,
+    64.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    64.0,
+    -64.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    64.0,
+    0.0,
+    -64.0
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -32.0,
+    -32.0,
+    96.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -64.0,
+    0.0,
+    64.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -64.0,
+    64.0,
+    0.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    64.0,
+    -64.0
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -32.0,
+    -32.0,
+    -32.0,
+    96.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -64.0,
+    0.0,
+    0.0,
+    64.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -64.0,
+    0.0,
+    64.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -64.0,
+    64.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    192.0,
+    -64.0,
+    -64.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    128.0,
+    -128.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    128.0,
+    0.0,
+    -128.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    128.0,
+    0.0,
+    0.0,
+    -128.0
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -64.0,
+    192.0,
+    -64.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -128.0,
+    128.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    128.0,
+    -128.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    128.0,
+    0.0,
+    -128.0
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -64.0,
+    -64.0,
+    192.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -128.0,
+    0.0,
+    128.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -128.0,
+    128.0,
+    0.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    128.0,
+    -128.0
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -64.0,
+    -64.0,
+    -64.0,
+    192.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -128.0,
+    0.0,
+    0.0,
+    128.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -128.0,
+    0.0,
+    128.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -128.0,
+    128.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    384.0,
+    -128.0,
+    -128.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    256.0,
+    -256.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    256.0,
+    0.0,
+    -256.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    256.0,
+    0.0,
+    0.0,
+    -256.0
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -128.0,
+    384.0,
+    -128.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -256.0,
+    256.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    256.0,
+    -256.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    256.0,
+    0.0,
+    -256.0
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -128.0,
+    -128.0,
+    384.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -256.0,
+    0.0,
+    256.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -256.0,
+    256.0,
+    0.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    256.0,
+    -256.0
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -128.0,
+    -128.0,
+    -128.0,
+    384.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -256.0,
+    0.0,
+    0.0,
+    256.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -256.0,
+    0.0,
+    256.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -256.0,
+    256.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    768.0,
+    -256.0,
+    -256.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    512.0,
+    -512.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    512.0,
+    0.0,
+    -512.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    512.0,
+    0.0,
+    0.0,
+    -512.0
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -256.0,
+    768.0,
+    -256.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -512.0,
+    512.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    512.0,
+    -512.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    512.0,
+    0.0,
+    -512.0
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -256.0,
+    -256.0,
+    768.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -512.0,
+    0.0,
+    512.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -512.0,
+    512.0,
+    0.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    512.0,
+    -512.0
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -256.0,
+    -256.0,
+    -256.0,
+    768.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -512.0,
+    0.0,
+    0.0,
+    512.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -512.0,
+    0.0,
+    512.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -512.0,
+    512.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    1536.0,
+    -512.0,
+    -512.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1024.0,
+    -1024.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1024.0,
+    0.0,
+    -1024.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    1024.0,
+    0.0,
+    0.0,
+    -1024.0
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -512.0,
+    1536.0,
+    -512.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1024.0,
+    1024.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    1024.0,
+    -1024.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    1024.0,
+    0.0,
+    -1024.0
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -512.0,
+    -512.0,
+    1536.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1024.0,
+    0.0,
+    1024.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -1024.0,
+    1024.0,
+    0.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    1024.0,
+    -1024.0
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -512.0,
+    -512.0,
+    -512.0,
+    1536.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1024.0,
+    0.0,
+    0.0,
+    1024.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -1024.0,
+    0.0,
+    1024.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -1024.0,
+    1024.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    3072.0,
+    -1024.0,
+    -1024.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    2048.0,
+    -2048.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    2048.0,
+    0.0,
+    -2048.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    2048.0,
+    0.0,
+    0.0,
+    -2048.0
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1024.0,
+    3072.0,
+    -1024.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2048.0,
+    2048.0,
+    0.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    2048.0,
+    -2048.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    0.0,
+    2048.0,
+    0.0,
+    -2048.0
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1024.0,
+    -1024.0,
+    3072.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2048.0,
+    0.0,
+    2048.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    -2048.0,
+    2048.0,
+    0.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    2048.0,
+    -2048.0
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 1,
+   "shooter": true,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1024.0,
+    -1024.0,
+    -1024.0,
+    3072.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    -2048.0,
+    0.0,
+    0.0,
+    2048.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    -2048.0,
+    0.0,
+    2048.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    0.0,
+    0.0,
+    -2048.0,
+    2048.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 1,
+   "shooter": true,
+   "winner": 3
+  },
+  {
+   "after": [
+    6.0,
+    -2.0,
+    -2.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    4.0,
+    -2.0,
+    -1.0,
+    -1.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    4.0,
+    -1.0,
+    -2.0,
+    -1.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    4.0,
+    -1.0,
+    -1.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -2.0,
+    6.0,
+    -2.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    4.0,
+    -1.0,
+    -1.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    4.0,
+    -2.0,
+    -1.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1.0,
+    4.0,
+    -1.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    6.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -1.0,
+    4.0,
+    -1.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -2.0,
+    4.0,
+    -1.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    4.0,
+    -2.0
+   ],
+   "ntai": 1,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -2.0,
+    6.0
+   ],
+   "ntai": 1,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -2.0,
+    -1.0,
+    -1.0,
+    4.0
+   ],
+   "ntai": 1,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.0,
+    -2.0,
+    -1.0,
+    4.0
+   ],
+   "ntai": 1,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1.0,
+    -1.0,
+    -2.0,
+    4.0
+   ],
+   "ntai": 1,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    12.0,
+    -4.0,
+    -4.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    8.0,
+    -4.0,
+    -2.0,
+    -2.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    8.0,
+    -2.0,
+    -4.0,
+    -2.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    8.0,
+    -2.0,
+    -2.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -4.0,
+    12.0,
+    -4.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    8.0,
+    -2.0,
+    -2.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    8.0,
+    -4.0,
+    -2.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -2.0,
+    8.0,
+    -2.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    12.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    -2.0,
+    8.0,
+    -2.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -4.0,
+    8.0,
+    -2.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    8.0,
+    -4.0
+   ],
+   "ntai": 2,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    -4.0,
+    12.0
+   ],
+   "ntai": 2,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -4.0,
+    -2.0,
+    -2.0,
+    8.0
+   ],
+   "ntai": 2,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -2.0,
+    -4.0,
+    -2.0,
+    8.0
+   ],
+   "ntai": 2,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -2.0,
+    -2.0,
+    -4.0,
+    8.0
+   ],
+   "ntai": 2,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    24.0,
+    -8.0,
+    -8.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    16.0,
+    -8.0,
+    -4.0,
+    -4.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    16.0,
+    -4.0,
+    -8.0,
+    -4.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    16.0,
+    -4.0,
+    -4.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -8.0,
+    24.0,
+    -8.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -8.0,
+    16.0,
+    -4.0,
+    -4.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    16.0,
+    -8.0,
+    -4.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -4.0,
+    16.0,
+    -4.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -8.0,
+    -8.0,
+    24.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -8.0,
+    -4.0,
+    16.0,
+    -4.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    -8.0,
+    16.0,
+    -4.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    16.0,
+    -8.0
+   ],
+   "ntai": 3,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -8.0,
+    -8.0,
+    -8.0,
+    24.0
+   ],
+   "ntai": 3,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -8.0,
+    -4.0,
+    -4.0,
+    16.0
+   ],
+   "ntai": 3,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -4.0,
+    -8.0,
+    -4.0,
+    16.0
+   ],
+   "ntai": 3,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -4.0,
+    -4.0,
+    -8.0,
+    16.0
+   ],
+   "ntai": 3,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    48.0,
+    -16.0,
+    -16.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    32.0,
+    -16.0,
+    -8.0,
+    -8.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    32.0,
+    -8.0,
+    -16.0,
+    -8.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    32.0,
+    -8.0,
+    -8.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -16.0,
+    48.0,
+    -16.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -16.0,
+    32.0,
+    -8.0,
+    -8.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -8.0,
+    32.0,
+    -16.0,
+    -8.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -8.0,
+    32.0,
+    -8.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -16.0,
+    -16.0,
+    48.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -16.0,
+    -8.0,
+    32.0,
+    -8.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -8.0,
+    -16.0,
+    32.0,
+    -8.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -8.0,
+    -8.0,
+    32.0,
+    -16.0
+   ],
+   "ntai": 4,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -16.0,
+    -16.0,
+    -16.0,
+    48.0
+   ],
+   "ntai": 4,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -16.0,
+    -8.0,
+    -8.0,
+    32.0
+   ],
+   "ntai": 4,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -8.0,
+    -16.0,
+    -8.0,
+    32.0
+   ],
+   "ntai": 4,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -8.0,
+    -8.0,
+    -16.0,
+    32.0
+   ],
+   "ntai": 4,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    96.0,
+    -32.0,
+    -32.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    64.0,
+    -32.0,
+    -16.0,
+    -16.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    64.0,
+    -16.0,
+    -32.0,
+    -16.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    64.0,
+    -16.0,
+    -16.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -32.0,
+    96.0,
+    -32.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -32.0,
+    64.0,
+    -16.0,
+    -16.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -16.0,
+    64.0,
+    -32.0,
+    -16.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -16.0,
+    64.0,
+    -16.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -32.0,
+    -32.0,
+    96.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -32.0,
+    -16.0,
+    64.0,
+    -16.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -16.0,
+    -32.0,
+    64.0,
+    -16.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -16.0,
+    -16.0,
+    64.0,
+    -32.0
+   ],
+   "ntai": 5,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -32.0,
+    -32.0,
+    -32.0,
+    96.0
+   ],
+   "ntai": 5,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -32.0,
+    -16.0,
+    -16.0,
+    64.0
+   ],
+   "ntai": 5,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -16.0,
+    -32.0,
+    -16.0,
+    64.0
+   ],
+   "ntai": 5,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -16.0,
+    -16.0,
+    -32.0,
+    64.0
+   ],
+   "ntai": 5,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    192.0,
+    -64.0,
+    -64.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    128.0,
+    -64.0,
+    -32.0,
+    -32.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    128.0,
+    -32.0,
+    -64.0,
+    -32.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    128.0,
+    -32.0,
+    -32.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -64.0,
+    192.0,
+    -64.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -64.0,
+    128.0,
+    -32.0,
+    -32.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -32.0,
+    128.0,
+    -64.0,
+    -32.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -32.0,
+    128.0,
+    -32.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -64.0,
+    -64.0,
+    192.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -64.0,
+    -32.0,
+    128.0,
+    -32.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -32.0,
+    -64.0,
+    128.0,
+    -32.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -32.0,
+    -32.0,
+    128.0,
+    -64.0
+   ],
+   "ntai": 6,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -64.0,
+    -64.0,
+    -64.0,
+    192.0
+   ],
+   "ntai": 6,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -64.0,
+    -32.0,
+    -32.0,
+    128.0
+   ],
+   "ntai": 6,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -32.0,
+    -64.0,
+    -32.0,
+    128.0
+   ],
+   "ntai": 6,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -32.0,
+    -32.0,
+    -64.0,
+    128.0
+   ],
+   "ntai": 6,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    384.0,
+    -128.0,
+    -128.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    256.0,
+    -128.0,
+    -64.0,
+    -64.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    256.0,
+    -64.0,
+    -128.0,
+    -64.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    256.0,
+    -64.0,
+    -64.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -128.0,
+    384.0,
+    -128.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -128.0,
+    256.0,
+    -64.0,
+    -64.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -64.0,
+    256.0,
+    -128.0,
+    -64.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -64.0,
+    256.0,
+    -64.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -128.0,
+    -128.0,
+    384.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -128.0,
+    -64.0,
+    256.0,
+    -64.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -64.0,
+    -128.0,
+    256.0,
+    -64.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -64.0,
+    -64.0,
+    256.0,
+    -128.0
+   ],
+   "ntai": 7,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -128.0,
+    -128.0,
+    -128.0,
+    384.0
+   ],
+   "ntai": 7,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -128.0,
+    -64.0,
+    -64.0,
+    256.0
+   ],
+   "ntai": 7,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -64.0,
+    -128.0,
+    -64.0,
+    256.0
+   ],
+   "ntai": 7,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -64.0,
+    -64.0,
+    -128.0,
+    256.0
+   ],
+   "ntai": 7,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    768.0,
+    -256.0,
+    -256.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    512.0,
+    -256.0,
+    -128.0,
+    -128.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    512.0,
+    -128.0,
+    -256.0,
+    -128.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    512.0,
+    -128.0,
+    -128.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -256.0,
+    768.0,
+    -256.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -256.0,
+    512.0,
+    -128.0,
+    -128.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -128.0,
+    512.0,
+    -256.0,
+    -128.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -128.0,
+    512.0,
+    -128.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -256.0,
+    -256.0,
+    768.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -256.0,
+    -128.0,
+    512.0,
+    -128.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -128.0,
+    -256.0,
+    512.0,
+    -128.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -128.0,
+    -128.0,
+    512.0,
+    -256.0
+   ],
+   "ntai": 8,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -256.0,
+    -256.0,
+    -256.0,
+    768.0
+   ],
+   "ntai": 8,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -256.0,
+    -128.0,
+    -128.0,
+    512.0
+   ],
+   "ntai": 8,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -128.0,
+    -256.0,
+    -128.0,
+    512.0
+   ],
+   "ntai": 8,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -128.0,
+    -128.0,
+    -256.0,
+    512.0
+   ],
+   "ntai": 8,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    1536.0,
+    -512.0,
+    -512.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    1024.0,
+    -512.0,
+    -256.0,
+    -256.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    1024.0,
+    -256.0,
+    -512.0,
+    -256.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    1024.0,
+    -256.0,
+    -256.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -512.0,
+    1536.0,
+    -512.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -512.0,
+    1024.0,
+    -256.0,
+    -256.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -256.0,
+    1024.0,
+    -512.0,
+    -256.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -256.0,
+    1024.0,
+    -256.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -512.0,
+    -512.0,
+    1536.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -512.0,
+    -256.0,
+    1024.0,
+    -256.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -256.0,
+    -512.0,
+    1024.0,
+    -256.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -256.0,
+    -256.0,
+    1024.0,
+    -512.0
+   ],
+   "ntai": 9,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -512.0,
+    -512.0,
+    -512.0,
+    1536.0
+   ],
+   "ntai": 9,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -512.0,
+    -256.0,
+    -256.0,
+    1024.0
+   ],
+   "ntai": 9,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -256.0,
+    -512.0,
+    -256.0,
+    1024.0
+   ],
+   "ntai": 9,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -256.0,
+    -256.0,
+    -512.0,
+    1024.0
+   ],
+   "ntai": 9,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    3072.0,
+    -1024.0,
+    -1024.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    2048.0,
+    -1024.0,
+    -512.0,
+    -512.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    2048.0,
+    -512.0,
+    -1024.0,
+    -512.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    2048.0,
+    -512.0,
+    -512.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 0
+  },
+  {
+   "after": [
+    -1024.0,
+    3072.0,
+    -1024.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1024.0,
+    2048.0,
+    -512.0,
+    -512.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -512.0,
+    2048.0,
+    -1024.0,
+    -512.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -512.0,
+    2048.0,
+    -512.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 1
+  },
+  {
+   "after": [
+    -1024.0,
+    -1024.0,
+    3072.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1024.0,
+    -512.0,
+    2048.0,
+    -512.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -512.0,
+    -1024.0,
+    2048.0,
+    -512.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -512.0,
+    -512.0,
+    2048.0,
+    -1024.0
+   ],
+   "ntai": 10,
+   "payer": 3,
+   "rate": 1,
+   "shooter": false,
+   "winner": 2
+  },
+  {
+   "after": [
+    -1024.0,
+    -1024.0,
+    -1024.0,
+    3072.0
+   ],
+   "ntai": 10,
+   "payer": null,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -1024.0,
+    -512.0,
+    -512.0,
+    2048.0
+   ],
+   "ntai": 10,
+   "payer": 0,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -512.0,
+    -1024.0,
+    -512.0,
+    2048.0
+   ],
+   "ntai": 10,
+   "payer": 1,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  },
+  {
+   "after": [
+    -512.0,
+    -512.0,
+    -1024.0,
+    2048.0
+   ],
+   "ntai": 10,
+   "payer": 2,
+   "rate": 1,
+   "shooter": false,
+   "winner": 3
+  }
+ ]
+}
