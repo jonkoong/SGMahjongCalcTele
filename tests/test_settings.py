@@ -311,6 +311,38 @@ def test_a_rate_that_is_not_a_rate_costs_one_refusal_and_the_asking_stops():
     assert not [e for e in later if isinstance(e, table.Line) and "not a rate" in e.text]
 
 
+# F-06 — a value tap changes the Table, so tasking.md's slice-4 ruling put `g` and `v` beside
+# `w`/`a`/`p`/`x` in the staleness guard. Neither was in it: a settings screen left open across
+# somebody else's win still moved the Table from a keyboard Telegram had already replaced. `b` stays
+# exempt — it is the way out of a stale screen, and versioning it would trap the player on one.
+@pytest.mark.parametrize("kind,meaning", [("g", "maxtai"), ("v", "maxtai3")])
+def test_a_settings_screen_left_open_across_someone_else_s_win_is_stale_too(kind, meaning):
+    r, t = seated_table()
+    tap(r, t, GUEST, "w", 1)                                  # Bo starts a win: the version moves
+    stale = table.token(kind, t.code, t.version - 1, meaning)
+    before = (t.maxtai, t.shooter, t.version)
+
+    refused = r.tap(HOST, stale)
+
+    assert (t.maxtai, t.shooter, t.version) == before, "the stale tap changed nothing"
+    assert "out of date" in next(e.text for e in refused if isinstance(e, table.Toast))
+
+
+# F-03 — '²' and the Arabic-Indic digits satisfy str.isdigit(), and float() disagrees with it about
+# the first of them. S4.17 ruled that a rate which is not a rate costs one refusal; it must not cost
+# the polling thread, which is what a ValueError through the handler was going to cost (F-04 ate the
+# taps queued behind it).
+def test_a_rate_written_in_what_float_cannot_read_costs_one_refusal():
+    r, t = seated_table()
+    version = t.version
+    tap(r, t, HOST, "g", "rate")
+
+    refused = r.message(HOST, "\u00b2")
+
+    assert (t.rate, t.version) == (0.1, version)
+    assert "0.2" in next(e.text for e in refused if isinstance(e, table.Line))
+
+
 # S4.18 — a command is never an answer, and sending one must close the ask rather than leave it open
 # to eat whatever the player types next (AD21).
 def test_a_command_while_asked_for_a_rate_is_not_eaten_as_the_rate():

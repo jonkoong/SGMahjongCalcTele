@@ -46,6 +46,22 @@ def test_a_refusal_that_telegram_wont_accept_is_ignored():
     assert bot.blown == 1
 
 
+# F-03 — the same class of defect, one layer earlier: a payload this bot never wrote reached `parse_token`
+# and raised on `int("x")` on the way in, out through the handler and into the poll loop — where F-04
+# then threw away every update Telegram had queued behind it. Telegram redelivers whatever an old
+# keyboard carried, so an unreadable payload is a shape question, and the answer is the refusal an
+# unknown kind already gets.
+@pytest.mark.parametrize("data", ["a.CODE.x.y", "junk", "w.NBT5.3", ""])
+def test_a_payload_the_bot_never_writes_refuses_like_any_other_tap(data):
+    r, t = seated_table()
+
+    effects = r.tap(HOST, data)
+
+    assert any(isinstance(e, table.Toast) for e in effects), "a refusal, not a crash"
+    assert "Nothing is waiting for that tap." in effects[0].text
+    assert t.log == [] and t.pending is None, "and nothing moved"
+
+
 # S1.18 — one unreachable DM must not stop the other three getting the Board.
 def test_one_unreachable_chat_does_not_stop_the_rest_of_the_fanout():
     r, t = seated_table()

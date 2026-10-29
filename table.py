@@ -24,6 +24,12 @@ KEEP_PLAYING = "Keep playing"
 # markup carried, in its own words (AD15).
 SETTINGS = {"rate": "Pay Rate", "shooter": "Shooter", "maxtai": "Max Tai"}
 
+# The taps that change something, and so have to name the version of the screen they were drawn for
+# (FR16). `s` is exempt: whether a wind is free is the seat's own decision, and versioning those
+# would lock out a joiner who has not seen the newest Board. `b` is exempt because it is the way out
+# of a stale screen — versioning it would trap the player there.
+VERSIONED = ("w", "a", "p", "x", "k", "g", "v")
+
 # The verbs and what the slash menu says each one does — the spec's Command Surface table,
 # in the one place both the menu and any help text can read it from.
 COMMAND_HELP = {
@@ -116,8 +122,24 @@ def token(kind, code, version, meaning):
 
 
 def parse_token(data):
-    kind, code, version, meaning = data.split(".")
-    return kind, code.upper(), int(version), meaning
+    """
+    kind.code.version.meaning, or None when the payload is not a token at all.
+
+    The meaning stays a string, because the kinds disagree about what it holds (AD23). Checked here
+    rather than left to the caller's `int()`: Telegram redelivers whatever an old keyboard carried,
+    so a payload this file never wrote is a shape question, not a rules question, and the answer is
+    one refusal — not a ValueError through the polling thread (F-03). A code that names no Table is
+    deliberately left to the caller: "That table is gone." is the true answer there, and a player
+    who closed the Table by another route deserves to hear it.
+    """
+    parts = data.split(".")
+    if len(parts) != 4:
+        return None
+    kind, code, version, meaning = parts
+    try:
+        return kind, code.upper(), int(version), meaning
+    except ValueError:
+        return None
 
 
 def new_code(live, rng=random):
@@ -277,16 +299,18 @@ class Room:
         return effects
 
     def _tap(self, user, data):
-        kind, code, version, meaning = parse_token(data)
+        parsed = parse_token(data)
+        if parsed is None:
+            return [Toast("Nothing is waiting for that tap.")]
+        kind, code, version, meaning = parsed
         table = self.tables.get(code)
         if table is None:
             return [Toast("That table is gone.")]
         if user.user_id not in table.members:
             return [Toast("You are not at table %s." % code)]
-        if kind in ("w", "a", "p", "x", "k") and version != table.version:
-            # FR16 — a superseded token names a screen Telegram already replaced. Seat picks ("s")
-            # are exempt: whether a wind is free is decided by the seat, and versioning those would
-            # lock out a joiner who has not seen the newest Board yet.
+        if kind in VERSIONED and version != table.version:
+            # FR16 — a superseded token names a screen Telegram already replaced. What is exempt, and
+            # why, is the VERSIONED list at the top of this file.
             return [Toast("That screen is out of date — send /board for the newest one.")]
         if kind == "s":
             wind = _seat_index(meaning)
@@ -753,8 +777,17 @@ class Room:
         return [(CANCEL, token("x", table.code, table.version, "c"))]
 
 
+def _digits(text):
+    """
+    ASCII digits only. `str.isdigit()` also says yes to '²' and to the Arabic-Indic digits, and
+    `int()` and `float()` then disagree about them — every tap parser below ends in one of those two,
+    and S4.17 and S4.20 promise one refusal rather than a traceback (F-03).
+    """
+    return bool(text) and all(c in "0123456789" for c in text)
+
+
 def _seat_index(meaning):
-    return int(meaning) if meaning.isdigit() and 0 <= int(meaning) < len(WINDS) else None
+    return int(meaning) if _digits(meaning) and 0 <= int(meaning) < len(WINDS) else None
 
 def _setting_value(meaning):
     """
@@ -765,7 +798,7 @@ def _setting_value(meaning):
     """
     for name in ("shooter", "maxtai"):
         digits = meaning[len(name):] if meaning.startswith(name) else ""
-        if not digits.isdigit():
+        if not _digits(digits):
             continue
         if name == "shooter":
             return (name, digits == "1") if digits in ("0", "1") else (None, None)
@@ -776,17 +809,17 @@ def _setting_value(meaning):
 
 def _rate_value(text):
     """
-    `0.2`, `1`, `.05` — the old bot's rule and no wider: one token, digits and at most one dot, and
-    above zero. Anything else is not a rate, and the host is told rather than corrected.
+    `0.2`, `1`, `.05` — the old bot's rule and no wider: one token, ASCII digits and at most one dot,
+    and above zero. Anything else is not a rate, and the host is told rather than corrected.
     """
-    if not text.replace(".", "").isdigit() or text.count(".") > 1:
+    if not _digits(text.replace(".", "")) or text.count(".") > 1:
         return None
     return float(text) or None
 
 
 def _tai_number(meaning, cap):
     """`t3` is 3 tai, if this table can pay that many. Anything else is not an amount."""
-    if not (meaning.startswith("t") and meaning[1:].isdigit()):
+    if not (meaning.startswith("t") and _digits(meaning[1:])):
         return None
     ntai = int(meaning[1:])
     return ntai if 1 <= ntai <= cap else None
