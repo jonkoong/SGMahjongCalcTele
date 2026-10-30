@@ -105,10 +105,10 @@ COMMAND_HELP = {
     "/start": "Start the bot",
     "/new": "Create a session",
     "/join": "Join a session with its code",
-    "/leave": "Free your seat and leave this session",
-    "/history": "List tonight's wins",
-    "/end": "Settle up — reset the scoreboard or close the session",
-    "/settings": "Rate, shooter, max tai",
+    "/leave": "Leave this session",
+    "/history": "List session's results",
+    "/end": "Settle up, then reset scoreboard or close the session",
+    "/settings": "Change player name or game settings",
 }
 
 # Every verb the Command Surface promises is now built, so this filter is empty — kept deliberately, as
