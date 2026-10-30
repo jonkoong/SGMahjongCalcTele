@@ -818,8 +818,10 @@ class Room:
         who joined and never sat is bound to it all the same, and a binding outliving its Table is a player
         stuck unable to `/new` or `/join` anything.
 
-        A half-entered Entry stops it, exactly as it stops the reset exit: 04/D5 moved the confirmation onto
-        this screen, and a confirmation was never what bought the right to discard someone else's win.
+        A half-entered Entry stops a bystander at either exit, exactly as it stops the reset (02b/D8):
+        the confirmation 04/D5 moved onto this screen was never what bought the right to discard someone
+        else's win. The holder is not stopped — closing destroys the `Table` outright, and the draft dies
+        with it, which is the one exit that needs no clearing.
         """
         refused = self._draft_stops(table, user)
         if refused:
@@ -849,50 +851,40 @@ class Room:
         return []
 
     def _board(self, user):
+        """
+        The answer to anything the bot has no verb for — plain text, a photo, a stale `/board` — is the
+        player's own Board, and nothing else (02b/D8). It used to append a line naming what this player
+        could tap, and a second one naming whoever held a draft; the Board's last line has always said the
+        first (02b/D2) and its `⏳` line has always said the second (01/FR9), in the message they already
+        have. A night mid-draft now reads exactly like a night without one from the chat's side: the
+        holder's buttons are the instruction, and everyone else can see a win is open.
+        """
         table = self.table_of(user)
         if table is None:
             return self._no_table(user)
         if table.seat_of(user.user_id) is None:
             return [self._seat_offer(table, user)]
-        if table.pending is not None:
-            return self._show_board(table) + [Line(user.user_id, self._holder_notice(table, user))]
         return self._show_board(table)
-
-    def _holder_notice(self, table, user):
-        """
-        01/FR15 — the line names what *this* player can tap. Since the draft became private, the
-        holder is told what is left to tap and everyone else is simply told who holds it (01/FR9).
-        """
-        pending = table.pending
-        if pending["holder"] != user.user_id:
-            return "%s — only they can finish it." % render.entering(table.names[pending["holder"]])
-        ask = "an amount" if pending["amount"] is None else "who fed it"
-        return "You are entering a win — tap %s, or Cancel." % ask
 
     def _draft_stops(self, table, user):
         """
-        The one refusal both exits answer to (01/FR10), said once. Returning nothing where there is no draft
-        keeps each exit a straight line, and keeps the sentence and the Board that carries the `⏳` line
-        beside it in one place (01/FR9, 01/FR15).
+        The one refusal both exits answer to (01/FR10), said once.
+
+        A half-entered Entry stops a **bystander**, and that is the whole of it now (02b/D8, 02b/D17): the
+        holder may settle over the top of their own draft at either exit, because no confirmation was ever
+        what bought the right to discard *another* player's entry — and their own thumb reaching Reset or
+        Close says more about wanting it gone than an error line ever did.
+
+        The refusal carries the Board with it, so the `⏳` line sits beside the words that name the reason
+        (01/FR9, 01/FR15) — the same heal every other quiet guard gives, and for the same reason.
         """
-        if table.pending is None:
+        pending = table.pending
+        if pending is None or pending["holder"] == user.user_id:
             return None
-        return [Line(user.user_id, self._end_refusal(table, user)),
-                Board(user.user_id, render.board(table), self._table_rows(table, user.user_id))]
-
-    def _end_refusal(self, table, user):
-        """
-        FR27 (Jon, 2026-10-30) — what a refused `/end` reads. It names the rule the confirm ran into, where
-        `_holder_notice`'s "only they can finish it" answers a question the refuser never asked.
-
-        The holder is the exception and keeps the other wording: told that the game cannot end, they still
-        need to know which tap they are standing at.
-        """
-        holder = table.pending["holder"]
-        if holder == user.user_id:
-            return self._holder_notice(table, user)
-        return "Game cannot end when someone is entering a win — %s." % render.entering(
-            table.names[holder])
+        return [Line(user.user_id,
+                     "Game cannot end when someone is entering a win — %s."
+                     % render.entering(table.names[pending["holder"]])),
+                *self._where_you_stand(table, user)]
 
     def _settle_up(self, table, user):
         """
@@ -905,16 +897,20 @@ class Room:
         message *becomes* the settlement and hands its slot back (AD22), and the fresh zeroed Board is
         sent at the bottom as that chat's one live message.
 
-        A half-entered Entry stops it (01/FR19): `/end` is offered to every seated player, so without this
-        check a bystander's confirm could throw away an Entry someone else started, and no confirmation
-        buys an override. The refuser's Board is re-rendered too, so the `⏳ Bo is entering a win` line
-        shows them the reason next to the words that say it (01/FR9, 01/FR15).
+        A half-entered Entry stops a **bystander** (01/FR19, narrowed by 02b/D8): `/end` is offered to
+        every seated player, so without that check one player's tap could throw away an Entry somebody
+        else started, and no confirmation buys an override. The holder is not stopped — their own exit over
+        their own draft is allowed, and the draft goes with the slate, because `clear_round` empties the
+        ledger and nothing else. Leaving a draft pointing at a wiped ledger would judge the next tap
+        against a win that no longer exists (02b/D17). The refuser's Board comes back with the refusal, so
+        the `⏳ Bo is entering a win` line sits next to the words that say why (01/FR9, 01/FR15).
         """
         refused = self._draft_stops(table, user)
         if refused:
             return refused
         settled = render.settlement(table)
         table.clear_round()
+        table.pending = None
         table.version += 1
         return [effect for uid in table.seated_ids()
                 for effect in (self._retired(uid, settled),

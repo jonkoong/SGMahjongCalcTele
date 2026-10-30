@@ -328,13 +328,18 @@ def test_confirming_end_while_someone_is_entering_a_win_refuses_and_names_them()
     assert "⏳ Bo is entering a win" in board_text(effects, HOST.user_id)   # the Board says why too
 
 
-# S5.15b — the holder, told the same sentence, would not be told what to do next. Their own `/end` still
-# reads the stage they are standing in (the one line that makes the refusal actionable).
-def test_the_holder_who_tries_to_end_reads_what_to_tap_next():
+# S5.15b / 02b-D8 and 02b-D17 — the holder's own exit goes over the top of their own draft: no confirmation
+# was ever what bought the right to discard *another* player's entry, and their thumb reaching the button
+# says they want the night gone. The draft must leave with the slate — a `pending` left pointing at a wiped
+# ledger would judge the next tap against a win that no longer exists.
+def test_the_holder_who_taps_close_on_their_own_draft_settles_the_night():
     r, t = a_night_two_up_two_down()
     tap(r, t, GUEST, "w", 1)
+
     effects = tap_end_exit(r, t, GUEST, table.RESET_SCOREBOARD)
 
-    assert next(e.text for e in effects if isinstance(e, table.Line)) == \
-        "You are entering a win — tap an amount, or Cancel."
-    assert t.pending is not None
+    assert [e for e in effects if isinstance(e, table.Line)] == [], "no refusal at their own exit"
+    assert t.pending is None, "the draft went with the slate"
+    assert t.log == [] and set(t.balances) == {0.0}
+    assert any(isinstance(e, table.Retired) for e in effects), "the settlement landed"
+    assert "⏳" not in board_text(effects, GUEST.user_id), "the fresh Board shows no half-entered win"

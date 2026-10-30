@@ -136,13 +136,15 @@ def test_a_plain_message_from_an_unseated_member_is_the_picker_they_already_hold
     assert [e for e in effects if isinstance(e, table.Line)] == []
 
 
-# S6.10 — FR15's other half, seen by a bystander: they are told who holds it, in words and on the Board.
+# S6.10 / 02b-D8 — FR15's other half, seen by a bystander, is now said in one place instead of two: the
+# Board they get carries the `⏳` line, and the separate sentence naming the holder is gone with the other
+# two copies of it.
 def test_a_plain_message_names_who_holds_the_draft():
     r, t = seated_table()
     tap(r, t, GUEST, "w", 1)
 
     effects = r.message(HOST, "ready?")
 
-    assert "Bo is entering a win" in next(e.text for e in effects if isinstance(e, table.Line))
+    assert [e for e in effects if isinstance(e, table.Line)] == [], "the Board is the whole reply"
     assert "⏳ Bo is entering a win" in board_text(effects, HOST.user_id)
     assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", "Player 3", "Player 4"]  # winner row

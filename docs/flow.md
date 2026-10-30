@@ -250,11 +250,11 @@ moving. `Undo last win` reaches neither exit.
 flowchart TD
     E["/end — a read: nothing moves"] --> Q["your Board becomes:<br/>totals + transfers + Reset scoreboard / Close session / Keep playing"]
     Q -->|"Keep playing"| B["your Board comes back,<br/>nothing settled"]
-    Q -->|"Reset scoreboard"| D{"someone mid-Entry?"}
+    Q -->|"Reset scoreboard"| D{"someone *else* mid-Entry?"}
     Q -->|"Close session"| D
-    D -->|yes| R["refused — 'Game cannot end when someone is<br/>entering a win — @Bo is entering a win'<br/>the holder is instead told what to tap"]
-    D -->|no| S["settlement, from score.settle()"]
-    S --> Z1["reset: balances → 0 · log → empty"]
+    D -->|yes| R["refused — 'Game cannot end when someone is<br/>entering a win — @Bo is entering a win'<br/>plus that player's own Board, so the ⏳ line sits beside it"]
+    D -->|"no, or it is your own draft"| S["settlement, from score.settle()"]
+    S --> Z1["reset: balances → 0 · log → empty · the draft goes with it"]
     S --> Z2["close: the Table is destroyed and every member is freed"]
     Z1 --> F["every seated DM: their message becomes the settlement,<br/>and a fresh $0.00 Board is sent beneath it"]
     F --> B2["same roster, same settings —<br/>the next round is one tap away"]
@@ -265,6 +265,11 @@ Both exits print the settlement before they destroy anything, and both leave it 
 money is settled by hand, off the bot, and the screen is where it is read from. Closing deletes the last
 copy of the numbers from the bot's side, so a bare *closed* notice written over them would destroy the
 debt to announce it.
+
+A half-entered win stops a **bystander** at both exits and stops **nobody** at their own (02b/D8, 02b/D17):
+the draft is another player's work, and no confirmation buys the right to discard it — but the holder's own
+thumb reaching `Reset scoreboard` says exactly what they want, and the draft is cleared with the ledger so
+the next tap is never judged against a win that no longer exists.
 
 The transfer lines come from `score.settle`, the old `howtopay` logic, in its own order:
 

@@ -295,28 +295,35 @@ def test_only_the_holder_may_cancel_and_a_refusal_leaves_the_keyboard_live():
 
 # S2.8 — a stray message names the holder; FR15 says it also names *their own* options, and
 # since slice 2 those differ per player: only the holder may act on the draft.
-def test_a_stray_message_tells_a_bystander_who_holds_it_and_no_more():
+def test_a_stray_message_leaves_a_bystander_exactly_where_they_were():
     r, t = seated_table()
     tap(r, t, HOST, "w", 0)
     tap(r, t, HOST, "a", "kang")
+    version = t.version
 
     effects = r.message(GUEST, "/board")
 
-    text = next(e.text for e in effects if isinstance(e, table.Line))
-    assert "Al" in text
-    assert "Cancel" not in text            # they have no Cancel button to tap
+    # 02b/D8 — the Board is the whole answer now. Who holds the draft is on its last line, which the old
+    # "Al is entering a win — only they can finish it." named again in a third set of words.
+    assert not [e for e in effects if isinstance(e, table.Line)], "no extra line in the chat"
+    assert "⏳ Al is entering a win" in board_text(effects, GUEST.user_id)
+    assert t.version == version, "telling changes nothing, so nobody else's buttons retire"
 
 
-# S2.8 — the holder asking where they stand gets told what is left to tap.
-def test_the_holder_is_told_what_they_are_waiting_for():
+# S2.8 / 02b-D8 — the holder's own buttons are the instruction: the tap that is left is the one in front of
+# them, and the way out is a button rather than a word about one.
+def test_the_holder_asking_where_they_stand_gets_the_buttons_that_say_it():
     r, t = seated_table()
     tap(r, t, HOST, "w", 0)
     tap(r, t, HOST, "a", "kang")
 
     effects = r.message(HOST, "/board")
 
-    text = next(e.text for e in effects if isinstance(e, table.Line))
-    assert "You" in text and "Cancel" in text
+    assert not [e for e in effects if isinstance(e, table.Line)], "no extra line in the chat"
+    labels = keyboard_for(effects, HOST.user_id)
+    assert any("Cancel" in label for label in labels), "the way out is on the screen, not in a sentence"
+    assert "Kang" not in labels, "and it is the stage they stopped at, not the one they finished"
+    assert "Zi Mo" in labels, "the who-fed stage is what came back, buttons and all"
 
 
 # S2.9 — the whole stage on Telegram, with a hostile name, max tai and version number.

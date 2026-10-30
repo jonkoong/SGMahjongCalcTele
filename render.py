@@ -54,11 +54,11 @@ def entering(name):
     """
     The one clause that says a win is halfway in (01/FR9).
 
-    Three sentences quote it: the Board's `⏳` line, the `/end` refusal and the undo popup. They describe
-    the same fact, so they say it with one set of words — written once here, in the file that owns the words
-    players read. The tap-side sentence that restated it by hand ("… is entering *that* win") is gone: a
-    fourth sentence in its own words is how this clause drifted once already, and 02b/D9 left the guard
-    without any words at all.
+    Three sentences quote it: the Board's `⏳` line, the undo refusal, and the refusal both `/end` exits
+    give a bystander. They describe the same fact, so they say it with one set of words — written once
+    here, in the file that owns the words players read. The tap-side sentence that restated it by hand
+    ("… is entering *that* win") is gone: a fourth sentence in its own words is how this clause drifted
+    once already, and 02b/D9 left the guard without any words at all.
     """
     return "%s is entering a win" % name
 
