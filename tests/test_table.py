@@ -101,7 +101,7 @@ def test_a_bare_command_resolves_to_the_bound_table():
 
 
 # S3.11 — one live message per chat. The seat offer is the chat's Board, not a note beside it, so
-# seating spends those buttons instead of leaving a dead row on screen (scratchpad.md, 20:45).
+# seating spends those buttons instead of leaving a dead row on screen.
 def test_the_seat_offer_rides_the_board_message():
     r = new_room()
 

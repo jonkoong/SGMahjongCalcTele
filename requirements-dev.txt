@@ -1,2 +1,2 @@
-# Test-only dependencies (see .fac-a/01-pooled-table/spec.md § Dependencies)
+# Test-only dependencies
 pytest==9.2.0

@@ -5,9 +5,8 @@ bot.log
 venv/
 .venv/
 
-# Personal mission state and pi config — see AGENTS.md § Project Context Folders
+# Personal mission state and pi config
 .fac-a/
 .pi/
-scratchpad.md
 .pytest_cache/
 todo.md
