@@ -11,7 +11,7 @@ import render
 import score
 import table
 from tests.support import CYD, GUEST, HOST, board_text, entry_deltas, entry_texts, fold, \
-    keyboard_for, score_wins, seated_four, seated_table, shown_wins, tap, tokens_of, undo
+    keyboard_for, PLAYER, score_wins, seated_four, seated_table, shown_wins, tap, tap_end_exit, tokens_of, undo
 
 UNDO = "Undo last win"
 
@@ -106,9 +106,12 @@ def test_undo_with_nothing_to_undo_is_refused_and_pops_nothing():
 
     effects = undo(r, t, HOST)                            # a well-formed token, on a night with no wins
 
-    assert "undo" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
+    # 02b/D9 — the button is hidden with an empty ledger, so this token arrived from a screen that is gone;
+    # it shares the one line, and the heal is the tapper's own Board rather than a sentence.
+    assert next(e.text for e in effects if isinstance(e, table.Toast)) == table.OUTDATED
     assert (t.log, t.balances, t.version) == before
-    assert [e for e in effects if isinstance(e, table.Board)] == [], "no other chat is owed anything"
+    assert [e.chat_id for e in effects if isinstance(e, table.Board)] == [HOST.user_id], \
+        "the tapper's own screen, and no other chat is owed anything"
 
 
 # S2.7 — the night belongs to the four of them, so nobody has to be the one who made the mistake to
@@ -139,7 +142,7 @@ def test_undo_redraws_every_board_and_retires_the_screen_it_came_from():
     assert sorted(e.chat_id for e in effects if isinstance(e, table.Board)) == sorted(t.seated_ids())
     assert t.version == before + 1, "one bump for one change, not one per Board"
     later = r.tap(HOST, stale_winner)
-    assert "out of date" in next(e.text for e in later if isinstance(e, table.Toast)).lower()
+    assert next(e.text for e in later if isinstance(e, table.Toast)) == table.OUTDATED
 
 
 # S2.9 — one win per tap, all the way back to an empty night (FR7). Recursion is only real over more
@@ -189,7 +192,7 @@ def test_an_undo_token_from_a_superseded_screen_is_refused():
 
     effects = r.tap(HOST, stale)
 
-    assert "out of date" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
+    assert next(e.text for e in effects if isinstance(e, table.Toast)) == table.OUTDATED
     assert t.log == ledger, "the newest win survived an undo aimed at the one before it"
 
 
@@ -206,7 +209,10 @@ def test_a_member_holding_no_seat_cannot_undo():
 
     effects = tap(r, t, CYD, "u", "last")
 
-    assert "seat" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
+    # 02b/D9 — undo's button is visible to a member who holds no seat, and the guard is what stops them
+    # taking the night's money back. The picker answers; the popup describing it went.
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the picker answers"
+    assert set(keyboard_for(effects, CYD.user_id)) == {PLAYER[w] for w in t.free_seats()}
     assert t.log == ledger and t.balances == before
 
 
@@ -219,13 +225,11 @@ def test_nothing_is_left_to_undo_once_the_night_is_settled():
     tap(r, t, HOST, "w", 0)
     tap(r, t, HOST, "a", "t3")
     tap(r, t, HOST, "p", 1)
-    r.message(HOST, "/end")
-
-    effects = tap(r, t, HOST, "k", "end")
+    effects = tap_end_exit(r, t, HOST, table.RESET_SCOREBOARD)
 
     assert UNDO not in keyboard_for(effects, HOST.user_id)
     later = tap(r, t, HOST, "u", "last")
-    assert "no win to undo" in next(e.text for e in later if isinstance(e, table.Toast)).lower()
+    assert next(e.text for e in later if isinstance(e, table.Toast)) == table.OUTDATED
 
 
 # S2.14 (NFR4) — Telegram gives a button 64 bytes of callback_data, and every button on the Board

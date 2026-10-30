@@ -6,7 +6,7 @@ import pytest
 
 import mjbot
 import table
-from tests.support import GUEST, HOST, PLAYER, seated_table
+from tests.support import GUEST, HOST, PLAYER, seated_four, seated_table, tap_end_exit
 
 from tests.fakes import FakeBot
 
@@ -95,7 +95,32 @@ def test_a_refusal_shows_as_an_alert_on_the_tap():
     assert len(bot.toasts) == 1 and bot.toasts[0][0] == "abc"
     assert "taken" in bot.toasts[0][1]
     assert bot.toasts[0][2].get("show_alert") is True              # a popup, not a flash
-    assert not bot.edited and not bot.sent
+    assert not bot.edited, "a refusal moves nobody's live Board"
+    # 02b/D6c — and the tapper is handed a fresh seat offer beside the popup: a seatless chat's Board is
+    # never edited again, so words alone would say "pick another" with nothing left on screen to pick.
+    assert len(bot.sent) == 1, bot.sent
+
+
+# 02b/D6c and D15 both hand a seatless tapper a fresh seat offer, so the offer arriving at a session that
+# is already full became load-bearing: `_seat_rows` offers no row when no seat is free, and this is the one
+# place that decides whether Telegram is asked to draw a keyboard of zero buttons. It is not — `keyboard()`
+# returns None and the Board goes out as plain text, which is what a player in a full session can act on
+# (`/leave` in the menu, nothing on the tiles).
+def test_a_seat_offer_with_no_seats_free_sends_a_board_and_no_keyboard():
+    r, t = seated_four()
+    late = table.User(55, "Eve")                         # a fifth account; 44 is De's seat already
+    r.message(late, "/join " + t.code)
+    assert t.free_seats() == [] and t.seat_of(55) is None, "four seats, all held — Eve has nothing to pick"
+    bot = FakeBot()
+    delivery = mjbot.Delivery(bot)
+
+    delivery.run(r.tap(late, table.token("p", t.code, t.version, 1)))   # a money tap with no seat (D9)
+
+    sent = [s for s in bot.sent if s[0] == late.user_id]
+    assert len(sent) == 1, "one message, and it did not raise on the way out"
+    assert "seated" in sent[0][1], "the Board text arrived"
+    assert sent[0][2] is None, "zero buttons is no keyboard, not an empty one"
+    assert not bot.toasts, "02b/D9: the picker answers a seatless tap, so there is nothing to say"
 
 
 # S3.11 — the seat offer rides the Board message, so seating edits that same message instead of
@@ -125,7 +150,7 @@ def test_a_table_opened_after_leaving_is_sent_afresh_not_written_over_the_notice
     r = table.Room(rng=random.Random(7))
     bot = FakeBot()
     delivery = mjbot.Delivery(bot)
-    delivery.run(r.message(HOST, "/board"))            # a plain "not at a table" refusal line
+    delivery.run(r.message(HOST, "/board"))            # a plain "not in a session" refusal line
     delivery.run(r.message(HOST, "/new"))
     first = delivery.boards[HOST.user_id].message_id
     delivery.run(r.tap(HOST, table.token("s", r.table_of(HOST).code, r.table_of(HOST).version, 0)))
@@ -167,7 +192,7 @@ def test_the_command_menu_is_set_per_chat_and_only_when_it_changes():
 
     assert len(bot.menus) == 1                          # published once, for this chat
     scope, names = bot.menus[0]
-    assert scope == HOST.user_id and "/close" in names   # HOST is the host of this table
+    assert scope == HOST.user_id and "/end" in names   # HOST is seated, so the verbs of the night are there
 
     delivery.run(r.message(HOST, "/board"))
     delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)))    # a stage tap: same verbs
@@ -186,7 +211,7 @@ def test_closing_resets_every_member_s_menu():
     delivery.run(r.message(HOST, "/board"))
     delivery.run(r.message(GUEST, "/board"))
 
-    delivery.run(r.message(HOST, "/close"))
+    delivery.run(tap_end_exit(r, t, HOST, table.CLOSE_SESSION))
 
     assert {scope for scope, _ in bot.menus[-2:]} == {HOST.user_id, GUEST.user_id}
     assert all(names == ("/start", "/new", "/join") for _, names in bot.menus[-2:])
@@ -250,7 +275,7 @@ def test_an_ended_night_leaves_one_live_message_beneath_the_settlement():
     assert len(bot.sent) == sent, "asking must not post"
     assert [c for c, _, _, _ in bot.edited[edits:]] == [HOST.user_id]
 
-    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "end")))
+    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "reset")))
 
     said = bot.edited[edits + 1:]
     assert sorted(c for c, _, _, _ in said) == sorted([HOST.user_id, GUEST.user_id])

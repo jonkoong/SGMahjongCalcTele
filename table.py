@@ -14,9 +14,7 @@ import score
 SEATS = ["Player 1", "Player 2", "Player 3", "Player 4"]
 CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"   # no O/o, no I/i/l, no 0/1 — 01/FR3
 CODE_LENGTH = 6                                       # 02/FR13 — six of them, and never dealt twice
-CODE_EXAMPLE = "7KHB2Q"                               # the shape, shown by `/join` (02/FR14)
-HELP = "Send /new to open a table, or /join CODE to sit in at one — a seated player can read "\
-       "theirs out, it is the first line of their board."
+HELP = "Send /new to create a new session, or /join to join an existing one"
 
 # The amount buttons after the tai ladder, in today's exact order (01/AD15). Keys are score.AMOUNTS
 # names, so a label can never drift away from a kernel and this dict doubles as the stage order.
@@ -27,12 +25,20 @@ BACK = "Back"
 # 02/AD12 — `win`, not `round`: a round is what survives between two `/end`s, and this button takes back
 # one scored Entry, not the night.
 UNDO_LAST = "Undo last win"
-# The two answers `/end` accepts (AD25). Named, because the words are the whole safety: `Keep playing`
-# says what the player gets, where `Back` beside a destructive button would not.
-CONFIRM_END = "Confirm end"
+# The three answers the settle-up screen accepts (04/D1). Named, because the words are the whole safety:
+# `Keep playing` says what the player gets, where `Back` beside a destructive button would not, and each
+# of the other two names what it does to the night instead of saying "confirm".
+RESET_SCOREBOARD = "Reset scoreboard"
+CLOSE_SESSION = "Close session"
 KEEP_PLAYING = "Keep playing"
 
-# What a host may set, in the order /settings offers it — the same three the old bot's settings
+# The one sentence for "the screen you tapped has already been replaced" (02b/D9, 02b/D10). The version
+# check says it, and so does every guard whose only honest story is staleness — a button that exists at
+# another stage arriving at this one, a token naming a screen this bot never drew. Ten sites, one wording:
+# named so the popup cannot drift from the screen it re-draws beside itself.
+OUTDATED = "That message is outdated, tap on the new message or wait for it to be refreshed."
+
+# What a seated player may set, in the order /settings offers it — the same three the old bot's settings
 # markup carried, in its own words (01/AD15).
 SETTINGS = {"rate": "Pay Rate", "shooter": "Shooter", "maxtai": "Max Tai"}
 
@@ -48,18 +54,21 @@ VERSIONED = ("w", "a", "p", "x", "k", "g", "v", "u")
 _NEEDS_SEAT = ("w", "a", "p", "k", "u")
 _NEEDS_RULES = ("g", "v")
 
+# One refusal, said at two doors (02b/D13): a bare `/join` and `/join CODE` both land on it when the player
+# is already bound to a session, and the sentence cannot be allowed to read differently between them.
+# The `%s` is the code they are already in.
+IN_SESSION_LEAVE_FIRST = "You are in session %s. /leave it first to join another session."
+
 # The verbs and what the slash menu says each one does — the spec's Command Surface table,
 # in the one place both the menu and any help text can read it from.
 COMMAND_HELP = {
     "/start": "Start the bot",
-    "/new": "Open a table",
-    "/join": "Join a table with its code",
-    "/board": "Show the board",
-    "/leave": "Free your seat and leave this table",
+    "/new": "Create a session",
+    "/join": "Join a session with its code",
+    "/leave": "Free your seat and leave this session",
     "/history": "List tonight's wins",
-    "/end": "Settle up and start the next round",
+    "/end": "Settle up — reset the scoreboard or close the session",
     "/settings": "Rate, shooter, max tai",
-    "/close": "Close this table (host only)",
 }
 
 # Every verb the Command Surface promises is now built, so this filter is empty — kept deliberately, as
@@ -128,9 +137,9 @@ class Commands(NamedTuple):
 def commands_for(table, user_id):
     """
     The verbs one player can use. A player is bound to one live Table (01/FR4), so these resolve
-    without a code; `/close` is the one verb that stays with the host alone (FR18, FR21). Nothing
-    transfers the role, so the Table keeps naming its host after they /leave — and a player who is not
-    at the Table is offered none of it, because `table_of` finds nothing for them any more.
+    without a code. No verb is reserved to a role any more — `/settings` stopped being one with 02/FR11 and
+    `/close` stopped being one with 04/D4, leaving the seat as the only test the bot applies — and a player
+    who is not at the Table is offered none of it, because `table_of` finds nothing for them any more.
 
     Everything else a seated player is offered, they may use: `/settings` joined the seated menu with
     02/FR11, since a menu that offers a verb which refuses the tap teaches players that menus lie.
@@ -141,11 +150,9 @@ def commands_for(table, user_id):
     if table is None:
         wanted = ("/start", "/new", "/join")
     elif table.seat_of(user_id) is None:
-        wanted = ("/board", "/leave")
+        wanted = ("/leave",)
     else:
-        wanted = ["/board", "/leave", "/history", "/end", "/settings"]
-        if table.host_id == user_id:
-            wanted += ["/close"]
+        wanted = ["/leave", "/history", "/end", "/settings"]
     return tuple(command for command in wanted if command not in NOT_BUILT)
 
 
@@ -162,8 +169,8 @@ def parse_token(data):
     rather than left to the caller's `int()`: Telegram redelivers whatever an old keyboard carried,
     so a payload this file never wrote is a shape question, not a rules question, and the answer is
     one refusal — not a ValueError through the polling thread (F-03). A code that names no Table is
-    deliberately left to the caller: "That table is gone." is the true answer there, and a player
-    who closed the Table by another route deserves to hear it.
+    deliberately left to the caller: "That session does not exist anymore." is the true answer there, and a
+    player who closed it by another route deserves to hear it.
     """
     parts = data.split(".")
     if len(parts) != 4:
@@ -195,10 +202,8 @@ def new_code(live, rng=random):
 
 
 class Table:
-    def __init__(self, code, host):
+    def __init__(self, code):
         self.code = code
-        self.host_id = host.user_id
-        self.host_name = host.name    # kept after they leave — see `depart`, and 02/FR12
         self.members = set()
         self.names = {}
         self.occupants = [None] * len(SEATS)
@@ -215,7 +220,7 @@ class Table:
     def tai_cap(self):
         """
         The highest amount this Table may offer, and the number it says it pays. The ceiling is the
-        frozen ladder's, not the host's (AD23): a rung above it has no payout to give, so it is
+        frozen ladder's, not whoever set it (AD23): a rung above it has no payout to give, so it is
         neither offered nor accepted however `maxtai` got its value.
         """
         return min(self.maxtai, score.MAX_TAI)
@@ -292,21 +297,19 @@ class Table:
         """
         FR19 — the transfers have been said out loud, so the slate is wiped for the next round. Clearing
         the ledger is the whole of it: the balances are what the fold of an empty ledger gives, so there
-        is no second thing to zero and nothing to forget to zero. The roster, the host and the settings
-        stay, because a Table is its players and not its arithmetic.
+        is no second thing to zero and nothing to forget to zero. The roster and the settings stay,
+        because a Table is its players and not its arithmetic.
         """
         self.log = []
 
     def depart(self, user_id):
         """
-        Leaving is not just standing up: the Table stops knowing them, so their binding is free for
-        another Table (01/FR4). What stays is the balance in the seat they vacated (01/AD4), and what stays in
-        the Table's mouth is the host's name (02/FR12) — a refusal that reads `Only the host can close
-        table X` when everyone in the chat knows exactly which host that is names nobody.
+        Leaving is not just standing up: the Table stops knowing them, so their binding is free for another
+        Table (01/FR4). What stays is the balance in the seat they vacated (01/AD4) and nothing else — the
+        name goes with the person, so no screen goes on calling an empty seat by it.
         """
         self.members.discard(user_id)
-        if user_id != self.host_id:
-            self.names.pop(user_id, None)
+        self.names.pop(user_id, None)
 
 
 class Room:
@@ -335,13 +338,14 @@ class Room:
             if asked and not answer:
                 # A sticker, a photo, a forwarded nothing: it is input, so it ends the ask (01/AD21), but it
                 # is not an attempt at an answer. Reading it as one refused a player for a message they
-                # never typed — `No live table called .` — so they are shown where they stand instead.
+                # never typed — `No live session with code .` — so they are shown where they stand instead.
                 return self._board(user)
             if asked == "code":
                 return self._join(user, answer)
             if asked == "rate":
                 return self._apply_rate(user, answer)
-            # /board, /start, a stray photo: anything else shows them where they stand.
+            # /start, a stray photo, and any verb the menu no longer offers — including a typed /board
+            # and the /close this bot deleted. None of them is refused: the answer is where they stand.
             return self._board(user)
         self.asked.pop(user.user_id, None)                      # a command is never an answer
         if command == "/start":
@@ -358,8 +362,6 @@ class Room:
             return self._history(user)
         if command == "/settings":
             return self._settings(user)
-        if command == "/close":
-            return self._close(user)
         return self._board(user)
 
     def _ask_for_code(self, user):
@@ -374,14 +376,13 @@ class Room:
         """
         held = self.table_of(user)
         if held:
-            return [Line(user.user_id, "You are at table %s. /leave first." % held.code)]
+            return [Line(user.user_id, IN_SESSION_LEAVE_FIRST % held.code)]
         self.asked[user.user_id] = "code"
-        # The shape is named, and shown, because it is the whole answer (02/FR14), and where to get one is
-        # named because this player holds no Table yet — the code is on a seated player's Board, not on a
-        # screen of theirs. The example is a shape, not an invitation: it belongs to no Table, and trying
-        # it costs one refusal.
-        return [Line(user.user_id, "What is the table code? Ask a seated player for it, then send it "
-                                   "here — six characters, like %s." % CODE_EXAMPLE)]
+        # 02b/D12 — the ask is a command, not a question. It used to name the six-character shape and show
+        # an example of it (02/FR14), which is why CODE_EXAMPLE existed; the shape is on a seated player's
+        # Board, and a made-up code costs exactly one refusal either way, so the example carried nothing
+        # but characters. The length rule itself (02/FR13) is untouched.
+        return [Line(user.user_id, "Enter the session code.")]
 
     def tap(self, user, data):
         return self._sync(user, self._tap(user, data))
@@ -400,41 +401,48 @@ class Room:
     def _tap(self, user, data):
         parsed = parse_token(data)
         if parsed is None:
-            return [Toast("Nothing is waiting for that tap.")]
+            # The only refusal in this channel with words of its own and no screen to show with them: the
+            # payload names no session, so there is no screen to re-draw (02b/D9).
+            return [Toast("Error, please try again.")]
         kind, code, version, meaning = parsed
         table = self.tables.get(code)
         if table is None:
-            return [Toast("That table is gone.")]
+            return [Toast("That session does not exist anymore.")]
         if user.user_id not in table.members:
-            return [Toast("You are not at table %s." % code)]
+            return [Toast("You are not in session %s." % code)]
         if kind in VERSIONED and version != table.version:
             # 01/FR16 — a superseded token names a screen Telegram already replaced. What is exempt, and
-            # why, is the VERSIONED list at the top of this file.
-            return [Toast("That screen is out of date — send /board for the newest one.")]
+            # why, is the VERSIONED list at the top of this file. The heal is what makes the sentence's
+            # "wait for it to be refreshed" true (02b/D6a): this tap re-draws this player's own screen.
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         if kind == "s":
             seat = _seat_index(meaning)
             if seat is None:
-                return [Toast("That tap makes no sense here.")]
+                # The same story as a winner token naming a seat outside 0-3: no seat row this bot drew
+                # ever carried it, so the screen that did has been replaced (02b/D9).
+                return [Toast(OUTDATED)] + self._where_you_stand(table, user)
             return self._seat(table, user, seat)
         if kind in _NEEDS_SEAT and table.seat_of(user.user_id) is None:
             # Every tap that touches the night's money needs a seat, because that is where the money
             # sits (01/AD4) — including undo, whose button a member can still be looking at when they stop
             # holding one. `x` is absent because only the holder of a draft may cancel one, which the
-            # check below owns; `g` and `v` are gated by _NEEDS_RULES below.
-            return [Toast("Take a seat first — pick one, then tap again.")]
+            # check below owns; `g` and `v` are gated by _NEEDS_RULES below. The answer is the picker
+            # itself rather than a sentence about it (02b/D9).
+            return self._where_you_stand(table, user)
         if kind in ("a", "p", "x") and table.pending is not None and (
                 table.pending["holder"] != user.user_id):
             # A draft belongs to whoever started it — the rule that used to make the first player to
-            # open a win the only one who could finish it was retired.
-            return [Toast("%s is entering that win — only they can finish or cancel it."
-                          % table.names[table.pending["holder"]])]
+            # open a win the only one who could finish it was retired. The guard is what stops a
+            # bystander setting the holder's amount (01/FR9); since 02b/D9 the tapper's own Board is what
+            # answers, because the `⏳` line on it already says who holds it.
+            return self._where_you_stand(table, user)
         if kind in _NEEDS_RULES and not table.may_set_rules(user.user_id):
             # 02/FR11 at the tap, not only at the keyboard: Telegram replays the data an old button
             # carried, so whoever was shown the button decides nothing about who may use it. A member
-            # bound to the Table with no seat is owed the picker plus the words that say what is missing
+            # bound to the session with no seat is owed the picker plus the words that say what is missing
             # — a Toast alone would look like nothing happened. `b` is exempt: it shows the player their
             # own screen and changes nothing else.
-            return self._take_a_seat(table, user, "change what it pays")
+            return self._take_a_seat(table, user, "changing settings")
         if kind == "g":
             return self._open_setting(table, user, meaning)
         if kind == "v":
@@ -449,16 +457,38 @@ class Room:
             return self._pick_payer(table, user, meaning)
         if kind == "x":
             return self._cancel(table, user)
-        if kind == "k":
+        if kind == "k" and meaning == "reset":
             return self._settle_up(table, user)
+        if kind == "k" and meaning == "close":
+            return self._close_session(table, user)
         if kind == "u":
-            return self._undo_last(table)
-        return [Toast("Nothing is waiting for that tap.")]
+            return self._undo_last(table, user)
+        # A token this bot never wrote: a `k` naming the confirm button 04 deleted, a `g` for a screen
+        # that is not one of the three. It parsed, the session is in scope, and the honest story is that
+        # the screen carrying it has already been replaced (02b/D9).
+        return [Toast(OUTDATED)] + self._where_you_stand(table, user)
+
+    def _where_you_stand(self, table, user):
+        """
+        What a refused tap answers with instead of explaining itself (02b/D9, 02b/D11) — the heal behind
+        "silence", which is never `return []`: the screen answers, the popup explains.
+
+        The picker for a member holding no seat, because a popup alone would tell them something is
+        missing with nothing on screen to press; their own Board for everybody else. One helper, because
+        ten guards want exactly this and a hand-rolled ninth copy is how the four settings rules drifted
+        apart once already.
+
+        It never bumps `table.version`. A refusal that retires everybody else's keyboards is a worse bug
+        than the popup it replaced, and the suite says so from four different angles.
+        """
+        if table.seat_of(user.user_id) is None:
+            return [self._seat_offer(table, user)]
+        return [Board(user.user_id, render.board(table), self._table_rows(table, user.user_id))]
 
     def _pick_winner(self, table, user, meaning):
         seat = _seat_index(meaning)
         if seat is None:
-            return [Toast("That tap makes no sense here.")]
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         if table.pending is not None:
             return [Toast("%s is already entering a win." % table.names[table.pending["holder"]])]
         # 02/FR3 — an empty seat may win. What used to be refused here did not just withhold a tap: it left
@@ -469,13 +499,15 @@ class Room:
 
     def _pick_amount(self, table, user, meaning):
         if table.pending is None:
-            return [Toast("Pick who won first.")]
+            # Amount buttons exist only above a draft, so this arrives from a replaced screen — and the
+            # Board this tap re-draws already ends by asking for the winner (02b/D2, 02b/D9).
+            return self._where_you_stand(table, user)
         if meaning in SPECIAL_AMOUNTS:
             kind, ntai = meaning, None
         else:
             ntai = _tai_number(meaning, table.tai_cap())
             if ntai is None:
-                return [Toast("That amount is not on the board.")]
+                return [Toast(OUTDATED)] + self._where_you_stand(table, user)
             kind = "tai"
         table.pending["amount"] = (kind, ntai)
         if score.has_payer_stage(kind):
@@ -486,16 +518,20 @@ class Room:
     def _pick_payer(self, table, user, meaning):
         pending = table.pending
         if pending is None or pending["amount"] is None:
-            return [Toast("Nothing is waiting for a payer.")]
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         if meaning != "z" and _seat_index(meaning) is None:
             # A meaning that is neither Zi Mo nor a seat is not a payer choice — the same rule the
-            # amount stage follows (S4.20): the keyboard is not the rule, the tap is refused.
-            return [Toast("Pick another player, or Zi Mo.")]
+            # amount stage follows (S4.20): the keyboard is not the rule, the tap is refused. Cut the
+            # guard and the junk falls through to `payer = None`, which is exactly what Zi Mo means,
+            # and books a self-fed win (F-05). 02b/D15: it shares the out-of-date line.
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         payer = None if meaning == "z" else _seat_index(meaning)
         if payer is not None and payer == pending["winner"]:
             # 02/FR4 — any seat but the winner's may feed, filled or empty: an empty one pays out of its
-            # own slot, exactly as it earns into one (01/AD4). Naming yourself is still not a feeder.
-            return [Toast("Pick another player, or Zi Mo.")]
+            # own slot, exactly as it earns into one (01/AD4). Naming yourself is still not a feeder, and
+            # that is a rule rather than a stale screen — so it goes quiet with a re-draw (02b/D9) and
+            # the winner's own seat is not offered on the row in the first place.
+            return self._where_you_stand(table, user)
         return self._commit(table, payer)
 
     def _commit(self, table, payer):
@@ -514,12 +550,15 @@ class Room:
     def _cancel(self, table, user):
         """01/FR11 — discard the half-entered Entry: no money moves and nothing is logged."""
         if table.pending is None:
-            return [Toast("Nothing is waiting to be cancelled.")]
+            # `Cancel` exists only under a draft. Nothing corrupts here, so the tap is genuinely one that
+            # arrived from a replaced screen — and the heal is what keeps it from looking like nothing
+            # happened (02b/D9).
+            return self._where_you_stand(table, user)
         table.pending = None
         table.version += 1
         return self._show_board(table)
 
-    def _undo_last(self, table):
+    def _undo_last(self, table, user):
         """
         02/FR7 — the newest win comes back out, and the four totals are whatever the rest of the ledger
         adds up to. No inverse is computed, because there is nothing to invert: the Entry went in as a
@@ -529,21 +568,20 @@ class Room:
         feedback (02/AD14), and the bump is also what retires the screens that showed the win.
         """
         if table.pending is not None:
-            return [Toast("Cannot undo while %s — only they can finish or Cancel it."
+            # Reachable by an honest tap: `Undo last win` shows to every seated player. It keeps words,
+            # and they are the ones 02b/D10 ruled — the clause is `render.entering`, the same words the
+            # Board's `⏳` line prints beside this very button.
+            return [Toast("Cannot undo while %s, wait for them to finish or cancel it."
                           % render.entering(table.names[table.pending["holder"]]))]
         if not table.log:
-            return self._nothing_to_undo()
+            # 02b/D9 — the keyboard hides the button with an empty ledger, but the keyboard is not the
+            # rule: a replayed token still arrives here, and the alternative to refusing it is an
+            # `IndexError` through the polling thread. What it arrives from is a screen the settlement or
+            # a reset already replaced, which is the one true sentence here.
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         table.log.pop()
         table.version += 1
         return self._show_board(table)
-
-    def _nothing_to_undo(self):
-        """
-        02/FR10 — what an empty ledger answers with. The keyboard hides the button when there is nothing to
-        undo, but the keyboard is not the rule: a replayed or forged token still arrives here, and the
-        alternative to refusing it is an `IndexError` through the polling thread.
-        """
-        return [Toast("Nothing has been scored yet — there is no win to undo.")]
 
     def _open(self, user):
         """
@@ -556,11 +594,13 @@ class Room:
         """
         held = self.table_of(user)
         if held:
-            return [Line(user.user_id, "You are at table %s already." % held.code)]
+            return [Line(user.user_id, "You are in session %s already. To create a new session, leave "
+                                       "the current session first with /leave, then use /new."
+                         % held.code)]
         # Drawn against every code ever dealt, not just the live ones: `tables` alone would let a closed
         # Table's letters come back round, and a re-cut key opens the door to whoever kept the old copy
         # (02/AD8, 02/FR13). Six characters is what makes that collision-resistant enough to matter.
-        table = Table(new_code(self.spent, self.rng), user)
+        table = Table(new_code(self.spent, self.rng))
         table.add_member(user)
         self.spent.add(table.code)
         self.tables[table.code] = table
@@ -569,10 +609,11 @@ class Room:
     def _join(self, user, code):
         held = self.table_of(user)
         if held:
-            return [Line(user.user_id, "You are at table %s. /leave first." % held.code)]
+            return [Line(user.user_id, IN_SESSION_LEAVE_FIRST % held.code)]
         table = self.tables.get(code.upper())
         if table is None:
-            return [Line(user.user_id, "No live table called %s. /new opens one." % code.upper())]
+            return [Line(user.user_id, "No live session with code %s. Re-enter the code."
+                                      % code.upper())]
         table.add_member(user)
         return [self._seat_offer(table, user)]
 
@@ -581,7 +622,11 @@ class Room:
         if held is not None:
             return [Toast("You already sit at %s." % table.seat_label(held))]
         if not table.is_free(seat):
-            return [Toast("%s is taken. Pick another seat." % table.seat_label(seat))]
+            # A seatless player's Board is never edited again (`_show_board` walks the seated), so a
+            # popup alone would say "pick another" with nothing left on screen to pick. The fresh offer
+            # beside it is convenience, not rescue: `/leave` then `/join CODE` already works (02b/D6c).
+            return [Toast("%s is taken. Pick another seat." % table.seat_label(seat)),
+                    self._seat_offer(table, user)]
         table.occupants[seat] = user.user_id
         table.version += 1
         return self._show_board(table)
@@ -606,17 +651,8 @@ class Room:
         if seat is not None or theirs:
             table.version += 1
         table.depart(user.user_id)
-        gone = self._retired(user.user_id, "You have left table %s." % table.code)
+        gone = self._retired(user.user_id, "You have left session %s." % table.code)
         return self._show_board(table) + [gone]
-
-    def _only_host_can(self, table, verb):
-        """
-        The one verb the Table still reserves to its host — `/close` (02/FR12, 01/FR21) — and the refusal is
-        worth more when it names the person to go and ask. There is no host transfer anywhere in the
-        spec, so the host keeps the role for the life of the Table, and `host_name` is kept alongside it:
-        this sentence always carries a name, because one that does not names nobody.
-        """
-        return "Only the host, %s, can %s table %s." % (table.host_name, verb, table.code)
 
     def _settings(self, user):
         """
@@ -631,7 +667,7 @@ class Room:
             return self._no_table(user)
         if not table.may_set_rules(user.user_id):
             # Settings ride the Board, and an unseated member is owed a seat picker instead of one.
-            return self._take_a_seat(table, user, "set what it pays")
+            return self._take_a_seat(table, user, "accessing /settings")
         return [Board(user.user_id, render.board(table), self._settings_rows(table))]
 
     def _take_a_seat(self, table, user, then):
@@ -639,19 +675,23 @@ class Room:
         One answer for a member who is bound to a Table but holding no seat: the picker they were owed
         anyway, plus the sentence that says why the verb is not theirs yet. The picker on its own can look
         like nothing happened, because that is what their screen already shows.
+
+        One stem, five endings (02b/D7): what you were reaching for is the fact, and the sentence around it
+        is the same five ways. Written once, here — the five call sites supply the only variable part.
         """
         return [self._seat_offer(table, user),
-                Line(user.user_id, "Take a seat first — pick one, then %s." % then)]
+                Line(user.user_id, "Pick a seat before %s." % then)]
 
     def _no_table(self, user):
         """
-        The one answer a chat with no Table gets, whichever verb it asked with. Seven verbs end here,
-        so the sentence lives once — the same move slice 5 made of the seat refusal above.
+        The one answer a chat with no session gets, whichever verb it asked with. Five typed verbs end
+        here — `/start`, `/leave`, `/settings`, `/end`, `/history` — and the catch-all beside them, so the
+        sentence lives once: the same move 02b/D7 made of the seat refusal above.
         """
-        return [Line(user.user_id, "You are not at a table. " + HELP)]
+        return [Line(user.user_id, "You are not in a session. " + HELP)]
 
     def _settings_rows(self, table):
-        """The three settings, then a way out that costs the host no typed command — the old bot's
+        """The three settings, then a way out that costs the player no typed command — the old bot's
         settings markup carried `Back` for the same reason."""
         return [[(label, token("g", table.code, table.version, key))
                  for key, label in SETTINGS.items()],
@@ -673,14 +713,17 @@ class Room:
         return [Board(user.user_id, render.board(table), rows)]
 
     def _apply_setting(self, table, user, meaning):
-        """The value buttons. Two ways a tap can name something that is not on offer here; both are
-        refusals, so nothing bumps and no one's screen moves."""
+        """The value buttons. Two ways a tap can name something that is not on offer here; neither is a
+        rule the player broke, so neither costs words (02b/D9) — and nothing bumps, so no one's screen
+        moves on its own."""
         setting, wanted = _setting_value(meaning)
         if setting is None:
-            return [Toast("Nothing is waiting for that value.")]
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         if wanted is None:
-            # Only a stale or forged tap gets here — the picker is built from the same ceiling.
-            return [Toast("A table's ladder runs 1 to %d tai." % score.MAX_TAI)]
+            # Only a stale or forged tap gets here — the picker offers all ten rungs whatever the session
+            # caps at, so the picker is the answer, and it shows the span far better than the sentence
+            # that used to describe it (02b/D9).
+            return self._where_you_stand(table, user)
         return self._write_setting(table, user, setting, wanted)
 
     def _write_setting(self, table, user, setting, wanted):
@@ -715,10 +758,11 @@ class Room:
         if table is None:
             return self._board(user)
         if not table.may_set_rules(user.user_id):
-            return self._take_a_seat(table, user, "set the rate")
+            return self._take_a_seat(table, user, "changing the pay rate")
         wanted = _rate_value(text)
         if wanted is None:
-            return [Line(user.user_id, "That is not a rate — type dollars per point, like 0.2.")]
+            return [Line(user.user_id, "Rate not accepted. Enter a number greater than 0, like 0.5 "
+                                      "for 50 cents.")]
         return self._write_setting(table, user, "rate", wanted)
 
     def _settings_screen(self, table, user):
@@ -737,19 +781,19 @@ class Room:
             return self._ask_for_rate(table, user)
         rows = {"shooter": self._shooter_rows, "maxtai": self._maxtai_rows}.get(meaning)
         if rows is None:
-            return [Toast("Nothing is waiting for that tap.")]
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         return [Board(user.user_id, render.board(table),
                       rows(table) + [self._back_row(table, "picker")])]
 
     def _ask_for_rate(self, table, user):
         """
         The rate is the one setting typed rather than tapped: the old bot accepted any number, and a
-        row of four buttons would quietly narrow what a host can run a night at. It is asked, not
+        row of four buttons would quietly narrow what a night can be run at. It is asked, not
         remembered as a mode — one outstanding question per player, cleared by whatever they send next
         (01/AD21). The board already shows the current rate, so the question needs no restating.
         """
         self.asked[user.user_id] = "rate"
-        return [Line(user.user_id, "What rate? Type dollars per point, like 0.2.")]
+        return [Line(user.user_id, "What rate? Eg: 0.2 for 20 cents, 1.5 for $1.50.")]
 
     def _shooter_rows(self, table):
         return [[("On", token("v", table.code, table.version, "shooter1")),
@@ -768,16 +812,22 @@ class Room:
         """What a chat is owed once its Table is gone: their message, saying so, no buttons."""
         return Retired(chat_id, text)
 
-    def _close(self, user):
-        """FR21 — dissolving a Table is the host's call alone."""
-        table = self.table_of(user)
-        if table is None:
-            return self._no_table(user)
-        if table.host_id != user.user_id:
-            return [Line(user.user_id, self._only_host_can(table, "close"))]
+    def _close_session(self, table, user):
+        """
+        04/D3 — the Table is destroyed and every member is freed from it, seated or not (01/FR4): a member
+        who joined and never sat is bound to it all the same, and a binding outliving its Table is a player
+        stuck unable to `/new` or `/join` anything.
+
+        A half-entered Entry stops it, exactly as it stops the reset exit: 04/D5 moved the confirmation onto
+        this screen, and a confirmation was never what bought the right to discard someone else's win.
+        """
+        refused = self._draft_stops(table, user)
+        if refused:
+            return refused
         del self.tables[table.code]
         gone = list(table.members)
-        return ([self._retired(uid, "Table %s is closed." % table.code) for uid in gone]
+        farewell = render.session_closed(table)
+        return ([self._retired(uid, farewell) for uid in gone]
                 + [Commands(uid, commands_for(None, uid)) for uid in gone])
 
     def _start(self, user):
@@ -787,15 +837,16 @@ class Room:
         `setMyCommands` already sends every verb with its `COMMAND_HELP` description (mjbot.py), so the
         listing was a second menu, one the player had to scroll to.
 
-        A chat with a Table standing does not need a greeting, it needs a pointer, so the line names the
-        Table and the verb that shows it. Neither branch touches the Board: a greeting that rewrote the
-        chat's live message would replace a player's own stage buttons with the score for the sake of
-        saying hello.
+        A chat with a Table standing gets **nothing at all** (02b/D6b). Its whole message used to be a
+        pointer at `/board`, a verb the menu no longer advertises — and when the bot's Board is already
+        current, `/board` produces an identical edit Telegram rejects, so the pointer could not even help.
+        Nothing is silence's cost here: the Board is on screen already, and it is the newest thing in the
+        chat. Neither branch touches it — a greeting that rewrote the chat's live message would replace a
+        player's own stage buttons with the score for the sake of saying hello.
         """
-        held = self.table_of(user)
-        if held is None:
+        if self.table_of(user) is None:
             return self._no_table(user)
-        return [Line(user.user_id, "You are at table %s — send /board to see it." % held.code)]
+        return []
 
     def _board(self, user):
         table = self.table_of(user)
@@ -805,7 +856,7 @@ class Room:
             return [self._seat_offer(table, user)]
         if table.pending is not None:
             return self._show_board(table) + [Line(user.user_id, self._holder_notice(table, user))]
-        return self._show_board(table) + [Line(user.user_id, "Tap a name to start a win.")]
+        return self._show_board(table)
 
     def _holder_notice(self, table, user):
         """
@@ -817,6 +868,31 @@ class Room:
             return "%s — only they can finish it." % render.entering(table.names[pending["holder"]])
         ask = "an amount" if pending["amount"] is None else "who fed it"
         return "You are entering a win — tap %s, or Cancel." % ask
+
+    def _draft_stops(self, table, user):
+        """
+        The one refusal both exits answer to (01/FR10), said once. Returning nothing where there is no draft
+        keeps each exit a straight line, and keeps the sentence and the Board that carries the `⏳` line
+        beside it in one place (01/FR9, 01/FR15).
+        """
+        if table.pending is None:
+            return None
+        return [Line(user.user_id, self._end_refusal(table, user)),
+                Board(user.user_id, render.board(table), self._table_rows(table, user.user_id))]
+
+    def _end_refusal(self, table, user):
+        """
+        FR27 (Jon, 2026-10-30) — what a refused `/end` reads. It names the rule the confirm ran into, where
+        `_holder_notice`'s "only they can finish it" answers a question the refuser never asked.
+
+        The holder is the exception and keeps the other wording: told that the game cannot end, they still
+        need to know which tap they are standing at.
+        """
+        holder = table.pending["holder"]
+        if holder == user.user_id:
+            return self._holder_notice(table, user)
+        return "Game cannot end when someone is entering a win — %s." % render.entering(
+            table.names[holder])
 
     def _settle_up(self, table, user):
         """
@@ -834,9 +910,9 @@ class Room:
         buys an override. The refuser's Board is re-rendered too, so the `⏳ Bo is entering a win` line
         shows them the reason next to the words that say it (01/FR9, 01/FR15).
         """
-        if table.pending is not None:
-            return [Line(user.user_id, self._end_refusal(table, user)),
-                    Board(user.user_id, render.board(table), self._table_rows(table, user.user_id))]
+        refused = self._draft_stops(table, user)
+        if refused:
+            return refused
         settled = render.settlement(table)
         table.clear_round()
         table.version += 1
@@ -844,27 +920,14 @@ class Room:
                 for effect in (self._retired(uid, settled),
                                Board(uid, render.board(table), self._table_rows(table, uid)))]
 
-    def _end_refusal(self, table, user):
-        """
-        FR27 (Jon, 2026-10-30) — what a refused `/end` reads. It names the rule the confirm ran into, where
-        `_holder_notice`'s "only they can finish it" answers a question the refuser never asked.
-
-        The holder is the exception and keeps the other wording: told that the game cannot end, they still
-        need to know which tap they are standing at.
-        """
-        holder = table.pending["holder"]
-        if holder == user.user_id:
-            return self._holder_notice(table, user)
-        return "Game cannot end when someone is entering a win — %s." % render.entering(
-            table.names[holder])
-
     def _end(self, user):
         """
-        FR19, AD25 — the night's money is about to be said out loud and then forgotten, and there is no
-        undo, so the verb asks first. The ask is this chat's own Board message, showing the very transfers
-        and totals a confirm will erase, rather than a line beneath the Board (01/FR12).
+        04/D1 — `/end` moves nothing. It edits this chat's own Board message into the night's money — the
+        very transfers and totals one of its two exits is about to erase — and puts both exits underneath
+        them rather than a line beneath the Board (01/FR12). The screen showing the cost *is* the
+        confirmation, which is what AD25 wanted from an ask (04/D5).
 
-        Nothing is stored about who was asked: the answer is a token, so an ask nobody answers is just the
+        Nothing is stored about who looked: the exits are tokens, so a screen nobody answers is just the
         screen the next win replaces — no prompt to get stuck in, and no second piece of conversational
         state for the `chatStatus` family to grow back from (02/AD21).
         """
@@ -872,12 +935,17 @@ class Room:
         if table is None:
             return self._no_table(user)
         if table.seat_of(user.user_id) is None:
-            return self._take_a_seat(table, user, "settle it up")
+            return self._take_a_seat(table, user, "accessing /end")
         return [Board(user.user_id, render.settlement(table), self._end_rows(table))]
 
     def _end_rows(self, table):
-        """Confirm alone on its row: a destructive button never shares one with the way out."""
-        return [[(CONFIRM_END, token("k", table.code, table.version, "end"))],
+        """
+        The two exits and the way out, each alone on its row — a destructive button never shares one with
+        the way out (04/D1). Ascending damage: the slate first, the Table last, so the button under a thumb
+        that stopped reading is the one that loses least.
+        """
+        return [[(RESET_SCOREBOARD, token("k", table.code, table.version, "reset"))],
+                [(CLOSE_SESSION, token("k", table.code, table.version, "close"))],
                 self._back_row(table, "menu", KEEP_PLAYING)]
 
     def _history(self, user):
@@ -894,7 +962,7 @@ class Room:
             return self._no_table(user)
         if table.seat_of(user.user_id) is None:
             # The night's wins belong to the players sitting through them.
-            return self._take_a_seat(table, user, "read the night back")
+            return self._take_a_seat(table, user, "accessing /history")
         return [Board(user.user_id, render.history(table), [self._back_row(table, "menu")])]
 
     def _seat_offer(self, table, user):
@@ -905,9 +973,13 @@ class Room:
         return Board(user.user_id, render.board(table), self._seat_rows(table))
 
     def _seat_rows(self, table):
-        """Only the free seats are offered (01/FR14), and each is offered by its number."""
-        return [[(table.seat_label(seat), token("s", table.code, table.version, seat))
+        """Only the free seats are offered (01/FR14), and each is offered by its number. With none free the
+        offer carries no row at all rather than one empty row: `mjbot.keyboard` turns no rows into no
+        keyboard, and asking Telegram to draw a keyboard of zero buttons is a write nothing here can test.
+        A member who joined a full session is shown the score and the `/leave` the menu already offers."""
+        rows = [[(table.seat_label(seat), token("s", table.code, table.version, seat))
                  for seat in table.free_seats()]]
+        return [row for row in rows if row]
 
     def _show_board(self, table):
         return [Board(uid, render.board(table), self._table_rows(table, uid))
@@ -990,7 +1062,7 @@ def _setting_value(meaning):
 def _rate_value(text):
     """
     `0.2`, `1`, `.05` — the old bot's rule and no wider: one token, ASCII digits and at most one dot,
-    and above zero. Anything else is not a rate, and the host is told rather than corrected.
+    and above zero. Anything else is not a rate, and the player is told rather than corrected.
     """
     if not _digits(text.replace(".", "")) or text.count(".") > 1:
         return None

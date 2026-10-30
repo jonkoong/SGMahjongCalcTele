@@ -34,7 +34,7 @@ def test_every_seated_dm_shows_the_same_board():
     assert "+$1.60" in text and "-$1.60" in text
     # FR2, FR13 — the code lives in the header, permanently. A seated player is the only route a new
     # player has into the night, and "ask someone for the code" is pointless unless they can read it out.
-    assert text.splitlines()[0] == "Table %s · 2 of 4 seated" % t.code
+    assert text.splitlines()[0] == "Session %s · 2 of 4 seated" % t.code
     # The win itself belongs to S3.13 (test_render::test_a_committed_win_reads_on_the_board…).
     # It used to be asserted here as a separate line per DM — FR14 moved it onto the Board.
 
@@ -91,6 +91,41 @@ def test_the_cue_disappears_once_the_entry_is_committed():
 
     text = next(e.text for e in effects if isinstance(e, table.Board))
     assert "entering a win" not in text
+
+
+# 02b/D3 — position, not presence. S2.15 and S3.13 both assert the `⏳` line as a substring, so either of
+# them stays green however the tail is arranged. This is the pin that says *where* it sits: last line of
+# the message, and below the night's Entries rather than above them.
+def test_the_draft_line_is_the_last_line_and_sits_below_the_ledger():
+    r, t = seated_four()
+    score_wins(r, t, 5)                                        # past the window, so the cue prints too
+    tap(r, t, HOST, "w", 1)                                    # a draft opens: Al is entering a win
+
+    lines = render.board(t).splitlines()
+
+    assert lines[-1] == "⏳ Al is entering a win", lines[-3:]
+    assert lines.count("⏳ Al is entering a win") == 1, "one tail line, never both"
+    assert " wins " in lines[-2], "the Entries first, then the tail: %r" % lines[-4:]
+
+
+# 02b/D2 — for every other moment of the night the last line carries the standing ask instead. One line,
+# always last, one or the other: never both and never neither.
+def test_the_board_always_ends_by_naming_what_to_do():
+    r, t = seated_four()
+
+    assert render.board(t).splitlines()[-1] == render.PICK_WINNER          # nobody drafting
+    tap(r, t, HOST, "w", 1)
+    assert render.board(t).splitlines()[-1] == "⏳ Al is entering a win"    # one is halfway in
+    tap(r, t, HOST, "x", "c")
+    assert render.board(t).splitlines()[-1] == render.PICK_WINNER          # cancelled: the ask is back
+    record_one_win(r, t)
+    assert render.board(t).splitlines()[-1] == render.PICK_WINNER          # and holds over a real win
+
+
+# 02b/D4 — the phrase is decided copy, colon and all, and lives in exactly one place now that the popup
+# which quoted it is gone. A test on the constant is what catches the colon drifting off it.
+def test_the_invitation_says_the_decided_words():
+    assert render.PICK_WINNER == "Pick who won the round:"
 
 
 # S3.13 — the night's wins read on the Board itself, so a tap adds no message to the chat and the

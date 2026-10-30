@@ -5,7 +5,7 @@ from telebot.apihelper import ApiTelegramException
 
 import mjbot
 import table
-from tests.support import GUEST, HOST, seated_table
+from tests.support import GUEST, HOST, seated_table, tap_end_exit
 
 from tests.fakes import FakeBot
 
@@ -58,7 +58,9 @@ def test_a_payload_the_bot_never_writes_refuses_like_any_other_tap(data):
     effects = r.tap(HOST, data)
 
     assert any(isinstance(e, table.Toast) for e in effects), "a refusal, not a crash"
-    assert "Nothing is waiting for that tap." in effects[0].text
+    assert effects[0].text == "Error, please try again.", \
+        "02b/D9 — the one unreachable popup that keeps words: nothing in this payload names a session, "\
+        "so there is no screen to draw"
     assert t.log == [] and t.pending is None, "and nothing moved"
 
 
@@ -325,7 +327,7 @@ def test_a_line_written_during_an_outage_arrives_afterwards():
     board_needs_an_edit(r, delivery)                            # the breaker is open now
     sent_before = len(bot.sent)
 
-    delivery.run(r.message(GUEST, "/close"))                    # a refusal line, nothing else
+    delivery.run(tap_end_exit(r, t, GUEST, table.CLOSE_SESSION))   # the draft Al left open refuses Bo
     assert len(bot.sent) == sent_before                          # nothing was even attempted
 
     clock.advance(mjbot.BREAKER_COOLDOWN + 1)
@@ -333,7 +335,7 @@ def test_a_line_written_during_an_outage_arrives_afterwards():
     delivery.reconcile()
 
     assert [text for _, text, _ in bot.sent[sent_before:]] == \
-        ["Only the host, Al, can close table %s." % t.code]
+        ["Game cannot end when someone is entering a win — Al is entering a win."]
 
 
 # S2.19 — two isolated hiccups are not an outage; only failures in a row count.
@@ -364,7 +366,7 @@ def test_a_settlement_whose_edit_died_is_said_on_the_beat():
     settled = lambda: sorted(c for c, _, text, _ in bot.edited if " · settled" in text)
 
     bot.script = [False]                                        # the next edit dies mid-call
-    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "end")))
+    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "reset")))
     bot.script = None
 
     assert settled() == [GUEST.user_id], "Al's settlement is the one that died"
@@ -383,8 +385,9 @@ def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns
     clock, bot = FrozenClock(), RouteDown(up=False)
     delivery = mjbot.Delivery(bot, clock=clock)
     board_needs_an_edit(r, delivery)                            # the breaker is open now
-
-    delivery.run(r.message(HOST, "/close"))
+    delivery.run(r.tap(HOST, table.token("x", t.code, t.version, "c")))     # that tap left a draft, and a
+    #                                                            draft now refuses a close, so cancel it
+    delivery.run(tap_end_exit(r, t, HOST, table.CLOSE_SESSION))
     delivery.reconcile()                                        # still down: nothing attempted
     assert bot.edited == []
 
@@ -393,7 +396,7 @@ def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns
     delivery.reconcile()
 
     texts = [text for _, _, text, _ in bot.edited]
-    assert len(texts) == 2 and all("closed" in text for text in texts)
+    assert len(texts) == 2 and all("Closed" in text for text in texts)
 
 
 # F-01 — the retry is bounded. A parked write Telegram will never take (a message the player deleted,
@@ -407,7 +410,7 @@ def test_a_parked_write_telegram_wont_take_is_given_up_on():
     for kind, meaning in (("w", 0), ("a", "t3"), ("p", 1)):
         delivery.run(r.tap(HOST, table.token(kind, t.code, t.version, meaning)))
     bot.up = False                                              # the route dies on edits
-    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "end")))
+    delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "reset")))
     assert delivery.owed, "both settlements are parked, having never landed"
 
     for _ in range(2):                                          # a bad minute is not a give-up

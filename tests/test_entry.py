@@ -40,13 +40,18 @@ def test_whoever_starts_the_draft_is_the_one_who_finishes_it():
 
 
 # S1.9
-def test_an_amount_with_no_winner_waiting_is_refused():
+# S1.9 — 02b/D9: an amount tap with no draft open is a button from a screen that is already gone. It
+# keeps its guard (the alternative is a `TypeError` through the polling thread) and answers with the
+# tapper's own Board — whose last line already asks for the winner.
+def test_an_amount_with_no_winner_waiting_costs_nothing():
     r, t = seated_table()
     before = list(t.balances)
     effects = tap_seat(r, t, HOST, "a", "t3")
     assert t.balances == before
     assert t.pending is None
-    assert any(isinstance(e, table.Toast) for e in effects)
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the board answers"
+    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", PLAYER[2], PLAYER[3]], \
+        "their own Board comes back"
 
 
 # S1.10
@@ -56,7 +61,8 @@ def test_a_payer_with_no_amount_waiting_is_refused():
     start_win(r, t, HOST, 0)
     effects = tap_seat(r, t, GUEST, "p", 1)
     assert t.balances == before
-    assert any(isinstance(e, table.Toast) for e in effects)
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the board answers"
+    assert keyboard_for(effects, GUEST.user_id) == ["Al", "Bo", PLAYER[2], PLAYER[3]]
 
 
 # S1.10 — a winner is not a payer for their own win.
@@ -67,7 +73,9 @@ def test_the_winner_cannot_be_tapped_as_the_payer():
     tap_seat(r, t, HOST, "a", "t3")
     effects = tap_seat(r, t, HOST, "p", 0)
     assert t.balances == before
-    assert any(isinstance(e, table.Toast) for e in effects)
+    assert t.pending is not None, "the draft is still open — and the row never offered seat 1 anyway"
+    assert not [e for e in effects if isinstance(e, table.Toast)], \
+        "02b/D9: a rule, not a stale screen, so the screen answers"
 
 
 # S1.17 — a joined-but-unseated player is not at the table yet
@@ -81,7 +89,9 @@ def test_a_player_who_has_not_taken_a_seat_cannot_score():
     effects = tap_seat(r, t, late, "p", 1)
     assert t.balances == before
     assert t.pending is not None
-    assert any(isinstance(e, table.Toast) for e in effects)
+    # 02b/D9 — the picker is the answer, and the only thing a seatless chat can act on.
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the picker answers"
+    assert set(keyboard_for(effects, late.user_id)) == {PLAYER[w] for w in t.free_seats()}
 
 
 # S1.15
@@ -120,15 +130,20 @@ def test_an_empty_seat_can_win_and_the_line_names_the_slot():
     assert t.balances == pytest.approx([0.0, -0.4, 0.4, 0.0])
 
 
-# S4.11 — a meaning that names no seat is refused with a toast, never a traceback (F-03): Telegram
-# redelivers whatever an old button carried, and `4` and `-1` are each one keystroke from a real index.
+# S4.11 — a meaning that names no seat is refused, never a traceback (F-03): Telegram redelivers
+# whatever an old button carried, and `4` and `-1` are each one keystroke from a real index. 02b/D15 put
+# both stages on the shared out-of-date line: no screen this bot ever drew carried either tap.
 @pytest.mark.parametrize("meaning", ["4", "-1", "x"])
 def test_a_seat_index_off_the_board_is_refused(meaning):
     r, t = seated_table()
     before = list(t.balances)
 
+    refused = tap_seat(r, t, HOST, "s", meaning)
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED, \
+        "the seat picker offers free seats by number — no seat row ever carried this tap"
+
     refused = tap_seat(r, t, HOST, "w", meaning)
-    assert "no sense" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED
     assert (t.balances, t.version, t.pending) == (before, t.version, None)
 
     start_win(r, t, HOST, 0)
@@ -137,5 +152,5 @@ def test_a_seat_index_off_the_board_is_refused(meaning):
 
     refused = tap_seat(r, t, HOST, "p", meaning)
 
-    assert "pick another" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED
     assert (t.balances, t.version) == (staged, version), "a refused tap spends nothing"

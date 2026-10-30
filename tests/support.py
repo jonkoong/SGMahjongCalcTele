@@ -74,7 +74,7 @@ def shown_wins(text):
     The win lines a screen actually shows, oldest first.
 
     The tell is the money figure every one ends with (`render.entry_line`) — prose like
-    `No wins yet.` cannot imitate it, which `" wins " in text` on its own can.
+    `Pick who won the round:` cannot imitate it, which `" wins " in text` on its own can.
     """
     return [ln for ln in text.splitlines() if ln.rstrip()[-1:].isdigit() and " wins " in ln]
 
@@ -111,6 +111,17 @@ def undo(r, t, who):
     stale ones are written out longhand where a stale token is the point.
     """
     return tap(r, t, who, "u", "last")
+
+
+def tap_end_exit(r, t, who, label):
+    """
+    Open the settle-up screen and tap one of its exits by the word printed on the button.
+
+    The one way these tests leave that screen, and they tap the label rather than hand-build a `k` token:
+    the words on the buttons are what a player reads, so that is the contract worth pinning, and a token
+    scheme change costs this function instead of every test that settles a night.
+    """
+    return r.tap(who, buttons_for(r.message(who, "/end"), who.user_id)[label])
 
 
 def tokens_of(effects):

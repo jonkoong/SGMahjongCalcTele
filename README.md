@@ -66,41 +66,40 @@ Running it means running the bot before slice 2 in those three respects.
 
 ## Flow diagrams
 
-`docs/flow.md` maps the Table flow: opening and joining, seating, the Entry (winner → amount → who fed
+`docs/flow.md` maps the session flow: opening and joining, seating, the Entry (winner → amount → who fed
 it, and the kinds that commit without asking), undoing the newest win, the keyboard states the Board moves
 between, one tap end to end, the money per tap, and how `/end` settles a night and then wipes it.
 
 ## Commands
 
-One Table per night, four private DMs, one shared Board. A player is bound to one live Table, so the
-verbs below need no table code after them.
+One session per night, four private DMs, one shared Board. A player is bound to one live session, so the
+verbs below need no session code after them.
 
 | Command | Who | What it does |
 | --- | --- | --- |
-| `/start` | new chat only | Starts the bot — the greeting a chat gets before it has a Table |
-| `/new` | anyone not at a Table | Open a Table, become its host, pick a seat. The Table's six-character code goes on the first line of the Board, so anyone seated can read it out to whoever is still outside |
-| `/join CODE` | anyone not at a Table | Sit in at someone else's Table with its six-character code, typed whole and in any case; a bare `/join` asks for the code first. Codes are dealt once and never re-dealt while the bot runs, so an old code from last week joins nothing |
-| `/board` | at a Table | Refresh the Board and name what you can tap |
+| `/start` | new chat only | Starts the bot — the greeting a chat gets before it has a session |
+| `/new` | anyone not in a session | Create a session and pick a seat. Its six-character code goes on the first line of the Board, so anyone seated can read it out to whoever is still outside |
+| `/join CODE` | anyone not in a session | Join someone else's session with its six-character code, typed whole and in any case; a bare `/join` asks for the code first. Codes are dealt once and never re-dealt while the bot runs, so an old code from last week joins nothing |
 | `/history` | seated | Every win of the night, oldest first |
 | `/settings` | seated | Pay rate, shooter pay, max tai — anyone holding a seat may set them, because the seat is what makes the night's money theirs |
-| `/end` | seated | Settle up — it asks first — then zero the balances and keep the players |
-| `/leave` | at a Table | Free your seat and leave; the money that seat earned stays there |
-| `/close` | host | Dissolve the Table and free everyone — the one verb still the host's alone |
+| `/end` | seated | Open the settle-up screen — the night's totals and every transfer — with the two exits underneath it: **Reset scoreboard** keeps the players in their seats for the next round, **Close session** dissolves the session and frees everyone |
+| `/leave` | in a session | Free your seat and leave; the money that seat earned stays there |
 
 The **Board** is the only message the bot keeps editing in your chat: the four seats — `Player 1` to
-`Player 4`, filled or empty — who sits where, each seat's balance, what the Table pays, and the last three
+`Player 4`, filled or empty — who sits where, each seat's balance, what the session pays, and the last three
 wins. Older wins are counted, not hidden — `… 4 earlier — /history`. An empty seat is still a seat: it may
 win, it may feed, and it owes and is owed in its own slot.
 
-Every button carries the Table's version, so a screen you left open is refused as out of date instead of
+Every button carries the session's version, so a screen you left open is refused as out of date instead of
 scoring a second time. Two buttons are excepted: a seat you sit at is judged on whether the seat is free,
 and **Back** is how you leave a screen that *is* out of date.
 
 **`Undo last win`** sits under the seats whenever the night holds something to take back. It pops the
 newest win and the four totals become whatever the rest of the night adds up to. The button is offered to
 every seated player, and the undo shows up in everyone's Board at once, because it is a change to the score
-and not one player's private correction. `/end` is the one thing it cannot reach: confirming empties the
-ledger the undo works from.
+and not one player's private correction. Neither exit on `/end`'s screen is something it can walk back:
+resetting empties the ledger the undo works from, and closing destroys the session the ledger lived in. Both
+of them print the settlement first and leave it readable, so the numbers survive the thing that erases them.
 
 Payouts are the numbers the bot has always produced, quirks included — `docs/flow.md` § Money per tap
 is the table of factors.

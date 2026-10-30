@@ -43,22 +43,33 @@ def history(table):
     Every Entry the night has, oldest first (01/FR17). The Board window exists because that message is
     edited for four chats on every win and must stay a glance; this is the whole night behind it, and
     what the Board's `… N earlier — /history` cue points at.
+
+    An empty night gets no sentence of its own (02b/D1): the cue only ever appears with Entries behind it,
+    so a night with nothing in it has nothing to point at and nothing to say about it.
     """
-    return _board(table, table.log, when_empty="No wins yet.")
+    return _board(table, table.log)
 
 
 def entering(name):
     """
     The one clause that says a win is halfway in (01/FR9).
 
-    Four sentences quote it: the Board's `⏳` line, what a bystander is told, the `/end` refusal and the
-    undo refusal. They describe the same fact, so they say it with one set of words — written once here,
-    in the file that owns the words players read.
+    Three sentences quote it: the Board's `⏳` line, the `/end` refusal and the undo popup. They describe
+    the same fact, so they say it with one set of words — written once here, in the file that owns the words
+    players read. The tap-side sentence that restated it by hand ("… is entering *that* win") is gone: a
+    fourth sentence in its own words is how this clause drifted once already, and 02b/D9 left the guard
+    without any words at all.
     """
     return "%s is entering a win" % name
 
 
-def _board(table, entries, when_empty=None):
+# The Board's standing ask (02b/D2) — the line every draft is started from. Named because the words are the
+# whole of it: it is the one place a player is told what the buttons under the score are for, and the popup
+# that used to repeat it is gone (02b/D9), so a colon dropped here would have nowhere else to be caught.
+PICK_WINNER = "Pick who won the round:"
+
+
+def _board(table, entries):
     seats = table.seats_view()
     # 02/FR17 (ERR-03) — the header counts seats by who is in them, never by how they are labelled: once an
     # empty seat has a label of its own, counting labels would read `4 of 4 seated` on an empty table.
@@ -67,14 +78,19 @@ def _board(table, entries, when_empty=None):
     # the hiding rule, 2026-10-30. It is how a newcomer gets in: a seated player
     # reads their own header aloud, or screenshots it, and the four of them are done. Nowhere else would
     # do — a code that only appears once, at `/new`, is one nobody can find again at 9pm.
-    lines = ["Table %s · %d of %d seated" % (table.code, len(table.seated_ids()), len(seats)),
+    lines = ["Session %s · %d of %d seated" % (table.code, len(table.seated_ids()), len(seats)),
              settings(table)]
     lines += _seat_lines(table)
+    if entries:
+        lines += _log_lines(table, entries)
+    # The last line always names what to do next, and exactly one of these two says it (02b/D2, 02b/D3).
+    # One `if`/`else` and one append, always last in the message: two appends is the shape that could print
+    # both sentences or neither. The draft itself is private, but that one exists is public (01/FR9) — a
+    # bystander should not have to wonder whether the night has gone idle.
     if table.pending is not None:
-        # The draft itself is private, but that one exists is public (01/FR9): a bystander should not
-        # have to wonder whether the table has gone idle.
         lines.append("⏳ " + entering(table.names[table.pending["holder"]]))
-    lines += _log_lines(table, entries) if entries else (["", when_empty] if when_empty else [])
+    else:
+        lines.append(PICK_WINNER)
     return "\n".join(lines)
 
 
@@ -89,16 +105,28 @@ def settlement(table):
     Who transfers what to whom (01/FR19) — `score.settle`'s own lines, in the order the 2022 `howtopay`
     chose them, with the four totals repeated above them.
 
-    The repetition is the point: `/end` zeroes the Board in the same breath, so a player reading
-    `Bo pays Al: $2.80` would otherwise have nothing to check its −$3.20 against. The 2022 bot kept the
-    two halves apart (`ompm()` on `/play`, `howtopay()` on `/end`) because its Board never forgot the
+    The repetition is the point: `Reset scoreboard` zeroes the Board in the same breath, so a player
+    reading `Bo pays Al: $2.80` would otherwise have nothing to check its −$3.20 against. The 2022 bot kept
+    the two halves apart (`ompm()` on `/play`, `howtopay()` on `/end`) because its Board never forgot the
     totals; this one does.
 
     Said *before* the slate is wiped — this is the last place the night's numbers exist.
     """
-    lines = ["Table %s · settled" % table.code] + _seat_lines(table) + [""]
+    lines = ["Session %s · settled" % table.code] + _seat_lines(table) + [""]
     lines += score.settle(table.balances, transfer_names(table)).rstrip("\n").splitlines()
     return "\n".join(lines)
+
+
+def session_closed(table):
+    """
+    What a closed Table leaves in every member's chat (04/D6): the night's numbers, still readable, with
+    the word that the night is over underneath them.
+
+    The Table is destroyed by the act that prints this, so these lines are the last record of who owed whom
+    that anybody will ever have — the money is settled by hand, off the bot, and it is read off this screen.
+    A notice in place of the numbers would destroy the debt in order to announce it.
+    """
+    return settlement(table) + "\n\nClosed — everyone is free to /new or /join."
 
 
 def transfer_names(table):
@@ -118,8 +146,8 @@ def _log_lines(table, entries):
     Board in front of the player scoring the next win: a tap then adds nothing to the chat, so the
     Board never climbs away under a stack of messages (01/FR14, amended 2026-10-29).
 
-    Called only with something to show — an empty window is an empty Board, and only `history` has
-    anything to say about having nothing to say.
+    Called only with something to show: an empty window is an empty Board, and an empty night has no
+    words of its own (02b/D1).
     """
     dropped = len(table.log) - len(entries)
     lines = [""]

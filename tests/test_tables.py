@@ -4,8 +4,8 @@ import re
 
 import table
 
-from tests.support import (board_text, CYD, DEB, entry_texts, GUEST, HOST, keyboard_for,
-                           menu_for, PLAYER, seated_four, seated_table, tap, tokens_of)
+from tests.support import (board_text, buttons_for, CYD, DEB, entry_texts, GUEST, HOST, keyboard_for,
+                           menu_for, PLAYER, seated_four, seated_table, tap, tap_end_exit, tokens_of)
 
 
 def bo_wins_a_tai(r, t):
@@ -36,12 +36,12 @@ def test_leaving_frees_them_to_sit_at_another_table():
 
     refused = r.message(GUEST, "/join " + second)
     assert r.table_of(GUEST) is first
-    assert "/leave first" in refused[0].text
+    assert "/leave it first" in refused[0].text
 
     r.message(GUEST, "/leave")
 
     assert r.table_of(GUEST) is None
-    assert "not at a table" in r.message(GUEST, "/board")[0].text
+    assert "not in a session" in r.message(GUEST, "/board")[0].text
     r.message(GUEST, "/join " + second)
     assert r.table_of(GUEST) is r.table_of(CYD)
 
@@ -86,36 +86,23 @@ def test_the_leaver_is_told_they_have_left_and_offers_nothing():
     assert t.code in notice.text and "left" in notice.text.lower()
 
 
-# S3.9 — closing is the host's call, so a member is refused rather than left holding the night's
-# data by accident (FR21).
-def test_only_the_host_may_close_the_table():
-    r, t = seated_table()
-
-    effects = r.message(GUEST, "/close")
-
-    assert r.table_of(GUEST) is t
-    assert "host" in effects[0].text.lower()
-    tap(r, t, HOST, "w", 1)                      # and the Table is still live
-    assert t.pending is not None
-
-
-# S3.10 — /close dissolves the Table for everyone at it, seated or not: a button-less notice in
-# every chat, old keyboards refused, bindings freed, and each player able to start afresh (FR21).
+# S3.10 — closing dissolves the Table for everyone at it, seated or not: the night left readable in every
+# chat, old keyboards refused, bindings freed, and each player able to start afresh (04/D3).
 def test_closing_dissolves_the_table_for_everyone():
     r, t = seated_table()
     r.message(CYD, "/join " + t.code)
     code = t.code
 
-    effects = r.message(HOST, "/close")
+    effects = tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
 
     notices = [e for e in effects if isinstance(e, table.Retired)]
     assert {n.chat_id for n in notices} == {HOST.user_id, GUEST.user_id, CYD.user_id}
-    assert all("closed" in n.text for n in notices)
+    assert all("Closed" in n.text for n in notices)
     assert code not in r.tables
     assert all(r.table_of(p) is None for p in (HOST, GUEST, CYD))
     dead_tap = r.tap(HOST, table.token("w", code, t.version, 0))
     refused = [e for e in dead_tap if isinstance(e, table.Toast)]
-    assert refused == [table.Toast("That table is gone.")]
+    assert refused == [table.Toast("That session does not exist anymore.")]
 
     r.message(HOST, "/new")
     assert r.table_of(HOST) is not t
@@ -157,7 +144,9 @@ def test_a_code_already_in_use_is_never_handed_out_again():
 def test_a_closed_code_is_never_dealed_again_while_the_process_lives():
     r = table.Room(rng=PlannedRng("AAAAAA", "AAAAAA", "B2B2B2", "C3C3C3", "D4D4D4"))
     r.message(HOST, "/new")
-    r.message(HOST, "/close")
+    t = r.table_of(HOST)
+    r.tap(HOST, table.token("s", t.code, t.version, 0))            # closing is a seated verb
+    tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
 
     for who in (GUEST, CYD, DEB):
         r.message(who, "/new")
@@ -206,56 +195,50 @@ def test_leaving_returns_the_board_slot_instead_of_owing_it():
     assert not [e for e in effects if isinstance(e, table.Board) and e.chat_id == GUEST.user_id]
 
 
-# S3.9 extended — a refusal is worth more when it says who to go and ask (Jon, 2026-10-29 22:14).
-# S6.1 (FR12) — a refusal that names the person is one a player can act on. Pinned as the whole
-# sentence; it also pins that opening the settings to the seated did not loosen this one verb.
-def test_the_close_refusal_names_the_host():
-    r, t = seated_table()
-
-    effects = r.message(GUEST, "/close")
-
-    assert effects[0].text == "Only the host, Al, can close table %s." % t.code
-
-
-# S6.2 (02/FR12) — the host keeps the role after /leave (there is no host transfer), and the name
-# the chat last read on the Board is the one the refusal has to carry. A sentence that drops it names
-# nobody, to everyone in the chat's total certainty about which host it means.
-def test_the_close_refusal_survives_a_host_who_walked_out():
-    r, t = seated_table()
-    r.message(HOST, "/leave")
-
-    effects = r.message(GUEST, "/close")
-
-    assert effects[0].text == "Only the host, Al, can close table %s." % t.code
-
-
 # S3.21 — the slash menu should match where the player stands, so /leave is not offered to somebody
-# with no Table and /close is not offered to somebody who cannot use it. `/start` drops out once the
-# chat has a Table: it only ever says "the bot is running" (FR26 as amended).
+# with no Table and 04/D7's `/close` offered to nobody at all. `/start` drops out once the
+# chat has a Table: it only ever says "the bot is running" (FR26 as amended). 02b/D6 — `/board` left the
+# menu: the Board edits itself, and outside a seat it did nothing the other verbs do not. It is still the
+# trigger below, because the catch-all is what answers a typed verb the menu no longer offers.
 def test_the_command_menu_matches_where_the_player_stands():
     r = table.Room(rng=random.Random(7))
 
     assert menu_for(r.message(CYD, "/start")) == ("/start", "/new", "/join")
 
     r.message(CYD, "/new")
-    assert menu_for(r.message(CYD, "/board")) == ("/board", "/leave")
+    assert menu_for(r.message(CYD, "/board")) == ("/leave",)
 
     tap(r, r.table_of(CYD), CYD, "s", 0)
     # Every verb in the Command Surface is now live, so the menu is the whole surface for a seated host —
     # /history and /end joined with slice 5, /settings with slice 4, each the day it started doing
     # something. NOT_BUILT is empty by ruling, and kept as a marker of that rule.
-    assert menu_for(r.message(CYD, "/board")) == ("/board", "/leave", "/history", "/end",
-                                                 "/settings", "/close")
+    assert menu_for(r.message(CYD, "/board")) == ("/leave", "/history", "/end", "/settings")
 
 
-# S5.9 (FR11, FR12) — the whole menu is an exact tuple now, because the two seated menus differ by
-# exactly one verb and a substring check would not see `/close` leak onto the wrong keyboard.
-def test_the_two_seated_menus_differ_by_close_alone():
+# S5.9 (FR11, FR12) — the whole menu is an exact tuple, because a substring check would not see a verb
+# leak onto the wrong keyboard. 04/D7 — and the two seated menus are now identical: the one verb that made
+# a host's menu different lives on the settle-up screen instead, where every seated player can reach it.
+def test_the_two_seated_menus_are_now_identical():
     r, t = seated_table()
 
-    assert menu_for(r.message(GUEST, "/board")) == ("/board", "/leave", "/history", "/end", "/settings")
-    assert menu_for(r.message(HOST, "/board")) == ("/board", "/leave", "/history", "/end",
-                                                  "/settings", "/close")
+    assert menu_for(r.message(GUEST, "/board")) == ("/leave", "/history", "/end", "/settings")
+    assert menu_for(r.message(HOST, "/board")) == ("/leave", "/history", "/end", "/settings")
+
+
+# 04/D7 — `/close` is not a verb any more. A player who types it from muscle memory is neither refused nor
+# punished for it: they are shown where they stand, and the night they are in survives the typo.
+def test_typing_the_old_close_verb_costs_the_night_nothing():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)
+    tap(r, t, HOST, "a", "t1")
+    tap(r, t, HOST, "p", 1)
+    before = (list(t.balances), list(t.log))
+
+    effects = r.message(HOST, "/close")
+
+    assert t.code in r.tables and r.table_of(HOST) is t, "nothing was dissolved"
+    assert (t.balances, t.log) == before
+    assert any(isinstance(e, table.Board) for e in effects), "they are shown where they stand"
 
 
 # S3.24 — /join from the command menu has no argument to carry, so it must ask for the code instead
@@ -295,11 +278,11 @@ def test_a_wrong_code_is_refused_and_the_asking_stops():
     effects = r.message(CYD, "ZZZZZZ")
 
     assert r.table_of(CYD) is None
-    assert "no live table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "no live session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
     later = r.message(CYD, "hello")                           # a stray message is just a stray message
     assert r.table_of(CYD) is None
-    assert not any(isinstance(e, table.Line) and "no live table" in e.text for e in later)
+    assert not any(isinstance(e, table.Line) and "no live session" in e.text for e in later)
 
 
 # S3.27 — a command is not an answer to the prompt: /board must not be eaten as a code.
@@ -311,7 +294,7 @@ def test_a_command_while_asked_is_not_read_as_a_code():
     effects = r.message(CYD, "/board")
 
     assert r.table_of(CYD) is None                            # /board is not a code
-    assert "not at a table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
 # S4.8 (AD4) — a seat keeps what it earned, and the next person to sit there inherits it: the money was
@@ -360,28 +343,16 @@ def test_a_seat_someone_else_holds_is_refused_by_its_slot_name():
     assert t.occupants[2] == CYD.user_id, "the seat has one occupant, not two and not nobody"
 
 
-# S6.3 (FR12, FR21) — naming the host is not the same as letting them: the departed host is a stranger to
-# the Table now, and the Table they meant to close is still standing.
-def test_a_departed_host_may_still_not_close_the_table():
+# S6.4 (FR21), retargeted by 04/D7 — once the Table is gone, a player who still types the verb that used
+# to dissolve it is told they hold no Table, and never told somebody else could close the one they lost.
+def test_a_former_member_who_types_the_old_close_verb_hears_they_have_no_table():
     r, t = seated_table()
-    r.message(HOST, "/leave")
-
-    effects = r.message(HOST, "/close")
-
-    assert "not at a table" in effects[0].text.lower()
-    assert r.tables[t.code] is t, "the Table outlived the attempt"
-
-
-# S6.4 (FR21) — once the Table is gone the sentence must not imply it is still there, and it must never
-# claim somebody can close a Table that no longer exists.
-def test_a_former_member_who_asks_to_close_a_dissolved_table_hears_it_is_gone():
-    r, t = seated_table()
-    r.message(HOST, "/close")
+    tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
     assert r.tables == {}, "the Table is gone"
 
     effects = r.message(GUEST, "/close")
 
-    assert "not at a table" in effects[0].text.lower()
+    assert "not in a session" in effects[0].text.lower()
     assert "close table" not in effects[0].text.lower()
 
 
@@ -411,7 +382,7 @@ def test_a_dealt_code_is_six_confusable_free_characters_and_reads_on_the_board()
 
     assert len(code) == 6 and set(code) <= set(table.CODE_ALPHABET)
     board = next(e for e in effects if isinstance(e, table.Board))
-    assert board.text.splitlines()[0] == "Table %s · 0 of 4 seated" % code
+    assert board.text.splitlines()[0] == "Session %s · 0 of 4 seated" % code
 
 
 # S7.6 (01/FR3) — the guarantee is the alphabet's, not the random source's.
@@ -448,7 +419,7 @@ def test_six_letters_that_name_no_live_table_seat_nobody_and_offer_nothing():
     effects = r.message(CYD, "/join " + wrong)
 
     assert r.table_of(CYD) is None
-    assert "no live table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "no live session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
     assert not [e for e in effects if isinstance(e, table.Board)]
 
 
@@ -463,19 +434,22 @@ def test_a_code_wearing_a_word_is_not_read_as_a_code():
     effects = r.message(CYD, "table " + code)
 
     assert r.table_of(CYD) is None
-    assert "no live table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "no live session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
 # S7.2 (FR14) — the ask says six and *shows* six: a question that describes a shape it does not
 # demonstrate makes the player count the letters in their own code to decide whether they have it.
-def test_the_join_ask_shows_an_example_of_the_length_it_wants():
+# S7.2 (02/FR14, superseded on this point by 02b/D12) — the code ask used to say "six characters" and
+# show a six-character example, which is why CODE_EXAMPLE existed. D12 retired both: the shape is on a
+# seated player's Board, and a made-up code costs exactly one refusal either way, so the example carried
+# nothing but characters. The length rule itself (02/FR13) is untouched and pinned by S7.1 and S7.6.
+def test_the_code_ask_says_the_decided_words_and_nothing_else():
     r = table.Room(rng=random.Random(7))
 
     ask = next(e.text for e in r.message(CYD, "/join") if isinstance(e, table.Line))
 
-    assert "code" in ask.lower() and "six" in ask.lower()
-    example = ask.split("like ")[1].rstrip(".")
-    assert len(example) == table.CODE_LENGTH and set(example) <= set(table.CODE_ALPHABET)
+    assert ask == "Enter the session code.", "decided copy, word for word (02b/D12)"
+    assert "/new" not in ask, "the ask asks — it does not send the player off to do something else"
 
 
 # S7.4 (FR3, AD8) — five deals, codes offered on purpose that are already live or already spent. A hang
@@ -503,7 +477,7 @@ def test_a_code_outlives_its_host_and_dies_with_its_table():
     assert r.table_of(DEB) is t, "the code still seats people with its host gone"
 
     r.message(GUEST, "/leave")                   # the last member with any claim on it walks out too
-    assert r.tables[code] is t, "an empty Table is still a Table — only /close dissolves it"
+    assert r.tables[code] is t, "an empty Table is still a Table — only `Close session` dissolves it"
 
 
 # S7.6 (02/FR13) — the old bot dealt four characters and this one deals six, so any code still in a player's
@@ -514,7 +488,7 @@ def test_an_old_four_character_code_joins_nothing():
     effects = r.message(CYD, "/join 4KHB")
 
     assert r.table_of(CYD) is None
-    assert "no live table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "no live session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
 # FR5 — two live Tables, one code typed casually: the right Table takes them, and the wrong
@@ -543,14 +517,16 @@ def test_the_code_sits_in_the_header_of_every_screen_the_night_shows():
     shown = [e.text for e in r.message(GUEST, "/board") if isinstance(e, table.Board)]
     shown += [e.text for e in r.message(GUEST, "/history") if isinstance(e, table.Board)]
     tap(r, t, GUEST, "b", "menu")
-    shown += [e.text for e in r.message(GUEST, "/end") if isinstance(e, table.Board)]
-    shown += [e.text for e in tap(r, t, GUEST, "k", "end") if isinstance(e, (table.Board, table.Retired))]
+    settle = r.message(GUEST, "/end")                        # the settle-up screen is one of them too
+    shown += [e.text for e in settle if isinstance(e, table.Board)]
+    reset = buttons_for(settle, GUEST.user_id)[table.RESET_SCOREBOARD]
+    shown += [e.text for e in r.tap(GUEST, reset) if isinstance(e, (table.Board, table.Retired))]
     r.message(CYD, "/leave")
     shown += [e.text for e in r.message(CYD, "/board") if isinstance(e, table.Board)]
 
     assert shown, "the night was rendered at least once"
     for text in shown:
-        assert text.splitlines()[0].startswith("Table %s ·" % t.code), text.splitlines()[0]
+        assert text.splitlines()[0].startswith("Session %s ·" % t.code), text.splitlines()[0]
 
 
 # S7.5 (02/NFR4) — Telegram allows 64 bytes of callback data and the token carries the code in the middle of

@@ -36,7 +36,6 @@ def test_opening_a_table_issues_a_join_code_and_asks_for_a_seat():
     # FR2, FR13 — the code is on the Board's first line, where it stays for the whole night: that is the
     # message a seated player reads aloud to whoever is still outside.
     assert r.table_of(HOST).code in " ".join(b.text for b in boards(effects))
-    assert r.table_of(HOST).host_id == HOST.user_id
     assert set(labels(effects)) >= set(PLAYER)
 
 

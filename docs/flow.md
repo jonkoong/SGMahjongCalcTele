@@ -1,6 +1,6 @@
-# Play flow — one night at a Table
+# Play flow — one night in a session
 
-How the bot behaves from a player's side: open a Table, sit down, score wins, undo one, settle up. Written
+How the bot behaves from a player's side: create a session, sit down, score wins, undo one, settle up. Written
 for the Table model (mission `01-pooled-table`, then `02-uiux-overhaul`: named seats, undo, settings open
 to the Table, six-character codes); the payout numbers in § 7 are the ones the bot has always produced,
 quirks included.
@@ -11,31 +11,31 @@ Money shown assumes the default `rate = 0.1`; multiply by `rate / 0.1` for any o
 
 ## 1. What a night is
 
-One **Table** per night, up to four players, and each player talks to the bot only in their own DM. There
+One **session** per night, up to four players, and each player talks to the bot only in their own DM. There
 is no group chat and no shared screen: every seated player holds **one** message — the **Board** — and the
 bot edits that message in place instead of posting new ones.
 
 ```
-Al (host) ─┐                                            ┌─ own Board ─┐
+Al ────────┐                                            ┌─ own Board ─┐
 Bo ────────┼── one Table in memory ── fan-out ──────────┼─ own Board ─┤
 Cy ────────┤    seats · balances · settings · draft     ├─ own Board ─┤
 De ────────┘                                            └─ own Board ─┘
 ```
 
 - **The Board** carries the four seats — `Player 1` to `Player 4`, filled or empty — who sits where,
-  each seat's balance, what the Table pays
+  each seat's balance, what the session pays
   (`Rate $0.10 · Shooter on · Max tai 5`), and the last three wins. It is the only message the bot keeps
   editing, so a tap never pushes it up the chat.
 - **The same text in every DM**, except the two screens that belong to one player alone: the history view
-  and the `/end` confirmation.
+  and the settle-up screen that `/end` opens.
 - **The keyboard differs per viewer.** The score is shared; the buttons of a win in progress go only to
   whoever started it.
 - **Money lives in the seat, not the person** (AD4). Stand up and the balance stays where you left
   it, so nobody inherits someone else's night.
 - Every button's callback data is `kind.code.version.meaning`. The **version** is the Table's single
-  staleness fact: a keyboard you left open on the table says *that screen is out of date* rather than
+  staleness fact: a keyboard you left open from an earlier screen says *that message is outdated* rather than
   scoring a second win.
-- **The code is the Board's first line**, and it stays there all night: `Table Q7K2HB · 3 of 4 seated`.
+- **The code is the Board's first line**, and it stays there all night: `Session Q7K2HB · 3 of 4 seated`.
   Six characters from an alphabet with no `O`, `I`, `l` or `0` in it, dealt once and never re-dealt while the
   process lives — so a code from last month joins nothing, and a code that gets re-used cannot open a second
   night by accident. It sits on the Board because a seated player is the only way a newcomer gets in, and
@@ -49,14 +49,14 @@ The Board message always carries exactly one of these.
 
 | Table state | Buttons |
 | --- | --- |
-| No Table bound | `/new`, `/join` |
+| No session bound | `/new`, `/join` |
 | Bound, unseated | the free seats only, by number |
 | Seated, nothing pending | one button per seat: the name in it, or **`Player N`** when nobody is in it; **`Undo last win`** on its own row beneath, only while the ledger holds something |
 | Amount stage — **holder only** | `1 Tai` … `<max tai> Tai`, then `Kang` / `Kang 暗` / `🐈` / `🐈 暗` / `🥀` / `🥀 暗` two to a row, then `Cancel` |
 | Who-fed stage — **holder only** | every other seat — a name, or `Player N` for an empty one — then `Zi Mo`, `Cancel` |
 | Someone else's draft | winner buttons as usual, plus the `⏳ Bo is entering a win` line in the Board text |
 | History (`/history`) | `Back` — and the text is the whole night instead of the last three wins |
-| End confirmation (`/end`) | `Confirm end`, `Keep playing` — on the screen of whoever asked |
+| Settle-up screen (`/end`) | `Reset scoreboard`, `Close session`, `Keep playing` — on the screen of whoever asked |
 | Settings (`/settings`, **any seated player**) | `Pay Rate`, `Shooter`, `Max Tai`, `Back`; pickers for shooter and max tai; the rate is **typed** |
 
 ---
@@ -65,7 +65,7 @@ The Board message always carries exactly one of these.
 
 ```mermaid
 flowchart TD
-    N["/new — you are the host"] --> W["pick a seat"]
+    N["/new"] --> W["pick a seat"]
     J["/join CODE"] --> W
     W --> B["Board + winner buttons<br/>identical in every DM"]
     B -->|"tap a name"| A["amount ladder + specials<br/>(holder's screen only)"]
@@ -75,15 +75,16 @@ flowchart TD
     C --> M
     M --> B
     B -->|"/history"| H["every win of the night"] -->|"Back"| B
-    B -->|"/end → Confirm end"| E["settlement → balances zeroed<br/>roster kept"]
+    B -->|"/end → Reset scoreboard"| E["settlement → balances zeroed<br/>roster kept"]
     E --> B
     B -->|"Undo last win"| U["the newest win comes back out<br/>the totals are what is left"] --> B
     B -->|"/leave"| L["your seat frees,<br/>its balance stays"]
 ```
 
 The loop `Board → amount → who-fed → Board` is the whole game, and **`Undo last win`** walks one step back
-along it whenever the ledger has something to give back. `/end` does not close the Table: the same four
-players carry on into the next round with nothing but a fresh Board beneath the settlement.
+along it whenever the ledger has something to give back. `/end` is only a look at the night's money: what
+it offers are two exits, one that leaves the same four players in the same seats with a fresh Board beneath
+the settlement, and one that dissolves the session and frees every binding.
 
 ---
 
@@ -143,13 +144,14 @@ stateDiagram-v2
 | State | Where it lives | What clears it |
 | --- | --- | --- |
 | Who is entering a win | `table.pending` — one dict, one at a time, Table-wide | commit, `Cancel`, or the holder leaving |
-| A question waiting for a typed answer | `Room.asked` — who was asked, and *what* (a table code, or a pay rate) | **anything** they send next. A command is never an answer, and a sticker is not an attempt at one |
+| A question waiting for a typed answer | `Room.asked` — who was asked, and *what* (a session code, or a pay rate) | **anything** they send next. A command is never an answer, and a sticker is not an attempt at one |
 | Whether a keyboard is still current | the `version` inside the token | every committed change bumps it; nothing else stores it |
-| The night's wins, and so every balance | `table.log` — one `Entry(text, delta)` per win, in the order they landed | `Confirm end` empties it; **`Undo last win`** pops its newest one. The four balances are never stored: they are this list folded up (02/AD2) |
+| The night's wins, and so every balance | `table.log` — one `Entry(text, delta)` per win, in the order they landed | `Reset scoreboard` empties it and `Close session` destroys it; **`Undo last win`** pops its newest one. The four balances are never stored: they are this list folded up (02/AD2) |
 
-A tap whose version has been superseded is refused with `That screen is out of date — send /board for the
-newest one.` and nothing moves. Seat picks and `Back` are exempt, because their meaning is decided by the
-Table's current state and not by the screen that produced them.
+A tap whose version has been superseded is refused with `That message is outdated, tap on the new message
+or wait for it to be refreshed.` and nothing moves — and the refusal re-draws the tapper's own screen, which
+is the only thing that makes "wait for it to be refreshed" true (02b/D11). Seat picks and `Back` are exempt,
+because their meaning is decided by the Table's current state and not by the screen that produced them.
 
 ---
 
@@ -194,8 +196,8 @@ dissolves every Table, and there is nothing to recover.
 ### Tai win — `score._tai`
 
 `tai amount = rate × TAI_LADDER[n]`, the ladder doubling per rung: `1→4, 2→8, 3→16, 4→32, 5→64 … 10→2048`.
-At rate 0.1 that is `$0.40` at tai 1, `$1.60` at tai 3, `$6.40` at tai 5. The rung a Table may *offer* is
-capped twice over: by the Table's Max Tai (any seated player may set it), and by the ladder itself
+At rate 0.1 that is `$0.40` at tai 1, `$1.60` at tai 3, `$6.40` at tai 5. The rung a session may *offer* is
+capped twice over: by the session's Max Tai (any seated player may set it), and by the ladder itself
 (`score.MAX_TAI` = 10) — a rung above it has no payout to give.
 
 ```mermaid
@@ -237,23 +239,32 @@ named by its number (AD4, FR5).
 
 ---
 
-## 8. Settling up — `/end`
+## 8. Settling up and closing — `/end`
 
-`/end` is destructive and irreversible — `Undo last win` reaches the wins in the ledger, and `Confirm end`
-is where that ledger is emptied, so nothing survives it but the memory of whoever watched the settlement.
-It **asks first** on the screen of whoever typed it, showing the very transfers a confirm would post.
+`/end` itself moves nothing. It edits the one message in the asker's chat into the night's money — every
+total, every transfer — and puts the two irreversible exits underneath it. There is no second "are you
+sure": the screen showing what the tap costs *is* the confirmation, and it is on screen while the thumb is
+moving. `Undo last win` reaches neither exit.
 
 ```mermaid
 flowchart TD
-    E["/end"] --> Q["your Board becomes:<br/>totals + transfers + Confirm end / Keep playing"]
+    E["/end — a read: nothing moves"] --> Q["your Board becomes:<br/>totals + transfers + Reset scoreboard / Close session / Keep playing"]
     Q -->|"Keep playing"| B["your Board comes back,<br/>nothing settled"]
-    Q -->|"Confirm end"| D{"someone mid-Entry?"}
+    Q -->|"Reset scoreboard"| D{"someone mid-Entry?"}
+    Q -->|"Close session"| D
     D -->|yes| R["refused — 'Game cannot end when someone is<br/>entering a win — @Bo is entering a win'<br/>the holder is instead told what to tap"]
     D -->|no| S["settlement, from score.settle()"]
-    S --> Z["balances → 0 · log → empty"]
-    Z --> F["every seated DM: their message becomes the settlement,<br/>and a fresh $0.00 Board is sent beneath it"]
-    F --> B2["same roster, same host, same settings —<br/>the next round is one tap away"]
+    S --> Z1["reset: balances → 0 · log → empty"]
+    S --> Z2["close: the Table is destroyed and every member is freed"]
+    Z1 --> F["every seated DM: their message becomes the settlement,<br/>and a fresh $0.00 Board is sent beneath it"]
+    F --> B2["same roster, same settings —<br/>the next round is one tap away"]
+    Z2 --> C["every member's message becomes the settlement<br/>plus the word that it is closed — and no Board follows,<br/>because there is nothing left to score"]
 ```
+
+Both exits print the settlement before they destroy anything, and both leave it standing in the chat: the
+money is settled by hand, off the bot, and the screen is where it is read from. Closing deletes the last
+copy of the numbers from the bot's side, so a bare *closed* notice written over them would destroy the
+debt to announce it.
 
 The transfer lines come from `score.settle`, the old `howtopay` logic, in its own order:
 
@@ -279,21 +290,20 @@ hand — four seated is what a night is meant to look like (AS4).
 
 | Command | Who | Notes |
 | --- | --- | --- |
-| `/start` | new chat only | Starts the bot. Once a chat has a Table the verb leaves the menu — the menu already carries every verb *and* its description, so a help listing in the chat was a reprint of it |
-| `/new` | unbound | You become the host, and the six-character code goes on the first line of your Board — `Table Q7K2HB · 1 of 4 seated` — where it stays all night for whoever you read it to. There is no host transfer, so the Table keeps naming them its host for the rest of the night — including in the refusals that name them, after they `/leave` and their own menu has stopped offering the host's verb |
-| `/join CODE` | unbound | Six characters, exactly, the whole message, case-insensitive — never read out of the middle of a sentence. A bare `/join` asks for the code; your next message is the answer, and one attempt only. Any seated player's Board names their Table's code on its first line |
-| `/board` | at a Table | Refresh, plus one line naming what you can tap |
+| `/start` | new chat only | Starts the bot. Once a chat has a session the verb leaves the menu — the menu already carries every verb *and* its description, so a help listing in the chat was a reprint of it |
+| `/new` | unbound | You create the session and pick a seat, and the six-character code goes on the first line of your Board — `Session Q7K2HB · 1 of 4 seated` — where it stays all night for whoever you read it to. The code is the whole way in: no seat is senior to another, and there is no role anybody holds (04/D4) |
+| `/join CODE` | unbound | Six characters, exactly, the whole message, case-insensitive — never read out of the middle of a sentence. A bare `/join` asks for the code; your next message is the answer, and one attempt only. Any seated player's Board names their session's code on its first line |
 | `/history` | seated | Every Entry of the night, in your own message; `Back` returns the score |
 | `/settings` | **seated** | Pay rate (typed), shooter, max tai (both picked). Whoever holds the tiles decides what they pay: the seat is the whole rule, so no settings refusal is left to say who to go and ask |
-| `/end` | seated | Asks, then settles; refuses while anyone holds a draft |
-| `/leave` | at a Table | Frees your seat and your binding; its balance stays |
-| `/close` | host | Dissolves the Table and frees everyone's binding |
+| `/end` | seated | Shows the settle-up screen; both of its exits refuse while anyone holds a draft |
+| `/leave` | in a session | Frees your seat and your binding; its balance stays |
 
 `/history`, `/end` and `/settings` never appear in a player's slash menu until they can use them, and none
 of them ever appears for a player who cannot use it — the menu is set per player, because a menu offering a
 verb that only refuses them teaches players that menus lie. The same reasoning removed `/start` from the
-menu of a chat that already has a Table (FR26), and it is why `/settings` left the host's column: every tap
-already honoured it, so the menu was the one place still lying about it.
+menu of a chat that already has a session (FR26), and it is why `/settings` stopped being offered by role:
+every tap already honoured it, so the menu was the one place still lying about it. Since 04/D4 the two
+seated menus are identical, because nothing is left to reserve to anyone.
 
 ---
 
@@ -305,7 +315,7 @@ already honoured it, so the menu was the one place still lying about it.
 | Table state, seats, settings, drafts, tap rules, tokens | `table.py` — `Room` (verbs and taps) and `Table` (state). Also which buttons a screen carries, and the one-line refusals: a button is a token, and a token is a rule |
 | Payout math, settlement lines, the tai ladder | `score.py` — pure functions, no state, no Telegram |
 | The sentences a player *waits* to read — the Board, the night's list, the settlement, one win's line | `render.py` — `board`, `history`, `settlement`, `entry_line`, `settings`, `entering` |
-| The one-line refusals a tap answers with | `table.py` — the rule's own words, kept beside the rule that decides them (todo item 4 owns gathering them into `render.py`) |
+| The one-line refusals a tap answers with | `table.py` — the rule's own words, kept beside the rule that decides them. Stay there (02b): `render.py` holds the sentences a player *waits* to read, and a popup is the opposite of waiting |
 | One Board message per chat, edits not sends; retries and write holding | `mjbot.py` — `Delivery`, `reconcile` |
 | Which verbs a player is offered | `table.py` — `commands_for`, `COMMAND_HELP` |
 | The frozen numbers | `tests/golden_payouts.json` — 640 tai cases, 160 Kang and 64 🥀 rows (only the states a player can actually reach: a 🥀 no longer names a feeder, and the rows that pinned an unreachable state were deleted rather than re-pinned), 4 full nights, 10 settlements |

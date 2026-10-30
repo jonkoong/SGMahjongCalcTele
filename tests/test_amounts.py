@@ -156,7 +156,8 @@ def test_the_flower_line_names_no_feeder():
 
 # S3.7 — the keyboard is not the rule. Telegram redelivers the feeder button a 🥀 screen used to
 # carry, and the win it would have finished is already booked: the tap is refused, and the money does
-# not go round a second time.
+# not go round a second time. 02b/D9 ruled which words it gets: the button exists only at another
+# stage, so the honest story is that its screen has been replaced — one line, shared by ten guards.
 def test_a_stray_flower_feeder_tap_books_nothing():
     r, t = seated_table()
     tap(r, t, HOST, "w", 0)
@@ -166,8 +167,7 @@ def test_a_stray_flower_feeder_tap_books_nothing():
 
     effects = r.tap(HOST, stranded)
 
-    assert "nothing is waiting for a payer" in next(
-        e.text for e in effects if isinstance(e, table.Toast)).lower()
+    assert next(e.text for e in effects if isinstance(e, table.Toast)) == table.OUTDATED
     assert t.balances == before and len(t.log) == wins
 
 
@@ -243,7 +243,10 @@ def test_the_winner_is_still_not_their_own_feeder():
     assert "Al" not in buttons(effects), "their own seat is not on this row under any label"
     before = list(t.balances)
     refused = tap(r, t, HOST, "p", 0)
-    assert "pick another" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+    # 02b/D9 — a winner as their own feeder is a rule, not a stale screen, and the rule is stated by the
+    # row itself: the winner's own seat is not on it. So the tap answers with the player's own screen.
+    assert not [e for e in refused if isinstance(e, table.Toast)], "no popup: the board answers"
+    assert any(isinstance(e, table.Board) and e.chat_id == HOST.user_id for e in refused)
     assert t.balances == before and t.pending is not None
 
 
@@ -284,7 +287,10 @@ def test_only_the_holder_may_cancel_and_a_refusal_leaves_the_keyboard_live():
     assert t.pending is not None
     assert t.balances == [0.0, 0.0, 0.0, 0.0]
     assert t.version == version                    # a refusal must not kill the holder's keyboard
-    assert any(isinstance(e, table.Toast) and "Al" in e.text for e in effects)
+    # 02b/D9 — the guard is what stops a bystander discarding the holder's draft; the sentence naming the
+    # holder went, and the heal is the tapper's own Board. `⏳ Al is entering a win` is on it.
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the board answers"
+    assert "⏳ Al is entering a win" in board_text(effects, GUEST.user_id)
 
 
 # S2.8 — a stray message names the holder; FR15 says it also names *their own* options, and
@@ -363,7 +369,10 @@ def test_a_second_player_cannot_finish_someone_elses_draft():
 
     assert t.balances == before and t.pending is not None
     assert t.version == version                                # their screen stays live
-    assert any(isinstance(e, table.Toast) and "Al" in e.text for e in effects)
+    # 02b/D9 — the rule is the whole point of the guard, and the tapper's own Board carries the `⏳` line
+    # that says who holds it, so the popup naming the holder is gone.
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the board answers"
+    assert "⏳ Al is entering a win" in board_text(effects, GUEST.user_id)
 
 
 # S2.13 — the six taps that looked like a broken Cancel: a button from a dead screen.
@@ -379,7 +388,9 @@ def test_a_button_from_a_superseded_screen_is_refused_as_out_of_date():
     assert t.balances == before and t.version == version
     assert t.pending["winner"] == 0 and t.pending["amount"] == ("tai", 3)
     toast = next(e for e in effects if isinstance(e, table.Toast))
-    assert "out of date" in toast.text
+    assert toast.text == table.OUTDATED, "decided copy, word for word (02b/D10)"
+    assert any(isinstance(e, table.Board) and e.chat_id == GUEST.user_id for e in effects), \
+        "and the tap re-draws this player's own screen — that is the refresh the sentence promises"
 
 
 # S2.13 — a seat keyboard is judged by the seat, not the version: the joiner must still be able
@@ -411,7 +422,7 @@ def test_tapping_the_name_of_the_ladder_is_refused_where_a_rung_would_score():
 
     assert t.pending["amount"] is None
     assert t.version == version, "a refused tap spends nothing"
-    assert "not on the board" in next(e.text for e in refused if isinstance(e, table.Toast))
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED
 
     tap(r, t, HOST, "a", "t3")                             # the ladder itself is unharmed
     assert t.pending["amount"] == ("tai", 3)
@@ -430,15 +441,18 @@ def test_a_payer_that_is_neither_a_seat_nor_zi_mo_is_refused():
 
     assert t.pending is not None, "the draft is still open — nothing was booked"
     assert t.balances == before and len(t.log) == log
-    assert "Pick another player" in next(e.text for e in refused
-                                                if isinstance(e, table.Toast))
+    # 02b/D15 — junk that no screen ever carried, so it shares the out-of-date line rather than naming a
+    # choice the player was never offered.
+    assert next(e.text for e in refused
+                if isinstance(e, table.Toast)) == table.OUTDATED
 
 
 # F-09 — the FR10 sentence is the whole answer a spectator gets, and nothing pinned it: both holder
 # tests assert `pending is None` and a substring the seat-refusal branch also satisfies, and neither
 # looks at the keyboard the non-holder is shown. That Al is offered no way to finish Bo's win is what
-# was witnessed live and has never been tested.
-def test_a_member_who_taps_the_finish_their_own_screen_never_offered_is_named_the_holder():
+# was witnessed live and has never been tested. 02b/D9 took the sentence; what it left behind is the
+# witness that matters more — the tapper's own screen, whose ladder has no way to finish it.
+def test_a_member_who_taps_a_finish_that_is_not_theirs_earns_no_draft():
     r, t = seated_table()
     stage = tap(r, t, GUEST, "w", 1)                           # Bo is entering a win
     assert "3 Tai" not in buttons_for(stage, HOST.user_id), "Al was never offered a way to finish it"
@@ -448,5 +462,6 @@ def test_a_member_who_taps_the_finish_their_own_screen_never_offered_is_named_th
 
     assert t.pending is not None and t.pending["amount"] is None, "Al may not finish Bo's win"
     assert t.balances == [0.0, 0.0, 0.0, 0.0]
-    assert "Bo is entering that win" in next(e.text for e in refused
-                                             if isinstance(e, table.Toast))
+    assert not [e for e in refused if isinstance(e, table.Toast)], "no popup: the board answers"
+    assert "⏳ Bo is entering a win" in board_text(refused, HOST.user_id), \
+        "and the Board says who holds it, beside the buttons that cannot finish it"

@@ -78,14 +78,17 @@ def test_back_out_of_the_history_returns_a_draft_still_in_progress():
 
 
 # S5.7 — /history is in the slash menu from the first minute of the night, so tapping it before anyone
-# has won must answer, not hand back a header and four silent seats.
-def test_an_empty_night_says_so_instead_of_going_blank():
+# has won must answer, not hand back a header and four silent seats. 02b/D1 ruled *how* it answers: an
+# empty ledger gets no sentence of its own, so the empty night is the Board shape and nothing added to it.
+# The old `No wins yet.` line went because the `… N earlier — /history` cue only ever appears with Entries
+# behind it — with none, the verb has nothing to point at.
+def test_an_empty_night_shows_the_bare_board_and_no_sentence_of_its_own():
     r, t = seated_four()
 
     text = board_text(r.message(GUEST, "/history"), GUEST.user_id)
 
     assert shown_wins(text) == []
-    assert "No wins yet" in text
+    assert text == render.board(t), "an empty night's history is the Board, with nothing said about it"
 
 
 # S5.8 — /history sits in the slash menu of anyone the bot has ever met, so it has to answer a chat that
@@ -96,7 +99,7 @@ def test_history_with_no_table_is_the_answer_every_verb_gives():
     effects = r.message(CYD, "/history")
 
     assert [e for e in effects if isinstance(e, table.Board)] == []
-    assert "not at a table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
 # S5.9 — a member who has joined but not sat is owed the seat picker they are owed for every other verb,

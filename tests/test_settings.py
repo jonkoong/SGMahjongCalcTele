@@ -8,7 +8,7 @@ import render
 import score
 import table
 from tests.support import CYD, DEB, GUEST, HOST, buttons, menu_for, PLAYER, seated_four, \
-    seated_table, tap
+    seated_table, tap, tap_end_exit
 from tests.support import board_text, buttons_for, keyboard_for, tokens_of
 
 
@@ -60,15 +60,9 @@ def test_a_seated_player_may_set_shooter_and_max_tai():
     assert not [e for e in opened if isinstance(e, table.Line)], "nothing tells Bo to find a host"
 
 
-# S5.1 (FR11) — the menu has to offer what the tap will honour. `/close` stays the host's alone.
-def test_a_seated_player_is_offered_settings_and_only_the_host_is_offered_close():
-    r, t = seated_table()
-
-    guest = menu_for(r.message(GUEST, "/board"))
-    host = menu_for(r.message(HOST, "/board"))
-
-    assert "/settings" in guest and "/close" not in guest
-    assert "/settings" in host and "/close" in host
+# S5.1 (FR11) — the menu has to offer what the tap will honour: every seated player is offered
+# `/settings`, and the menus no longer split on a role at all (04/D4, pinned as exact tuples in
+# tests/test_tables.py's S3.21 and S5.9).
 
 
 # S5.3 (ERR-04) — the rate is typed, so opening settings to a non-host was only half the rule: the
@@ -113,7 +107,9 @@ def test_a_setting_by_a_non_host_reaches_every_board_and_retires_the_ladder():
     held = keyboard_for(r.message(GUEST, "/board"), GUEST.user_id)
     assert tai_ladder(held) == {"1 Tai", "2 Tai", "3 Tai"}          # redrawn in place, not dismissed
     refused = tap(r, t, GUEST, "a", "t5")
-    assert "not on the board" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+    # 02b/D11 — the rung was taken off Bo's ladder by De's tap, so the honest sentence is the shared one,
+    # and the heal is what removes the button from under their thumb.
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED
 
 
 # S5.6 (mission 01 AD9) — a value that already holds is not a change: no bump, and nobody else's
@@ -139,18 +135,8 @@ def test_a_player_at_no_table_changes_nothing_with_a_borrowed_token():
 
     effects = r.tap(DEB, live)
 
-    assert "not at table" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
+    assert "not in session" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
     assert t.shooter is True
-
-
-# S5.8 (FR12) — /close is still the host's alone, and the settings opening did not loosen it.
-def test_opening_settings_to_the_seated_left_close_alone_with_the_host():
-    r, t = seated_table()
-
-    effects = r.message(GUEST, "/close")
-
-    assert effects[0].text == "Only the host, Al, can close table %s." % t.code
-    assert r.tables[t.code] is t, "the Table is still standing"
 
 
 
@@ -300,7 +286,9 @@ def test_a_cap_lowered_under_a_live_draft_shrinks_that_ladder_in_place():
 
     refused = r.tap(GUEST, ladder["5 Tai"])              # the button still on Bo's screen
     assert t.pending["amount"] is None
-    assert "out of date" in next(e.text for e in refused if isinstance(e, table.Toast))
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED
+    assert tai_ladder(keyboard_for(refused, GUEST.user_id)) == {"1 Tai", "2 Tai"}, \
+        "and the re-draw takes the gone rung off the screen they are looking at"
 
 
 # S4.14 — a tap that changes nothing must not disturb the night: AD9 refuses an edit that changes
@@ -317,7 +305,9 @@ def test_setting_a_value_that_is_already_the_value_costs_nobody_anything():
 
 
 # S4.22 — AD23 seen from the write: a rung above the frozen ladder has no payout behind it, so it is
-# refused rather than stored, no matter which client sent the tap.
+# refused rather than stored, no matter which client sent the tap. 02b/D9: the picker offers all ten rungs
+# whatever the cap, so no screen this bot drew ever carried `maxtai11` — the tap goes unexplained and
+# lands the player back on their own screen, which is where the span is readable.
 @pytest.mark.parametrize("meaning", ["maxtai0", "maxtai11", "maxtai999"])
 def test_a_value_above_the_frozen_ladder_is_refused(meaning):
     r, t = seated_table()
@@ -326,7 +316,8 @@ def test_a_value_above_the_frozen_ladder_is_refused(meaning):
     effects = tap(r, t, HOST, "v", meaning)
 
     assert (t.maxtai, t.version) == (5, version)
-    assert "tai" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
+    assert not [e for e in effects if isinstance(e, table.Toast)], "no popup: the screen answers"
+    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", PLAYER[2], PLAYER[3]]
 
 
 # S4.15 — a cap constrains what may be chosen from now on, not what was already tapped mid-hand. The
@@ -428,12 +419,12 @@ def test_a_rate_that_is_not_a_rate_costs_one_refusal_and_the_asking_stops():
     refused = r.message(HOST, "banana")
 
     assert (t.rate, t.version) == (0.1, version)
-    assert "0.2" in next(e.text for e in refused if isinstance(e, table.Line))
+    assert "0.5" in next(e.text for e in refused if isinstance(e, table.Line))
 
     later = r.message(HOST, "hello")                        # an ordinary stray message, not a retry
     assert t.rate == 0.1
     assert any(isinstance(e, table.Board) for e in later)
-    assert not [e for e in later if isinstance(e, table.Line) and "not a rate" in e.text]
+    assert not [e for e in later if isinstance(e, table.Line) and "not accepted" in e.text]
 
 
 # A value tap changes the Table, so `g` and `v` belong beside
@@ -450,7 +441,9 @@ def test_a_settings_screen_left_open_across_someone_else_s_win_is_stale_too(kind
     refused = r.tap(HOST, stale)
 
     assert (t.maxtai, t.shooter, t.version) == before, "the stale tap changed nothing"
-    assert "out of date" in next(e.text for e in refused if isinstance(e, table.Toast))
+    assert next(e.text for e in refused if isinstance(e, table.Toast)) == table.OUTDATED
+    assert any(isinstance(e, table.Board) and e.chat_id == HOST.user_id for e in refused), \
+        "and the tap re-draws the screen this player is actually on (02b/D11)"
 
 
 # F-03 — '²' and the Arabic-Indic digits satisfy str.isdigit(), and float() disagrees with it about
@@ -465,7 +458,7 @@ def test_a_rate_written_in_what_float_cannot_read_costs_one_refusal():
     refused = r.message(HOST, "\u00b2")
 
     assert (t.rate, t.version) == (0.1, version)
-    assert "0.2" in next(e.text for e in refused if isinstance(e, table.Line))
+    assert "0.5" in next(e.text for e in refused if isinstance(e, table.Line))
 
 
 # S4.18 — a command is never an answer, and sending one must close the ask rather than leave it open
@@ -488,11 +481,11 @@ def test_a_rate_answered_after_the_table_closed_changes_nothing():
     r, t = seated_table()
     tap(r, t, HOST, "g", "rate")
 
-    r.message(HOST, "/close")
+    tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
     effects = r.message(HOST, "0.5")
 
     assert t.rate == 0.1
-    assert "not at a table" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
 # S4.7 — the rate is the setting the players actually care about: the same win at the same rung, twice
