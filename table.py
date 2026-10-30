@@ -965,8 +965,12 @@ class Room:
         """
         The seat picker rides the chat's own Board message rather than a note beside it, so seating
         edits those buttons away in place — a spent seat row cannot survive on screen (01/FR12).
+
+        Its last line is asked of the buttons it carries, not of the score (02b/E1): a member holding no
+        seat is offered seats, and `Pick who won the round:` over those buttons asks them to score a night
+        they are not standing in. `render.seat_ask` picks between choosing and leaving (02b/E2).
         """
-        return Board(user.user_id, render.board(table), self._seat_rows(table))
+        return Board(user.user_id, render.board(table, render.seat_ask(table)), self._seat_rows(table))
 
     def _seat_rows(self, table):
         """Only the free seats are offered (01/FR14), and each is offered by its number. With none free the

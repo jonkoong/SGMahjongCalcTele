@@ -50,7 +50,7 @@ The Board message always carries exactly one of these.
 | Table state | Buttons |
 | --- | --- |
 | No session bound | `/new`, `/join` |
-| Bound, unseated | the free seats only, by number |
+| Bound, unseated | the free seats only, by number — and the Board's last line reads `Choose which player you are:` rather than the standing ask, because those are the buttons under it (02b/E1). With no seat free it reads `Full — /leave to join another session.` and the message carries no keyboard at all (02b/E2) |
 | Seated, nothing pending | one button per seat: the name in it, or **`Player N`** when nobody is in it; **`Undo last win`** on its own row beneath, only while the ledger holds something |
 | Amount stage — **holder only** | `1 Tai` … `<max tai> Tai`, then `Kang` / `Kang 暗` / `🐈` / `🐈 暗` / `🥀` / `🥀 暗` two to a row, then `Cancel` |
 | Who-fed stage — **holder only** | every other seat — a name, or `Player N` for an empty one — then `Zi Mo`, `Cancel` |

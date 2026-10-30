@@ -6,8 +6,8 @@ import pytest
 
 import render
 import table
-from tests.support import GUEST, HOST, entry_texts, PLAYER, score_wins, seated_four, \
-    seated_table, tap
+from tests.support import board_text, GUEST, HOST, entry_texts, keyboard_for, PLAYER, score_wins, \
+    seated_four, seated_table, tap
 
 
 
@@ -126,6 +126,60 @@ def test_the_board_always_ends_by_naming_what_to_do():
 # which quoted it is gone. A test on the constant is what catches the colon drifting off it.
 def test_the_invitation_says_the_decided_words():
     assert render.PICK_WINNER == "Pick who won the round:"
+
+
+# 02b/E1 (Jon, 2026-10-30) — the last line is asked of the buttons under it. A member who joined and holds
+# no seat is offered seats, so `Pick who won the round:` over them asks a stranger to score the night.
+# Seating is what swaps the line back; nothing else does.
+def test_a_member_holding_no_seat_is_asked_which_player_they_are():
+    r, t = seated_table()
+    late = table.User(55, "Eve")
+
+    effects = r.message(late, "/join " + t.code)
+
+    assert board_text(effects, late.user_id).splitlines()[-1] == render.CHOOSE_SEAT
+    assert set(keyboard_for(effects, late.user_id)) == {PLAYER[2], PLAYER[3]}, "the offer the line points at"
+
+    r.tap(late, table.token("s", t.code, t.version, 2))
+
+    assert board_text(effects, late.user_id).splitlines()[-1] == render.CHOOSE_SEAT, \
+        "the offer they were shown does not change retroactively"
+    assert board_text(r.message(late, "/board"), late.user_id).splitlines()[-1] == render.PICK_WINNER
+
+
+# 02b/E1's wording, pinned on the constant for the same reason `PICK_WINNER` is: the colon is the whole
+# difference between a heading over a list and a sentence about nothing.
+def test_the_choose_line_says_the_decided_words():
+    assert render.CHOOSE_SEAT == "Choose which player you are:"
+
+
+# 02b/E1's one hard case: both facts want the last line, and there is room for one. A seatless member
+# cannot score, so a draft in progress is not their news — the seat is. The four seats keep the `⏳` line,
+# which is who 01/FR9 was written for.
+def test_the_choose_line_outranks_the_hourglass_for_someone_with_no_seat():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)                                   # Al is entering a win
+    late = table.User(55, "Eve")
+
+    effects = r.message(late, "/join " + t.code)
+
+    assert board_text(effects, late.user_id).splitlines()[-1] == render.CHOOSE_SEAT
+    assert "⏳" not in board_text(effects, late.user_id), "one tail line, never both"
+    assert "⏳ Al is entering a win" in board_text(r.message(HOST, "/board"), HOST.user_id)
+
+
+# 02b/E2 — a full session has no seat to choose, so the line points at the one verb that works instead of
+# promising buttons that are not there. This is the case the zero-button Board ships with (see
+# test_delivery's full-session test): text, and no keyboard at all.
+def test_a_member_of_a_full_session_is_pointed_at_leave_instead():
+    r, t = seated_four()
+    late = table.User(55, "Eve")
+
+    effects = r.message(late, "/join " + t.code)
+
+    assert render.SESSION_FULL == "Full — /leave to join another session."
+    assert board_text(effects, late.user_id).splitlines()[-1] == render.SESSION_FULL
+    assert keyboard_for(effects, late.user_id) == [], "nothing is on offer, and nothing is claimed"
 
 
 # S3.13 — the night's wins read on the Board itself, so a tap adds no message to the chat and the

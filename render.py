@@ -33,9 +33,14 @@ def settings(table):
         table.rate, "on" if table.shooter else "off", table.tai_cap())
 
 
-def board(table):
-    """The Board as every seated DM sees it, with the most recent Entries inside it (01/FR14)."""
-    return _board(table, table.log[-LAST_ENTRIES:])
+def board(table, tail=None):
+    """
+    The Board as every seated DM sees it, with the most recent Entries inside it (01/FR14).
+
+    `tail` replaces the last line for a Board shown to someone who does not hold a seat — the same score,
+    a different thing to do next (02b/E1). Callers use `seat_ask`; nobody hand-writes a tail.
+    """
+    return _board(table, table.log[-LAST_ENTRIES:], tail)
 
 
 def history(table):
@@ -68,8 +73,28 @@ def entering(name):
 # that used to repeat it is gone (02b/D9), so a colon dropped here would have nowhere else to be caught.
 PICK_WINNER = "Pick who won the round:"
 
+# The other thing the last line can be asked to do (02b/E1, Jon 2026-10-30): a member who joined a session
+# and holds no seat is offered seat buttons, and `Pick who won the round:` over those buttons asks them to
+# score a night they are not standing in. Same colon for the same reason — the buttons below are the list.
+CHOOSE_SEAT = "Choose which player you are:"
 
-def _board(table, entries):
+# …and when the session is full there is nothing to choose, so the line points at the one verb that works
+# instead of promising buttons that are not there (02b/E2).
+SESSION_FULL = "Full — /leave to join another session."
+
+
+def seat_ask(table):
+    """
+    The last line of the Board a member with **no seat** is shown.
+
+    They cannot score, so the `⏳ … is entering a win` line is not their news; the one thing they can do is
+    take a seat, and if none is free, leave. Both facts fit in one line because that is all the room the
+    tail has.
+    """
+    return CHOOSE_SEAT if table.free_seats() else SESSION_FULL
+
+
+def _board(table, entries, tail=None):
     seats = table.seats_view()
     # 02/FR17 (ERR-03) — the header counts seats by who is in them, never by how they are labelled: once an
     # empty seat has a label of its own, counting labels would read `4 of 4 seated` on an empty table.
@@ -83,14 +108,13 @@ def _board(table, entries):
     lines += _seat_lines(table)
     if entries:
         lines += _log_lines(table, entries)
-    # The last line always names what to do next, and exactly one of these two says it (02b/D2, 02b/D3).
+    # The last line always names what to do next, and exactly one of these says it (02b/D2, 02b/D3).
     # One `if`/`else` and one append, always last in the message: two appends is the shape that could print
     # both sentences or neither. The draft itself is private, but that one exists is public (01/FR9) — a
     # bystander should not have to wonder whether the night has gone idle.
-    if table.pending is not None:
-        lines.append("⏳ " + entering(table.names[table.pending["holder"]]))
-    else:
-        lines.append(PICK_WINNER)
+    lines.append(tail if tail is not None else
+                 ("⏳ " + entering(table.names[table.pending["holder"]])
+                  if table.pending is not None else PICK_WINNER))
     return "\n".join(lines)
 
 
