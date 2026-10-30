@@ -1,7 +1,8 @@
 """/end — the night's transfers, then a wiped slate and the same four players for the next round."""
 import render
 import table
-from tests.support import CYD, GUEST, DEB, HOST, board_text, keyboard_for, seated_four, seated_table, tap
+from tests.support import CYD, GUEST, DEB, HOST, board_text, keyboard_for, PLAYER, seated_four, \
+    seated_table, tap
 
 
 def a_night_two_up_two_down():
@@ -19,11 +20,11 @@ def transfer_lines(text):
     return [ln for ln in text.splitlines() if " pays " in ln]
 
 
-# S5.17 — 🔴 the short-handed night slice 1 witnessed (two empty winds charged −$3.20 each) reaches
-# score.settle with a name it was never written for. The money lives in the wind slot (AD4), so the
-# slot is what the sentence must name — the 2022 kernel would have printed `None pays Di: $3.20`.
-def test_a_vacant_wind_is_named_by_its_wind_and_its_vacancy():
-    r, t = seated_table()                          # 西 and 北 sit empty but still pay
+# S5.17, S4.7 — 🔴 the short-handed night slice 1 witnessed (two empty seats charged −$3.20 each)
+# reaches score.settle with a name it was never written for. The money lives in the seat, not the
+# person (AD4), so the seat is what the sentence must name — the 2022 kernel printed `None pays Di`.
+def test_an_empty_seat_is_named_by_its_slot_in_the_settlement():
+    r, t = seated_table()                          # seats 3 and 4 sit empty but still pay
     tap(r, t, HOST, "w", 0)
     tap(r, t, HOST, "a", "t1")
     tap(r, t, HOST, "p", "z")                      # Zi Mo — all three other slots pay
@@ -32,7 +33,7 @@ def test_a_vacant_wind_is_named_by_its_wind_and_its_vacancy():
 
     assert "None" not in text
     assert "Bo pays Al: $0.20" in text
-    assert "西 (empty) pays Al: $0.20" in text and "北 (empty) pays Al: $0.20" in text
+    assert "Player 3 (empty) pays Al: $0.20" in text and "Player 4 (empty) pays Al: $0.20" in text
 
 
 # S5.12 — /end exists so the money can actually move, so the numbers come out of the frozen kernel in
@@ -45,8 +46,8 @@ def test_the_settlement_repeats_the_totals_and_says_the_kernels_own_transfers():
     # Not `t.balances == [...]`: float residue is part of the frozen contract (Out of Scope), so the
     # numbers that count are the ones money() renders to cents for the players.
     assert transfer_lines(text) == ["Bo pays Al: $2.80", "Bo pays Cy: $0.40", "De pays Cy: $0.80"]
-    assert "東  Al" in text and "+$2.80" in text and "-$3.20" in text
-    assert text.startswith("Table %s — settled" % t.code)
+    assert "Player 1  Al" in text and "+$2.80" in text and "-$3.20" in text
+    assert text.startswith("Table %s · settled" % t.code)
 
 
 # S5.19 — /end is offered from the first hand, so a night with nothing to settle still answers. Out of
@@ -57,7 +58,7 @@ def test_a_night_with_nothing_to_settle_says_so():
     text = render.settlement(t)
 
     assert transfer_lines(text) == [] and "No Payment" in text
-    assert text.splitlines()[0] == "Table %s — settled" % t.code
+    assert text.splitlines()[0] == "Table %s · settled" % t.code
 
 
 # S5.10 — settlement is irreversible (no undo, memory only), so a mistyped /end must not wipe a night.
@@ -107,7 +108,7 @@ def test_keeping_playing_settles_nothing_and_gives_the_board_back():
 
     effects = tap(r, t, HOST, "b", "menu")
 
-    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", "Cy", "De"]
+    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", "Cy", "De", "Undo last win"]
     assert (t.balances, t.log) == before
 
 
@@ -120,11 +121,11 @@ def test_end_before_taking_a_seat_names_what_is_missing():
         tap(r, t, HOST, "w", 0)
         tap(r, t, HOST, "a", "t1")
         tap(r, t, HOST, "p", 1)
-    r.message(CYD, "/join " + t.code)                 # bound, and 西 and 北 are still free
+    r.message(CYD, "/join " + t.code)                 # bound, and seats 3 and 4 are still free
 
     effects = r.message(CYD, "/end")
 
-    assert {table.WINDS[w] for w in t.free_winds()} <= set(keyboard_for(effects, CYD.user_id))
+    assert {PLAYER[w] for w in t.free_seats()} <= set(keyboard_for(effects, CYD.user_id))
     assert "seat" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
     assert len(t.log) == 3 and any(t.balances), "a night nobody sat through is not settled by a bystander"
 
@@ -183,8 +184,7 @@ def test_every_seated_dm_is_settled_and_an_unseated_member_is_left_alone():
 
 
 # S5.18 — two nights run in one process (FR5), and /end belongs to exactly one of them. Mutation-checked:
-# point `_end` at the wrong Table and this is the test that says so. (It does *not* cover the `score.ZERO`
-# alias — nothing mutates a balance list in place, so no test can force that today.)
+# point `_end` at the wrong Table and this is the test that says so.
 def test_settling_one_table_leaves_the_other_nights_money_alone():
     r, t = a_night_two_up_two_down()
     r.message(CYD, "/leave")

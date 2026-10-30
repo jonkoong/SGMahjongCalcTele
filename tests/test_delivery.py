@@ -6,7 +6,7 @@ import pytest
 
 import mjbot
 import table
-from tests.support import GUEST, HOST, seated_table
+from tests.support import GUEST, HOST, PLAYER, seated_table
 
 from tests.fakes import FakeBot
 
@@ -70,7 +70,7 @@ def test_the_board_keyboard_travels_on_the_board_message():
     delivery = mjbot.Delivery(bot)
     delivery.run(r.message(HOST, "/board"))
     first_markup = board_sends(bot)[HOST.user_id]
-    assert set(labels(first_markup)) == {"Al", "Bo"}         # tap a name to start a win
+    assert set(labels(first_markup)) == {"Al", "Bo", PLAYER[2], PLAYER[3]}   # tap a seat to start
 
     delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)))
     edited = {chat: (message_id, markup) for chat, message_id, _, markup in bot.edited}
@@ -80,24 +80,26 @@ def test_the_board_keyboard_travels_on_the_board_message():
     # proves the keyboard reaches Telegram attached to the Board message.
 
 
-# refusals reach the tap, not the chat
-def test_a_refusal_shows_as_a_notification_on_the_tap():
+# refusals reach the tap, not the chat — and as an alert that must be dismissed, because the quiet
+# notification at the top of the chat was never seen at all (mission 03: toast visibility).
+def test_a_refusal_shows_as_an_alert_on_the_tap():
     r, t = seated_table()
     late = table.User(44, "Di")
     r.message(late, "/join " + t.code)
     bot = FakeBot()
     delivery = mjbot.Delivery(bot)
-    effects = r.tap(late, table.token("s", t.code, t.version, 0))   # 東 is the host's
+    effects = r.tap(late, table.token("s", t.code, t.version, 0))   # seat 1 is the host's already
     bot.sent.clear()
     bot.edited.clear()
     delivery.run(effects, callback_id="abc")
     assert len(bot.toasts) == 1 and bot.toasts[0][0] == "abc"
     assert "taken" in bot.toasts[0][1]
+    assert bot.toasts[0][2].get("show_alert") is True              # a popup, not a flash
     assert not bot.edited and not bot.sent
 
 
 # S3.11 — the seat offer rides the Board message, so seating edits that same message instead of
-# leaving a spent row of wind buttons above the score (Q4, scratchpad.md).
+# leaving a spent row of seat buttons above the score (Q4, scratchpad.md).
 def test_seating_edits_the_seat_offer_in_place():
     r = table.Room(rng=random.Random(7))
     bot = FakeBot()
@@ -106,15 +108,15 @@ def test_seating_edits_the_seat_offer_in_place():
     code = r.table_of(HOST).code
 
     offered = board_sends(bot)[HOST.user_id]
-    assert set(labels(offered)) == set(table.WINDS)          # the wind picker is on the Board
+    assert set(labels(offered)) == set(PLAYER)               # the seat picker is on the Board
 
     delivery.run(r.tap(HOST, table.token("s", code, r.table_of(HOST).version, 0)))
 
     assert len(bot.boards()) == 1                             # never a second one
     edited = {chat: (mid, text, markup) for chat, mid, text, markup in bot.edited}
     assert edited[HOST.user_id][0] == delivery.boards[HOST.user_id].message_id
-    assert "東  Al" in edited[HOST.user_id][1]
-    assert set(labels(edited[HOST.user_id][2])) == {"Al"}     # spent: now a score Board
+    assert "Player 1  Al" in edited[HOST.user_id][1]
+    assert set(labels(edited[HOST.user_id][2])) == {"Al", "Player 2", "Player 3", "Player 4"}
 
 
 # S3.15 — the 21:52 defect: /leave then /new wrote the fresh Board over the old "you have left

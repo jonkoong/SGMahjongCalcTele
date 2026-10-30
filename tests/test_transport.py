@@ -361,7 +361,7 @@ def test_a_settlement_whose_edit_died_is_said_on_the_beat():
     delivery.run(r.message(HOST, "/board"))
     for kind, meaning in (("w", 0), ("a", "t3"), ("p", 1)):     # Al wins 3 Tai off Bo
         delivery.run(r.tap(HOST, table.token(kind, t.code, t.version, meaning)))
-    settled = lambda: sorted(c for c, _, text, _ in bot.edited if "settled" in text)
+    settled = lambda: sorted(c for c, _, text, _ in bot.edited if " · settled" in text)
 
     bot.script = [False]                                        # the next edit dies mid-call
     delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "end")))

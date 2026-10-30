@@ -9,7 +9,10 @@ DOCS = [(path, pathlib.Path(path).read_text()) for path in ("README.md", "docs/f
 
 # Retired by this mission: the one-chat flow, and the corrections the spec puts Out of Scope.
 RETIRED_VERBS = ("play", "reset")
-RETIRED_WORDS = ("Manual Edits", "Remove Last", "chatStatus", "util.py", "session(", "howtopay()")
+# AD5, AD16 (S4.13) — the wind names are retired prose, not just retired code: a doc that still says
+# `pick a wind` fails the suite rather than going stale quietly.
+RETIRED_WORDS = ("Manual Edits", "Remove Last", "chatStatus", "util.py", "session(", "howtopay()",
+                 "東", "南", "西", "北", "pick a wind", "WINDS")
 
 
 def verbs_in(text):
@@ -41,6 +44,14 @@ def test_the_readme_names_every_verb_the_bot_has():
     assert not silent, "README never mentions %s" % sorted(silent)
 
 
+# S8.2 — undo is the one thing a player taps that is not a verb, so the verb net above cannot see it go.
+# The label is the constant the keyboard row is built from (`table.UNDO_LAST`, beside the other button
+# labels): a doc that never names it describes a bot with the hole this mission filled still in it.
+def test_both_docs_describe_the_undo_button():
+    for path, doc in DOCS:
+        assert table.UNDO_LAST in doc, "%s never mentions %s" % (path, table.UNDO_LAST)
+
+
 # S7.3 — the operator knobs are read from the environment by exactly one file; a table of variables that
 # does not match it teaches an operator to set something that does nothing.
 def test_the_env_table_covers_the_variables_the_bot_actually_reads():
@@ -52,3 +63,14 @@ def test_the_env_table_covers_the_variables_the_bot_actually_reads():
     missing, extra = read - documented, documented - read
     assert not missing, "README's table is missing %s" % sorted(missing)
     assert not extra, "README documents %s, which nothing reads" % sorted(extra)
+
+
+# NFR1 — the rules core imports no telebot, which is what lets every payout assertion in the suite run
+# with no token and no socket. docs/flow.md § 10 promises the split, and the CI file rules a linter out
+# on purpose ("No lint, no coverage"), so the promise needed a check that is not a tool: this file
+# already reads source text for the env table, and the two files NFR1 names are checked the same way.
+def test_the_rules_core_imports_no_telebot():
+    for path in ("table.py", "score.py"):
+        source = pathlib.Path(path).read_text()
+        assert not re.search(r"^\s*(?:import|from)\s+telebot\b", source, re.M), \
+            "%s imports telebot — NFR1 says the rules core does not" % path

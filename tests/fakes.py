@@ -28,7 +28,9 @@ class FakeBot:
         return True
 
     def answer_callback_query(self, callback_query_id, text=None, **kwargs):
-        self.toasts.append((callback_query_id, text))
+        # kwargs are kept, not dropped: `show_alert` is the whole difference between a refusal a
+        # player reads and one they never see, and a fake that discarded it could not tell them apart.
+        self.toasts.append((callback_query_id, text, dict(kwargs)))
         return True
 
     def boards(self):

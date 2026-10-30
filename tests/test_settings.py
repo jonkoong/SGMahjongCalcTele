@@ -1,4 +1,5 @@
-"""What the Table pays: the three settings a host may change, and what the money follows."""
+"""What the Table pays: the three settings the seated players may change, and what the
+money follows (FR11)."""
 import random
 
 import pytest
@@ -6,7 +7,8 @@ import pytest
 import render
 import score
 import table
-from tests.support import DEB, GUEST, HOST, buttons, seated_four, seated_table, tap
+from tests.support import CYD, DEB, GUEST, HOST, buttons, menu_for, PLAYER, seated_four, \
+    seated_table, tap
 from tests.support import board_text, buttons_for, keyboard_for, tokens_of
 
 
@@ -41,17 +43,115 @@ def test_a_cap_the_frozen_ladder_cannot_pay_is_clamped_to_the_ladder():
     assert "Max tai 10" in board_text(effects)                 # and the Board says what it can pay
 
 
-# S4.2 — a member cannot move the night's money, and a flat "no" would leave them hunting for who
-# can, so the refusal names the host the way /close's does (FR18).
-def test_a_member_who_asks_to_set_the_settings_is_told_who_may():
+# S5.2 (FR11) — whoever holds the tiles decides what they pay. Bo sits, so Bo sets: no refusal, no
+# sentence telling them to go and find the host, and no `/settings` they can see but not use.
+def test_a_seated_player_may_set_shooter_and_max_tai():
     r, t = seated_table()
+
+    opened = r.message(GUEST, "/settings")
+    assert keyboard_for(opened, GUEST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+
+    tap(r, t, GUEST, "g", "shooter")
+    tap(r, t, GUEST, "v", "shooter0")
+    tap(r, t, GUEST, "g", "maxtai")
+    tap(r, t, GUEST, "v", "maxtai8")
+
+    assert (t.shooter, t.maxtai) == (False, 8)
+    assert not [e for e in opened if isinstance(e, table.Line)], "nothing tells Bo to find a host"
+
+
+# S5.1 (FR11) — the menu has to offer what the tap will honour. `/close` stays the host's alone.
+def test_a_seated_player_is_offered_settings_and_only_the_host_is_offered_close():
+    r, t = seated_table()
+
+    guest = menu_for(r.message(GUEST, "/board"))
+    host = menu_for(r.message(HOST, "/board"))
+
+    assert "/settings" in guest and "/close" not in guest
+    assert "/settings" in host and "/close" in host
+
+
+# S5.3 (ERR-04) — the rate is typed, so opening settings to a non-host was only half the rule: the
+# answer used to be dropped as a stray message. It is the answer, and it lands.
+def test_a_seated_player_may_set_the_rate_by_typing_it():
+    r, t = seated_table()
+    tap(r, t, GUEST, "g", "rate")
+
+    answer = r.message(GUEST, "0.2")
+
+    assert t.rate == 0.2
+    assert "$0.20" in board_text(answer, GUEST.user_id)
+    assert not [e for e in answer if isinstance(e, table.Line) and "stray" in e.text.lower()]
+    assert keyboard_for(answer, GUEST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+
+
+# S5.4 (FR11) — a seat is what makes the rule theirs. A member bound to the Table but holding nothing
+# gets the picker they were owed anyway, plus the sentence saying which ingredient is missing.
+def test_a_member_with_no_seat_is_refused_and_shown_the_picker():
+    r, t = seated_table()
+    r.message(CYD, "/join " + t.code)
+    rules = (t.rate, t.shooter, t.maxtai)
+
+    effects = tap(r, t, CYD, "g", "maxtai")
+
+    assert set(buttons(effects)) == set(PLAYER) - {PLAYER[0], PLAYER[1]}   # the picker they were owed
+    assert "seat" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert (t.rate, t.shooter, t.maxtai) == rules, "no setting moved"
+
+
+# S5.5 (FR11, AD24) — a setting is a write: every seated Board moves with it, and the ladder somebody
+# was looking at is redrawn in place. The rung that has just gone above the cap still carries a live
+# token, and it is refused rather than paid.
+def test_a_setting_by_a_non_host_reaches_every_board_and_retires_the_ladder():
+    r, t = seated_four()
+    ladder = buttons_for(tap(r, t, GUEST, "w", 1), GUEST.user_id)     # Bo holds the amount ladder
+    assert "5 Tai" in ladder, "the ladder Bo is looking at has a rung De is about to remove"
+
+    effects = tap(r, t, DEB, "v", "maxtai3")                       # De lowers the cap under Bo's feet
+
+    assert sorted(e.chat_id for e in effects if isinstance(e, table.Board)) == sorted(t.seated_ids())
+    held = keyboard_for(r.message(GUEST, "/board"), GUEST.user_id)
+    assert tai_ladder(held) == {"1 Tai", "2 Tai", "3 Tai"}          # redrawn in place, not dismissed
+    refused = tap(r, t, GUEST, "a", "t5")
+    assert "not on the board" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+
+
+# S5.6 (mission 01 AD9) — a value that already holds is not a change: no bump, and nobody else's
+# screen is rewritten to say nothing.
+def test_a_setting_already_at_that_value_costs_nobody_a_call():
+    r, t = seated_four()
+    tap(r, t, GUEST, "v", "shooter0")                          # Shooter is off now
     version = t.version
 
-    effects = r.message(GUEST, "/settings")
+    effects = tap(r, t, CYD, "v", "shooter0")                  # Cy taps the same value again
 
-    assert effects[0].text == "Only the host, Al, can change settings at table %s." % t.code
-    assert not [e for e in effects if isinstance(e, table.Board)]    # nothing new on their screen
-    assert (t.rate, t.shooter, t.maxtai, t.version) == (0.1, True, 5, version)
+    assert t.version == version, "nothing changed, so nothing went stale"
+    assert [e.chat_id for e in effects if isinstance(e, table.Board)] == [CYD.user_id]
+    assert keyboard_for(effects, CYD.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+
+
+# S5.7 (FR11) — the rule is about the Table, not the screen: a player bound to nothing gets the same
+# answer every other verb gives them, and the setting they aimed at does not move.
+def test_a_player_at_no_table_changes_nothing_with_a_borrowed_token():
+    r, t = seated_table()
+    r.message(DEB, "/new")                                     # De has a Table of their own
+    live = table.token("v", t.code, t.version, "shooter1")
+
+    effects = r.tap(DEB, live)
+
+    assert "not at table" in next(e.text for e in effects if isinstance(e, table.Toast)).lower()
+    assert t.shooter is True
+
+
+# S5.8 (FR12) — /close is still the host's alone, and the settings opening did not loosen it.
+def test_opening_settings_to_the_seated_left_close_alone_with_the_host():
+    r, t = seated_table()
+
+    effects = r.message(GUEST, "/close")
+
+    assert effects[0].text == "Only the host, Al, can close table %s." % t.code
+    assert r.tables[t.code] is t, "the Table is still standing"
+
 
 
 # S4.3 — the host who opened a Table and never sat down. Settings ride the Board, and a Board is owed
@@ -65,7 +165,7 @@ def test_a_host_who_has_not_taken_a_seat_is_asked_to_take_one_first():
 
     line = next(e.text for e in effects if isinstance(e, table.Line))
     assert "seat" in line.lower()
-    assert set(buttons(effects)) == set(table.WINDS)      # their screen is still the seat picker
+    assert set(buttons(effects)) == set(PLAYER)         # their screen is still the seat picker
 
 
 # S4.4 — the settings screen is one viewer's keyboard, not a new message and not the group's screen
@@ -81,17 +181,18 @@ def test_the_host_s_settings_screen_moves_nobody_elses_keyboard():
     assert boards[HOST.user_id].text == render.board(t)        # the text stays the shared one
 
 
-# S4.20 — the host's keyboard is not what makes a setting host-only. Telegram replays the data an old
-# button carried, so FR18 is a rule about the tap, not about who was shown the button.
+# S5.4 at the tap (FR11) — the keyboard is not the rule: a settings token replayed by somebody the
+# picker was never drawn for is refused where they stand, by the same rule the menu encodes.
 @pytest.mark.parametrize("kind,meaning", [("g", "maxtai"), ("v", "maxtai3")])
-def test_a_member_who_taps_a_settings_button_is_refused_by_name(kind, meaning):
+def test_a_settings_token_tapped_without_a_seat_changes_nothing(kind, meaning):
     r, t = seated_table()
+    r.message(CYD, "/join " + t.code)
+    rules = (t.rate, t.shooter, t.maxtai)
 
-    effects = tap(r, t, GUEST, kind, meaning)
+    effects = tap(r, t, CYD, kind, meaning)
 
-    assert t.maxtai == 5
-    toast = next(e.text for e in effects if isinstance(e, table.Toast))
-    assert toast == "Only the host, Al, can change settings at table %s." % t.code
+    assert (t.rate, t.shooter, t.maxtai) == rules
+    assert "seat" in next(e.text for e in effects if isinstance(e, (table.Line, table.Toast))).lower()
 
 
 # S4.9 — the picker is drawn from the frozen ladder, not from a wish list: the biggest thing a host can
@@ -180,7 +281,7 @@ def test_the_amount_ladder_follows_the_cap_the_host_set():
 
     tap(r, t, HOST, "a", "t3")
     tap(r, t, HOST, "p", "z")
-    # The frozen number for rung 3, winner 南, drawn straight from tests/golden_payouts.json.
+    # The frozen number for rung 3, winner in Player 2's seat, drawn straight from tests/golden_payouts.json.
     assert t.balances == pytest.approx([-0.8, 2.4000000000000004, -0.8, -0.8])
 
 
@@ -244,6 +345,30 @@ def test_a_draft_above_a_cap_lowered_after_it_pays_what_it_was_tapped_for():
     assert "Bo wins 8 Tai on Zi Mo" in board_text(committed)
 
 
+# The rate gets the opposite ruling to S4.15, because it moves the money under a rung rather than the
+# rung under a cap: money is priced at commit, so a rung held across a rate change books a price
+# nobody tapped — rung 8 at $0.10 is $51.20, the same rung at $1.00 is $512 — and the who-fed screen
+# never shows the amount being paid. The rung comes back, the winner stays picked (F-01, Jon 2026-10-30).
+def test_a_rate_moved_mid_draft_hands_the_amount_back_to_its_holder():
+    r, t = seated_four()
+    tap(r, t, HOST, "v", "maxtai10")
+    tap(r, t, HOST, "w", 1)                                # Bo won
+    tap(r, t, HOST, "a", "t8")                             # rung 8, chosen at the $0.10 rate
+    before, version = list(t.balances), t.version
+
+    tap(r, t, GUEST, "g", "rate")                          # a seated non-host, mid-draft
+    applied = r.message(GUEST, "1.0")
+
+    assert t.rate == 1.0 and t.balances == before, "the write itself moves no money"
+    assert t.pending["winner"] == 1 and t.pending["amount"] is None, "his winner, not his rung"
+    assert "8 Tai" in tai_ladder(keyboard_for(applied, HOST.user_id)), "he is handed the ladder back"
+    assert t.version == version + 1                        # one change, one bump, as ever
+
+    tap(r, t, HOST, "a", "t8")                             # re-tapped knowingly, at $1.00
+    tap(r, t, HOST, "p", 0)
+    assert t.balances == pytest.approx([-512.0, 512.0, 0.0, 0.0]), "the rung pays tonight's rate"
+
+
 # S4.8 — the shooter switch has to reach the kernel, not just the wording: with it off a named feeder
 # pays half and the other two seats a quarter each — the frozen non-shooter factors, quirks included.
 def test_turning_the_shooter_off_moves_money_to_the_seats_that_did_not_feed():
@@ -259,7 +384,7 @@ def test_turning_the_shooter_off_moves_money_to_the_seats_that_did_not_feed():
     tap(r, t, HOST, "a", "t3")
     tap(r, t, HOST, "p", 0)                                # ... and Al fed it
 
-    # Golden, not inferred: tai 3, rate 0.1, shooter off, winner 南, payer 東.
+    # Golden, not inferred: tai 3, rate 0.1, shooter off, winner in seat 2, payer in seat 1.
     assert t.balances == pytest.approx([-0.8, 1.6, -0.4, -0.4])
 
 
@@ -311,7 +436,7 @@ def test_a_rate_that_is_not_a_rate_costs_one_refusal_and_the_asking_stops():
     assert not [e for e in later if isinstance(e, table.Line) and "not a rate" in e.text]
 
 
-# F-06 — a value tap changes the Table, so tasking.md's slice-4 ruling put `g` and `v` beside
+# A value tap changes the Table, so `g` and `v` belong beside
 # `w`/`a`/`p`/`x` in the staleness guard. Neither was in it: a settings screen left open across
 # somebody else's win still moved the Table from a keyboard Telegram had already replaced. `b` stays
 # exempt — it is the way out of a stale screen, and versioning it would trap the player on one.

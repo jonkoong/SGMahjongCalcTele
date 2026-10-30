@@ -5,7 +5,7 @@ import pytest
 
 import table
 
-from tests.support import CYD, GUEST, HOST, seated_table
+from tests.support import CYD, GUEST, HOST, PLAYER, seated_table
 
 
 def new_room():
@@ -33,9 +33,11 @@ seated_two_player_table = seated_table
 def test_opening_a_table_issues_a_join_code_and_asks_for_a_seat():
     r = new_room()
     effects = r.message(HOST, "/new")
+    # FR2, FR13 — the code is on the Board's first line, where it stays for the whole night: that is the
+    # message a seated player reads aloud to whoever is still outside.
     assert r.table_of(HOST).code in " ".join(b.text for b in boards(effects))
     assert r.table_of(HOST).host_id == HOST.user_id
-    assert set(labels(effects)) >= set(table.WINDS)
+    assert set(labels(effects)) >= set(PLAYER)
 
 
 # S1.2
@@ -43,20 +45,20 @@ def test_codes_avoid_look_alikes_and_are_never_reused_while_live():
     live = set()
     for n in range(300):
         code = table.new_code(live, random.Random(n))
-        assert len(code) == 4
-        assert not set(code) & set("0O1I")
+        assert len(code) == table.CODE_LENGTH, "02/FR13 — six of them"
+        assert not set(code) & set("0O1Iil o"), "nothing a phone renders as something else"
         live.add(code)
     assert len(live) == 300
 
 
 # S1.3
-def test_joining_by_code_binds_the_player_and_offers_free_winds():
+def test_joining_by_code_binds_the_player_and_offers_the_free_seats():
     r = new_room()
     r.message(HOST, "/new")
     code = r.table_of(HOST).code
     effects = r.message(GUEST, "/join " + code)
     assert r.table_of(GUEST) is r.table_of(HOST)
-    assert set(labels(effects)) >= set(table.WINDS)
+    assert set(labels(effects)) >= set(PLAYER)
     assert r.table_of(GUEST).seat_of(GUEST.user_id) is None
 
 
@@ -70,7 +72,7 @@ def test_a_code_no_live_table_holds_is_refused():
 
 
 # S1.5
-def test_a_taken_wind_cannot_be_chosen():
+def test_a_taken_seat_cannot_be_chosen():
     r = new_room()
     r.message(HOST, "/new")
     t = r.table_of(HOST)
@@ -109,7 +111,7 @@ def test_the_seat_offer_rides_the_board_message():
     board = next((e for e in effects if isinstance(e, table.Board)), None)
     assert board is not None, "the seat offer should be the chat's Board message"
     assert board.chat_id == HOST.user_id
-    assert set(labels([board])) == set(table.WINDS)
+    assert set(labels([board])) == set(PLAYER)
 
 
 # S3.11 — and the seat tap turns that same message into the score Board, with nothing beside it.
@@ -121,4 +123,4 @@ def test_seating_spends_the_seat_offer_in_place():
     effects = r.tap(HOST, table.token("s", t.code, t.version, 0))
 
     assert [type(e) for e in effects if not isinstance(e, table.Commands)] == [table.Board]
-    assert "empty" in boards(effects)[0].text         # three winds still unclaimed
+    assert "empty" in boards(effects)[0].text         # three seats still unclaimed

@@ -3,25 +3,15 @@ import random
 
 import render
 import table
-from tests.support import CYD, GUEST, HOST, board_text, keyboard_for, seated_four, seated_table, tap
+from tests.support import CYD, GUEST, HOST, board_text, entry_texts, keyboard_for, PLAYER, \
+    score_wins, seated_four, seated_table, shown_wins, tap
 
 
 def night(n):
     """A four-seat Table with n committed Entries, each a distinct winner + amount + feeder."""
     r, t = seated_four()
-    for i in range(n):
-        tap(r, t, HOST, "w", i % 4)
-        tap(r, t, HOST, "a", "t%d" % (i // 4 + 1))
-        tap(r, t, HOST, "p", (i + 1) % 4)
+    score_wins(r, t, n)
     return r, t
-
-
-def entry_lines(text):
-    """
-    The Board's Entry lines, oldest first. The tell is the money figure every one ends with
-    (render.entry_line) — prose like `No wins yet.` cannot imitate it, which `" wins " in text` can.
-    """
-    return [ln for ln in text.splitlines() if ln.rstrip()[-1:].isdigit() and " wins " in ln]
 
 
 # S5.1 — the Board keeps three Entries and counts the rest; the count is a promise that the whole night
@@ -33,7 +23,7 @@ def test_history_lists_every_entry_the_board_dropped():
 
     assert len(t.log) == len(set(t.log)) == 7, "7 distinct Entries or this proves nothing"
     assert "earlier" not in text                       # nothing hidden, so nothing counted
-    assert entry_lines(text) == t.log                  # all 7, oldest first, in log order
+    assert shown_wins(text) == entry_texts(t)          # all 7, oldest first, in log order
 
 
 # S5.3 — a count with no verb under it is a dead end: the Board says four wins fell off the top and, until
@@ -54,8 +44,8 @@ def test_reading_the_history_moves_nobody_elses_screen():
     effects = r.message(HOST, "/history")
 
     assert [e.chat_id for e in effects if isinstance(e, table.Board)] == [HOST.user_id]
-    assert len(entry_lines(board_text(effects, HOST.user_id))) == 7
-    assert len(entry_lines(render.board(t))) == render.LAST_ENTRIES   # what the others keep
+    assert len(shown_wins(board_text(effects, HOST.user_id))) == 7
+    assert len(shown_wins(render.board(t))) == render.LAST_ENTRIES   # what the others keep
 
 
 # S5.5 — a screen the player can walk into has to be one they can walk out of without typing, and
@@ -67,8 +57,8 @@ def test_back_out_of_the_history_returns_the_score_board():
 
     effects = tap(r, t, HOST, "b", "menu")
 
-    assert entry_lines(board_text(effects, HOST.user_id)) == t.log[-render.LAST_ENTRIES:]
-    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", "Cy", "De"]
+    assert shown_wins(board_text(effects, HOST.user_id)) == entry_texts(t)[-render.LAST_ENTRIES:]
+    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", "Cy", "De", "Undo last win"]
     assert t.version == before, "reading the night is not a change, so nobody's buttons went stale"
 
 
@@ -94,7 +84,7 @@ def test_an_empty_night_says_so_instead_of_going_blank():
 
     text = board_text(r.message(GUEST, "/history"), GUEST.user_id)
 
-    assert entry_lines(text) == []
+    assert shown_wins(text) == []
     assert "No wins yet" in text
 
 
@@ -113,7 +103,7 @@ def test_history_with_no_table_is_the_answer_every_verb_gives():
 # and a refusal saying why the night is not theirs to read yet. The picker alone can look like nothing
 # happened, because their screen already shows it.
 def test_history_before_taking_a_seat_names_what_is_missing():
-    r, t = seated_table()                          # two seats filled, 西 and 北 still free
+    r, t = seated_table()                          # two seats filled, seats 3 and 4 still free
     for _ in range(5):
         tap(r, t, HOST, "w", 0)
         tap(r, t, HOST, "a", "t1")
@@ -122,6 +112,6 @@ def test_history_before_taking_a_seat_names_what_is_missing():
 
     effects = r.message(CYD, "/history")
 
-    offered = {table.WINDS[w] for w in t.free_winds()}
+    offered = {PLAYER[w] for w in t.free_seats()}
     assert set(keyboard_for(effects, CYD.user_id)) == offered        # the picker they were owed
     assert "seat" in next(e.text for e in effects if isinstance(e, table.Line)).lower()

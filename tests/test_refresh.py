@@ -2,7 +2,8 @@
 import random
 
 import table
-from tests.support import CYD, GUEST, HOST, board_text, keyboard_for, menu_for, seated_table, tap
+from tests.support import CYD, GUEST, HOST, board_text, keyboard_for, menu_for, PLAYER, \
+    seated_table, tap
 
 
 # S6.3 — 🔴 with a code ask outstanding, a sticker used to be read as a code and refused as a bad one:
@@ -127,7 +128,7 @@ def test_a_plain_message_from_an_unseated_member_is_the_picker_they_already_hold
 
     effects = r.message(CYD, "👍")
 
-    assert set(keyboard_for(effects, CYD.user_id)) == {table.WINDS[w] for w in t.free_winds()}
+    assert set(keyboard_for(effects, CYD.user_id)) == {PLAYER[w] for w in t.free_seats()}
     assert [e for e in effects if isinstance(e, table.Line)] == []
 
 
@@ -140,4 +141,4 @@ def test_a_plain_message_names_who_holds_the_draft():
 
     assert "Bo is entering a win" in next(e.text for e in effects if isinstance(e, table.Line))
     assert "⏳ Bo is entering a win" in board_text(effects, HOST.user_id)
-    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo"]      # a bystander keeps winner buttons
+    assert keyboard_for(effects, HOST.user_id) == ["Al", "Bo", "Player 3", "Player 4"]  # winner row

@@ -6,8 +6,11 @@ offers is a rule, so that lives with the rules in `table.py` (docs/flow.md § 10
 """
 import score
 
+# How to read the ids below: a bare FR/AD/AS names mission `01-pooled-table`; `02/…` marks the
+# `02-uiux-overhaul` fact that owns the line, and ERR-nn is that mission's scrutiny list.
+
 # How many of the night's Entries the Board keeps visible. A real night is a few dozen hands,
-# and the Board has to stay well inside Telegram's 4096-character message (AS5). What it stops
+# and the Board has to stay well inside Telegram's 4096-character message (01/AS5). What it stops
 # showing is counted on the Board and listed in full by `history` below.
 LAST_ENTRIES = 3
 
@@ -22,7 +25,7 @@ def money(value):
 
 def settings(table):
     """
-    What this Table pays, read out where its money is read out (FR13). A balance on its own is not
+    What this Table pays, read out where its money is read out (01/FR13). A balance on its own is not
     evidence: without the rate a player cannot tell a $0.10 win from a $0.20 one, and the old bot
     printed these three numbers into the chat for exactly that reason.
     """
@@ -31,41 +34,59 @@ def settings(table):
 
 
 def board(table):
-    """The Board as every seated DM sees it, with the most recent Entries inside it (FR14)."""
+    """The Board as every seated DM sees it, with the most recent Entries inside it (01/FR14)."""
     return _board(table, table.log[-LAST_ENTRIES:])
 
 
 def history(table):
     """
-    Every Entry the night has, oldest first (FR17). The Board window exists because that message is
+    Every Entry the night has, oldest first (01/FR17). The Board window exists because that message is
     edited for four chats on every win and must stay a glance; this is the whole night behind it, and
     what the Board's `… N earlier — /history` cue points at.
     """
     return _board(table, table.log, when_empty="No wins yet.")
 
 
+def entering(name):
+    """
+    The one clause that says a win is halfway in (01/FR9).
+
+    Four sentences quote it: the Board's `⏳` line, what a bystander is told, the `/end` refusal and the
+    undo refusal. They describe the same fact, so they say it with one set of words — written once here,
+    in the file that owns the words players read.
+    """
+    return "%s is entering a win" % name
+
+
 def _board(table, entries, when_empty=None):
     seats = table.seats_view()
-    seated = sum(1 for seat in seats if seat[1] is not None)
-    lines = ["Table %s — %d of %d seated" % (table.code, seated, len(seats)), settings(table)]
+    # 02/FR17 (ERR-03) — the header counts seats by who is in them, never by how they are labelled: once an
+    # empty seat has a label of its own, counting labels would read `4 of 4 seated` on an empty table.
+    # The code holds the first line, in the one message that lives in every seated chat for the whole
+    # night — not a requirement (02/FR13 fixes six characters and one deal, not visibility): Jon reverted
+    # the hiding rule, 2026-10-30. It is how a newcomer gets in: a seated player
+    # reads their own header aloud, or screenshots it, and the four of them are done. Nowhere else would
+    # do — a code that only appears once, at `/new`, is one nobody can find again at 9pm.
+    lines = ["Table %s · %d of %d seated" % (table.code, len(table.seated_ids()), len(seats)),
+             settings(table)]
     lines += _seat_lines(table)
     if table.pending is not None:
-        # The draft itself is private, but that one exists is public (FR9): a bystander should not
+        # The draft itself is private, but that one exists is public (01/FR9): a bystander should not
         # have to wonder whether the table has gone idle.
-        lines.append("⏳ %s is entering a win" % table.names[table.pending["holder"]])
+        lines.append("⏳ " + entering(table.names[table.pending["holder"]]))
     lines += _log_lines(table, entries) if entries else (["", when_empty] if when_empty else [])
     return "\n".join(lines)
 
 
 def _seat_lines(table):
-    """One line per wind: label, whoever holds it, and the money sitting there (AD4)."""
+    """One line per seat: its label, whoever holds it or `empty`, and the money sitting there (01/AD4)."""
     return ["%s  %-14s %s" % (label, name or "empty", money(value))
             for label, name, value in table.seats_view()]
 
 
 def settlement(table):
     """
-    Who transfers what to whom (FR19) — `score.settle`'s own lines, in the order the 2022 `howtopay`
+    Who transfers what to whom (01/FR19) — `score.settle`'s own lines, in the order the 2022 `howtopay`
     chose them, with the four totals repeated above them.
 
     The repetition is the point: `/end` zeroes the Board in the same breath, so a player reading
@@ -75,7 +96,7 @@ def settlement(table):
 
     Said *before* the slate is wiped — this is the last place the night's numbers exist.
     """
-    lines = ["Table %s — settled" % table.code] + _seat_lines(table) + [""]
+    lines = ["Table %s · settled" % table.code] + _seat_lines(table) + [""]
     lines += score.settle(table.balances, transfer_names(table)).rstrip("\n").splitlines()
     return "\n".join(lines)
 
@@ -84,7 +105,7 @@ def transfer_names(table):
     """
     The four names the frozen kernel puts in its sentences.
 
-    A vacant wind is not nobody. Money lives in the slot and not the person (AD4), so an empty seat
+    An empty seat is not nobody. Money lives in the slot and not the person (01/AD4), so an empty seat
     owes and is owed exactly like a player — it just has no one to say, and the Board already calls that
     row `empty`. Handing the kernel `None` instead would read `None pays Di: $3.20`.
     """
@@ -95,7 +116,7 @@ def _log_lines(table, entries):
     """
     The night's Entries, oldest first, read out inside the Board message. That is what keeps the
     Board in front of the player scoring the next win: a tap then adds nothing to the chat, so the
-    Board never climbs away under a stack of messages (FR14, amended 2026-10-29).
+    Board never climbs away under a stack of messages (01/FR14, amended 2026-10-29).
 
     Called only with something to show — an empty window is an empty Board, and only `history` has
     anything to say about having nothing to say.
@@ -104,9 +125,9 @@ def _log_lines(table, entries):
     lines = [""]
     if dropped:
         # The cue names the verb, because a bare count tells the player the night is longer without
-        # saying how to read it (FR17).
+        # saying how to read it (01/FR17).
         lines.append("… %d earlier — /history" % dropped)
-    return lines + entries
+    return lines + [entry.text for entry in entries]
 
 
 def entry_line(table, winner, label, payer, delta, concealed=False):
@@ -114,13 +135,14 @@ def entry_line(table, winner, label, payer, delta, concealed=False):
     One short line per committed Entry — `label` is the same words the button showed.
 
     A named feeder reads "from X" and a self-drawn win reads "on Zi Mo". A concealed win (暗, or an
-    animal) is neither: nobody fed it and nobody drew it, so the line names no-one.
+    animal) is neither: nobody fed it and nobody drew it, so the line names no-one. A seat nobody holds
+    is named by its slot, so an empty seat wins and pays in its own name (02/FR5).
     """
     if payer is not None:
-        how = " from %s" % table.occupant_name(payer)
+        how = " from %s" % table.name_for(payer)
     elif not concealed:
         how = " on Zi Mo"
     else:
         how = ""
-    return "%s wins %s%s: %s" % (table.occupant_name(winner), label, how,
+    return "%s wins %s%s: %s" % (table.name_for(winner), label, how,
                                  money(delta[winner]))

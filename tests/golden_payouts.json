@@ -15,45 +15,6 @@
   },
   {
    "after": [
-    0.1,
-    -0.1,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.1,
-    0.0,
-    -0.1,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.1,
-    0.0,
-    0.0,
-    -0.1
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
     -0.1,
     0.30000000000000004,
     -0.1,
@@ -68,90 +29,12 @@
   {
    "after": [
     -0.1,
-    0.1,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.1,
-    -0.1,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.1,
-    0.0,
-    -0.1
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    -0.1,
     -0.1,
     0.30000000000000004,
     -0.1
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    -0.1,
-    0.0,
-    0.1,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    -0.1,
-    0.1,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.1,
-    -0.1
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.1,
    "shooter": true,
    "winner": 2
@@ -171,45 +54,6 @@
   },
   {
    "after": [
-    -0.1,
-    0.0,
-    0.0,
-    0.1
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    -0.1,
-    0.0,
-    0.1
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    -0.1,
-    0.1
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     0.6000000000000001,
     -0.2,
     -0.2,
@@ -217,45 +61,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.1,
    "shooter": true,
    "winner": 0
@@ -275,45 +80,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.2,
     -0.2,
     0.6000000000000001,
@@ -321,45 +87,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.1,
    "shooter": true,
    "winner": 2
@@ -379,45 +106,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     0.30000000000000004,
     -0.1,
     -0.1,
@@ -425,45 +113,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.1,
    "shooter": false,
    "winner": 0
@@ -483,45 +132,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.1,
     -0.1,
     0.30000000000000004,
@@ -529,45 +139,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.1,
    "shooter": false,
    "winner": 2
@@ -587,45 +158,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     0.6000000000000001,
     -0.2,
     -0.2,
@@ -633,45 +165,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.1,
    "shooter": false,
    "winner": 0
@@ -691,45 +184,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.2,
     -0.2,
     0.6000000000000001,
@@ -737,45 +191,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.1,
    "shooter": false,
    "winner": 2
@@ -795,45 +210,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     0.6000000000000001,
     -0.2,
     -0.2,
@@ -841,45 +217,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.2,
-    -0.2,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.2,
-    0.0,
-    -0.2,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.2,
-    0.0,
-    0.0,
-    -0.2
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.2,
    "shooter": true,
    "winner": 0
@@ -900,90 +237,12 @@
   {
    "after": [
     -0.2,
-    0.2,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.2,
-    -0.2,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.2,
-    0.0,
-    -0.2
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    -0.2,
     -0.2,
     0.6000000000000001,
     -0.2
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    -0.2,
-    0.0,
-    0.2,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    -0.2,
-    0.2,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.2,
-    -0.2
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.2,
    "shooter": true,
    "winner": 2
@@ -1003,45 +262,6 @@
   },
   {
    "after": [
-    -0.2,
-    0.0,
-    0.0,
-    0.2
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    -0.2,
-    0.0,
-    0.2
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    -0.2,
-    0.2
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     1.2000000000000002,
     -0.4,
     -0.4,
@@ -1049,45 +269,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.2,
    "shooter": true,
    "winner": 0
@@ -1107,45 +288,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.4,
     -0.4,
     1.2000000000000002,
@@ -1153,45 +295,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.2,
    "shooter": true,
    "winner": 2
@@ -1211,45 +314,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     0.6000000000000001,
     -0.2,
     -0.2,
@@ -1257,45 +321,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.2,
    "shooter": false,
    "winner": 0
@@ -1315,45 +340,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.2,
     -0.2,
     0.6000000000000001,
@@ -1361,45 +347,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.2,
    "shooter": false,
    "winner": 2
@@ -1419,45 +366,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     1.2000000000000002,
     -0.4,
     -0.4,
@@ -1465,45 +373,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.2,
    "shooter": false,
    "winner": 0
@@ -1523,45 +392,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.4,
     -0.4,
     1.2000000000000002,
@@ -1569,45 +399,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.2,
    "shooter": false,
    "winner": 2
@@ -1627,45 +418,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     0.8999999999999999,
     -0.3,
     -0.3,
@@ -1673,45 +425,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.3,
-    -0.3,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.3,
-    0.0,
-    -0.3,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.3,
-    0.0,
-    0.0,
-    -0.3
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.3,
    "shooter": true,
    "winner": 0
@@ -1732,90 +445,12 @@
   {
    "after": [
     -0.3,
-    0.3,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.3,
-    -0.3,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.3,
-    0.0,
-    -0.3
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    -0.3,
     -0.3,
     0.8999999999999999,
     -0.3
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    -0.3,
-    0.0,
-    0.3,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    -0.3,
-    0.3,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.3,
-    -0.3
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.3,
    "shooter": true,
    "winner": 2
@@ -1835,45 +470,6 @@
   },
   {
    "after": [
-    -0.3,
-    0.0,
-    0.0,
-    0.3
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    -0.3,
-    0.0,
-    0.3
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    -0.3,
-    0.3
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     1.7999999999999998,
     -0.6,
     -0.6,
@@ -1881,45 +477,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.3,
    "shooter": true,
    "winner": 0
@@ -1939,45 +496,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.6,
     -0.6,
     1.7999999999999998,
@@ -1985,45 +503,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.3,
    "shooter": true,
    "winner": 2
@@ -2043,45 +522,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     0.8999999999999999,
     -0.3,
     -0.3,
@@ -2089,45 +529,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.3,
    "shooter": false,
    "winner": 0
@@ -2147,45 +548,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.3,
     -0.3,
     0.8999999999999999,
@@ -2193,45 +555,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 0.3,
    "shooter": false,
    "winner": 2
@@ -2251,45 +574,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     1.7999999999999998,
     -0.6,
     -0.6,
@@ -2297,45 +581,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.3,
    "shooter": false,
    "winner": 0
@@ -2355,45 +600,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.6,
     -0.6,
     1.7999999999999998,
@@ -2401,45 +607,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.3,
    "shooter": false,
    "winner": 2
@@ -2459,45 +626,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     3.0,
     -1.0,
     -1.0,
@@ -2505,45 +633,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    1.0,
-    -1.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    1.0,
-    0.0,
-    -1.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    1.0,
-    0.0,
-    0.0,
-    -1.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 1,
    "shooter": true,
    "winner": 0
@@ -2564,90 +653,12 @@
   {
    "after": [
     -1.0,
-    1.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    1.0,
-    -1.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    1.0,
-    0.0,
-    -1.0
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    -1.0,
     -1.0,
     3.0,
     -1.0
    ],
    "blind": false,
    "payer": null,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    -1.0,
-    0.0,
-    1.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    -1.0,
-    1.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    1.0,
-    -1.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 1,
    "shooter": true,
    "winner": 2
@@ -2667,45 +678,6 @@
   },
   {
    "after": [
-    -1.0,
-    0.0,
-    0.0,
-    1.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    -1.0,
-    0.0,
-    1.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    -1.0,
-    1.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     6.0,
     -2.0,
     -2.0,
@@ -2713,45 +685,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 1,
    "shooter": true,
    "winner": 0
@@ -2771,45 +704,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -2.0,
     -2.0,
     6.0,
@@ -2817,45 +711,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 1,
    "shooter": true,
    "winner": 2
@@ -2875,45 +730,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
     3.0,
     -1.0,
     -1.0,
@@ -2921,45 +737,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 1,
    "shooter": false,
    "winner": 0
@@ -2979,45 +756,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -1.0,
     -1.0,
     3.0,
@@ -3025,45 +763,6 @@
    ],
    "blind": false,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 3,
    "rate": 1,
    "shooter": false,
    "winner": 2
@@ -3083,45 +782,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": false,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     6.0,
     -2.0,
     -2.0,
@@ -3129,45 +789,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 1,
    "shooter": false,
    "winner": 0
@@ -3187,45 +808,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -2.0,
     -2.0,
     6.0,
@@ -3233,45 +815,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 1,
    "shooter": false,
    "winner": 2
@@ -3285,45 +828,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 1,
    "shooter": false,
    "winner": 3
@@ -3553,45 +1057,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
     -0.2,
     0.6000000000000001,
     -0.2,
@@ -3605,45 +1070,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.2,
     -0.2,
     0.6000000000000001,
@@ -3651,45 +1077,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.1,
    "shooter": true,
    "winner": 2
@@ -3703,45 +1090,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 0.1,
    "shooter": true,
    "winner": 3
@@ -3969,45 +1317,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
     -0.4,
     1.2000000000000002,
     -0.4,
@@ -4021,45 +1330,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.4,
     -0.4,
     1.2000000000000002,
@@ -4067,45 +1337,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.1,
    "shooter": false,
    "winner": 2
@@ -4119,45 +1350,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 0.1,
    "shooter": false,
    "winner": 3
@@ -4385,45 +1577,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
     -0.4,
     1.2000000000000002,
     -0.4,
@@ -4437,45 +1590,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.4,
     -0.4,
     1.2000000000000002,
@@ -4483,45 +1597,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.2,
    "shooter": true,
    "winner": 2
@@ -4535,45 +1610,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 0.2,
    "shooter": true,
    "winner": 3
@@ -4801,45 +1837,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
     -0.8,
     2.4000000000000004,
     -0.8,
@@ -4853,45 +1850,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.8,
     -0.8,
     2.4000000000000004,
@@ -4899,45 +1857,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.2,
    "shooter": false,
    "winner": 2
@@ -4957,45 +1876,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.2,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     0.8999999999999999,
     -0.3,
     -0.3,
@@ -5217,45 +2097,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
     -0.6,
     1.7999999999999998,
     -0.6,
@@ -5269,45 +2110,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -0.6,
     -0.6,
     1.7999999999999998,
@@ -5315,45 +2117,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.3,
    "shooter": true,
    "winner": 2
@@ -5367,45 +2130,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 0.3,
    "shooter": true,
    "winner": 3
@@ -5633,45 +2357,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
     -1.2,
     3.5999999999999996,
     -1.2,
@@ -5685,45 +2370,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -1.2,
     -1.2,
     3.5999999999999996,
@@ -5731,45 +2377,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 0.3,
    "shooter": false,
    "winner": 2
@@ -5789,45 +2396,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 0.3,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
     3.0,
     -1.0,
     -1.0,
@@ -6049,45 +2617,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 1,
-   "shooter": true,
-   "winner": 0
-  },
-  {
-   "after": [
     -2.0,
     6.0,
     -2.0,
@@ -6101,45 +2630,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 1,
-   "shooter": true,
-   "winner": 1
-  },
-  {
-   "after": [
     -2.0,
     -2.0,
     6.0,
@@ -6147,45 +2637,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 1,
    "shooter": true,
    "winner": 2
@@ -6199,45 +2650,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": true,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 1,
    "shooter": true,
    "winner": 3
@@ -6465,45 +2877,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 1,
-   "shooter": false,
-   "winner": 0
-  },
-  {
-   "after": [
     -4.0,
     12.0,
     -4.0,
@@ -6517,45 +2890,6 @@
   },
   {
    "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
-   "rate": 1,
-   "shooter": false,
-   "winner": 1
-  },
-  {
-   "after": [
     -4.0,
     -4.0,
     12.0,
@@ -6563,45 +2897,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 2
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 3,
    "rate": 1,
    "shooter": false,
    "winner": 2
@@ -6615,45 +2910,6 @@
    ],
    "blind": true,
    "payer": null,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 0,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 1,
-   "rate": 1,
-   "shooter": false,
-   "winner": 3
-  },
-  {
-   "after": [
-    0.0,
-    0.0,
-    0.0,
-    0.0
-   ],
-   "blind": true,
-   "payer": 2,
    "rate": 1,
    "shooter": false,
    "winner": 3

@@ -2,18 +2,20 @@
 import pytest
 
 import table
-from tests.support import GUEST, HOST, board_text, buttons, buttons_for, seated_table, tap
+from tests.support import GUEST, HOST, board_text, buttons, buttons_for, entry_texts, keyboard_for, \
+    PLAYER, seated_four, seated_table, tap
 
 
 # S2.1
 def test_kang_asks_who_fed():
     r, t = seated_table()
-    stage = tap(r, t, HOST, "w", 0)                      # 東 won
+    stage = tap(r, t, HOST, "w", 0)                      # seat 1 won
     assert "Kang" in buttons(stage), "the amount stage must offer Kang"
 
     effects = tap(r, t, HOST, "a", "kang")
 
-    assert set(buttons(effects)) == {"Bo", "Zi Mo", "Cancel"}
+    # S4.3 (FR4): the two empty seats are offered too — an empty slot pays exactly as it is paid.
+    assert set(buttons(effects)) == {"Bo", PLAYER[2], PLAYER[3], "Zi Mo", "Cancel"}
     assert t.balances == [0.0, 0.0, 0.0, 0.0]
     assert t.pending["holder"] == HOST.user_id
 
@@ -58,20 +60,202 @@ def test_kang_an_settles_on_one_tap_with_no_feeder_wording():
     assert "from" not in board_text(effects) and "Zi Mo" not in board_text(effects)
 
 
-# S2.5 — 🐈 and 🥀 share one kernel but disagree about whether anyone fed it.
-def test_the_cat_needs_no_feeder_and_the_flower_does():
+# S2.5 (amended by FR1) — 🐈 still commits on one tap, pays the rate three times over, and names nobody
+# in the line. The old version of this test existed to contrast the cat with 🥀, which then *did* ask;
+# the flower stopped asking, so the cat keeps its own assertions instead of losing them with the contrast.
+def test_the_cat_needs_no_feeder_and_names_none():
     r, t = seated_table()
     tap(r, t, HOST, "w", 0)
 
     effects = tap(r, t, HOST, "a", "animal")
-    assert t.pending is None                                   # the cat commits at once
-    assert t.balances == pytest.approx([0.3, -0.1, -0.1, -0.1])
-    assert "Al wins 🐈: +$0.30" in board_text(effects)
 
+    assert t.pending is None
+    assert t.balances == pytest.approx([0.3, -0.1, -0.1, -0.1])
+    line = [ln for ln in board_text(effects).splitlines() if " wins " in ln][-1]
+    assert line == "Al wins 🐈: +$0.30"
+
+
+# S3.1 — 🥀 is not a tile somebody fed (FR1). The stage it used to open asked a question the money then
+# ignored, and with Shooter off it asked, got an answer, and paid nobody at all.
+def test_the_flower_commits_on_one_tap_and_asks_nobody():
+    r, t = seated_table()
     tap(r, t, HOST, "w", 0)
-    stage = tap(r, t, HOST, "a", "flower")
-    assert t.pending is not None                               # the flower asks who fed
-    assert "Cancel" in buttons(stage)
+
+    effects = tap(r, t, HOST, "a", "flower")
+
+    assert t.pending is None, "the tap that chose 🥀 booked the win — there was no second stage"
+    assert len(t.log) == 1
+    assert "Zi Mo" not in buttons(effects) and "Cancel" not in buttons(effects)
+
+
+# S3.2 (FR1) — the number every flower pays: the rate out of all three other seats, in the frozen
+# residue it leaves (`pytest.approx`, for the reason S2.2 gives).
+def test_the_flower_takes_the_rate_from_all_three_other_seats():
+    r, t = seated_four()
+    tap(r, t, HOST, "w", 0)
+
+    tap(r, t, HOST, "a", "flower")
+
+    assert t.balances == pytest.approx([0.3, -0.1, -0.1, -0.1])
+
+
+# S3.3 (FR1) — the bug itself: Shooter used to decide whether 🥀 paid anybody at all. The same tap now
+# leaves the same four numbers whichever way the setting sits.
+@pytest.mark.parametrize("shooter", [True, False], ids=["shooter on", "shooter off"])
+def test_the_flower_pays_the_same_with_shooter_on_and_off(shooter):
+    r, t = seated_four()
+    tap(r, t, HOST, "v", "shooter1" if shooter else "shooter0")
+    tap(r, t, HOST, "w", 0)
+
+    tap(r, t, HOST, "a", "flower")
+
+    assert t.balances == pytest.approx([0.3, -0.1, -0.1, -0.1])
+
+
+# S3.4 (02/FR2) — no feeder row for 🥀 in either Shooter state. What a player can act on is the keyboard;
+# the rule behind it is pinned at its own boundary in tests/test_score.py.
+@pytest.mark.parametrize("shooter", [True, False], ids=["shooter on", "shooter off"])
+def test_the_flower_offers_no_feeder_row_in_either_shooter_state(shooter):
+    r, t = seated_four()
+    tap(r, t, HOST, "v", "shooter1" if shooter else "shooter0")
+    tap(r, t, HOST, "w", 0)
+
+    effects = tap(r, t, HOST, "a", "flower")
+
+    assert t.pending is None
+    assert "Zi Mo" not in buttons(effects) and "Cancel" not in buttons(effects)
+
+
+# S3.5 (FR15) — 🥀 暗 paid six times the rate in both Shooter states before this mission, and still
+# does. The only money that moves is the open flower's.
+@pytest.mark.parametrize("shooter", [True, False], ids=["shooter on", "shooter off"])
+def test_the_concealed_flower_still_pays_six_times_the_rate(shooter):
+    r, t = seated_four()
+    tap(r, t, HOST, "v", "shooter1" if shooter else "shooter0")
+    tap(r, t, HOST, "w", 0)
+
+    effects = tap(r, t, HOST, "a", "flower_an")
+
+    assert t.pending is None
+    assert t.balances == pytest.approx([0.6, -0.2, -0.2, -0.2])
+    assert "Al wins 🥀 暗: +$0.60" in board_text(effects)
+
+
+# S3.6 — nobody fed a flower, so the line names nobody. `from X` used to sit there, naming a player
+# whose name made no difference to the money printed beside it.
+def test_the_flower_line_names_no_feeder():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)
+
+    effects = tap(r, t, HOST, "a", "flower")
+
+    line = [ln for ln in board_text(effects).splitlines() if " wins " in ln][-1]
+    assert line == "Al wins 🥀: +$0.30"
+    assert "from" not in line and "Zi Mo" not in line
+
+
+# S3.7 — the keyboard is not the rule. Telegram redelivers the feeder button a 🥀 screen used to
+# carry, and the win it would have finished is already booked: the tap is refused, and the money does
+# not go round a second time.
+def test_a_stray_flower_feeder_tap_books_nothing():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)
+    tap(r, t, HOST, "a", "flower")                        # booked at once
+    stranded = table.token("p", t.code, t.version, 1)     # the button the old screen carried
+    before, wins = list(t.balances), len(t.log)
+
+    effects = r.tap(HOST, stranded)
+
+    assert "nothing is waiting for a payer" in next(
+        e.text for e in effects if isinstance(e, table.Toast)).lower()
+    assert t.balances == before and len(t.log) == wins
+
+
+# S3.8 (02/FR2, ERR-02) — Kang keeps asking. With Shooter off the answer does not change which seats pay,
+# but it still decides Zi Mo (twice the rate) against a named feeder, so the question is a real one.
+@pytest.mark.parametrize("shooter", [True, False], ids=["shooter on", "shooter off"])
+def test_kang_still_asks_who_fed_it(shooter):
+    r, t = seated_four()
+    tap(r, t, HOST, "v", "shooter1" if shooter else "shooter0")
+    tap(r, t, HOST, "w", 0)
+
+    effects = tap(r, t, HOST, "a", "kang")
+
+    assert t.pending is not None and t.pending["amount"] == ("kang", None)
+    assert set(buttons(effects)) == {"Bo", "Cy", "De", "Zi Mo", "Cancel"}
+
+
+# S3.9 (FR15) — the two Kang answers with Shooter off, driven through the taps: Zi Mo pays six times
+# the rate, a named feeder three.
+def test_kang_named_and_zi_mo_still_pay_differently_with_shooter_off():
+    paid = []
+    for feeder in ("z", "1"):
+        r, t = seated_four()
+        tap(r, t, HOST, "v", "shooter0")
+        tap(r, t, HOST, "w", 0)
+        tap(r, t, HOST, "a", "kang")
+        tap(r, t, HOST, "p", feeder)
+        paid.append(list(t.balances))
+
+    assert paid[0] == pytest.approx([0.6, -0.2, -0.2, -0.2])       # Zi Mo — twice the named feeder
+    assert paid[1] == pytest.approx([0.3, -0.1, -0.1, -0.1])       # Bo fed it
+
+
+# S3.10 — with Shooter off, naming seat 2 or seat 3 moves the same money: the named seat is ignored,
+# which is the documented quirk. What is not ignored is the line — it names whoever was tapped.
+def test_which_seat_kang_names_with_shooter_off_moves_the_same_money():
+    nights = []
+    for feeder in (2, 3):
+        r, t = seated_four()
+        tap(r, t, HOST, "v", "shooter0")
+        tap(r, t, HOST, "w", 0)
+        tap(r, t, HOST, "a", "kang")
+        effects = tap(r, t, HOST, "p", feeder)
+        nights.append((list(t.balances), board_text(effects)))
+
+    assert nights[0][0] == nights[1][0], "the named seat decides nothing with Shooter off"
+    assert "Al wins Kang from Cy: +$0.30" in nights[0][1]
+    assert "Al wins Kang from De: +$0.30" in nights[1][1]
+
+
+# S4.3 (FR4) — an empty seat may be named as the feeder: it pays out of its own slot, the same way an
+# empty seat is paid when it wins. The only seat that may not feed is the winner's own.
+def test_an_empty_seat_can_be_named_feeder_and_pays():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)                                 # Al won
+    tap(r, t, HOST, "a", "t1")
+
+    tap(r, t, HOST, "p", 3)                                 # seat 4 holds nobody
+
+    assert t.balances == pytest.approx([0.4, 0.0, 0.0, -0.4])
+    assert entry_texts(t)[-1] == "Al wins 1 Tai from Player 4: +$0.40"
+
+
+# S4.4 (FR4, unchanged by opening the seats) — the winner is still not a feeder, and their seat is not
+# offered in their place: naming the slot they hold would be naming them.
+def test_the_winner_is_still_not_their_own_feeder():
+    r, t = seated_table()
+    tap(r, t, HOST, "w", 0)
+
+    effects = tap(r, t, HOST, "a", "kang")
+
+    assert set(buttons(effects)) == {"Bo", PLAYER[2], PLAYER[3], "Zi Mo", "Cancel"}
+    assert "Al" not in buttons(effects), "their own seat is not on this row under any label"
+    before = list(t.balances)
+    refused = tap(r, t, HOST, "p", 0)
+    assert "pick another" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+    assert t.balances == before and t.pending is not None
+
+
+# S4.12 — four seated is what a night looks like (AS4), and opening the empty seats changed nothing for
+# a table that has none: the same four names, and a scoreless night still offers no way to undo.
+def test_a_full_table_is_offered_what_it_always_was():
+    r, t = seated_four()
+
+    row = keyboard_for(r.message(HOST, "/board"), HOST.user_id)
+
+    assert row == ["Al", "Bo", "Cy", "De"]
+    assert not [label for label in row if label.startswith("Player")]
 
 
 # S2.6 — the holder can throw a half-entered win away, and it leaves no trace.
@@ -85,7 +269,7 @@ def test_the_holder_cancels_a_half_entered_win():
     assert t.pending is None
     assert t.balances == [0.0, 0.0, 0.0, 0.0]
     assert t.log == []
-    assert set(buttons(effects)) == {"Al", "Bo"}               # back to tapping a name
+    assert set(buttons(effects)) == {"Al", "Bo", PLAYER[2], PLAYER[3]}    # back to tapping a seat
 
 
 # S2.7 — a half-entered win belongs to whoever started it.
@@ -164,7 +348,7 @@ def test_only_the_holder_is_offered_the_stage_buttons():
     assert set(buttons([boards[HOST.user_id]])) == (
         {"%d Tai" % n for n in range(1, 6)} |
         {"Kang", "Kang 暗", "🐈", "🐈 暗", "🥀", "🥀 暗", "Cancel"})
-    assert set(buttons([boards[GUEST.user_id]])) == {"Al", "Bo"}     # winner row, unchanged
+    assert set(buttons([boards[GUEST.user_id]])) == {"Al", "Bo", PLAYER[2], PLAYER[3]}  # winner row
     assert boards[HOST.user_id].text == boards[GUEST.user_id].text   # the score stays shared
 
 
@@ -199,7 +383,7 @@ def test_a_button_from_a_superseded_screen_is_refused_as_out_of_date():
 
 
 # S2.13 — a seat keyboard is judged by the seat, not the version: the joiner must still be able
-# to sit down after someone else takes a wind.
+# to sit down after someone else takes a seat.
 def test_a_late_seat_pick_is_judged_on_the_seat_not_the_version():
     r, t = seated_table()
     late = table.User(44, "Di")
@@ -246,7 +430,7 @@ def test_a_payer_that_is_neither_a_seat_nor_zi_mo_is_refused():
 
     assert t.pending is not None, "the draft is still open — nothing was booked"
     assert t.balances == before and len(t.log) == log
-    assert "Pick another seated player" in next(e.text for e in refused
+    assert "Pick another player" in next(e.text for e in refused
                                                 if isinstance(e, table.Toast))
 
 

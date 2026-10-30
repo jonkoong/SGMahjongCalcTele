@@ -214,7 +214,11 @@ class Delivery:
         elif isinstance(effect, Line):
             self.bot.send_message(effect.chat_id, effect.text)
         elif isinstance(effect, Toast) and callback_id:
-            self.bot.answer_callback_query(callback_id, effect.text)
+            # `show_alert` is the whole point of a refusal. Telegram's default is a quiet
+            # notification at the top of the chat that clears itself — sent without it, the 19
+            # refusals in table.py were never read. An alert stays until dismissed,
+            # and it belongs to this one callback query, so only the player who tapped sees it.
+            self.bot.answer_callback_query(callback_id, effect.text, show_alert=True)
 
     def _menu(self, effect):
         """
@@ -327,11 +331,15 @@ def start_reconciler(delivery, interval=None):
 
 def polling_kwargs(first=True):
     """
-    MJ_POLL_TIMEOUT is the getUpdates hold time, sent as the API 'timeout' param. Keep it low:
-    some networks drop long-held connections. skip_pending is on for the first poll because a cold
-    start dissolves every Table, so anything queued beforehand refers to a Table that no longer
-    exists. A poll restarted inside this process does not dissolve anything (F-04): the Tables are
-    still live and the queued taps name them, so a restart polls without it.
+    MJ_POLL_TIMEOUT is the getUpdates hold for the steady loop, sent as the API 'timeout' param; keep it
+    low, some networks drop long-held connections. skip_pending is on for the first poll only (01/F-07):
+    a cold start begins with an empty Room, so anything Telegram queued beforehand names a Table this
+    process never had. It is a skip, not a purge — telebot confirms every queued update but the newest,
+    and that newest one is still delivered, to a Table-less Room, where it is refused. Nor is it free:
+    the probe is a second getUpdates whose hold is telebot's own 20 seconds whatever MJ_POLL_TIMEOUT
+    says, with a 25-second read window to match, so a cold start can stall that long before the first
+    real poll. A poll restarted inside this process drops the flag: the Tables are still live there, and
+    the queued taps name them.
     """
     return dict(non_stop=True, interval=1, skip_pending=first,
                 long_polling_timeout=int(os.environ.get('MJ_POLL_TIMEOUT', 5)))
