@@ -31,16 +31,13 @@ class FakeBot:
         return True
 
     def answer_callback_query(self, callback_query_id, text=None, **kwargs):
-        # kwargs are kept, not dropped: `show_alert` is the whole difference between a refusal a
-        # player reads and one they never see, and a fake that discarded it could not tell them apart.
+        # Kwargs are kept because `show_alert` decides whether a player ever sees a refusal.
         self.toasts.append((callback_query_id, text, dict(kwargs)))
         return True
 
     def boards(self):
         """
-        The Board sends and only them — a Board is the one message that counts seats.
-
-        Five assertions used to carry the literal themselves, so the rule for telling a Board from a
-        one-line reply lived in five places (F-19).
+        The Board sends only: a Board is the one message that counts seats. Kept here so the rule
+        for telling a Board from a one-line reply lives in one place.
         """
         return [s for s in self.sent if "seated" in s[1]]

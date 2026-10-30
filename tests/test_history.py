@@ -14,8 +14,8 @@ def night(n):
     return r, t
 
 
-# S5.1 — the Board keeps three Entries and counts the rest; the count is a promise that the whole night
-# is still there, and /history is what honours it (FR17).
+# The Board keeps three Entries and counts the rest; the count is a promise that the whole night
+# is still there, and /history is what honours it.
 def test_history_lists_every_entry_the_board_dropped():
     r, t = night(7)
 
@@ -26,8 +26,8 @@ def test_history_lists_every_entry_the_board_dropped():
     assert shown_wins(text) == entry_texts(t)          # all 7, oldest first, in log order
 
 
-# S5.3 — a count with no verb under it is a dead end: the Board says four wins fell off the top and, until
-# now, gave the player nothing to do about it (FR17 amended at scrutiny).
+# A count with no verb under it is a dead end: the Board says four wins fell off the top and, until
+# now, gave the player nothing to do about it.
 def test_the_board_cue_names_the_verb_that_shows_the_rest():
     r, t = night(7)
 
@@ -36,7 +36,7 @@ def test_the_board_cue_names_the_verb_that_shows_the_rest():
     assert "… 4 earlier — /history" in text
 
 
-# S5.4 — how long the night was belongs to the player who asked. Reading it must not cost the other
+# How long the night was belongs to the player who asked. Reading it must not cost the other
 # three their Board: the text differs here on purpose, and only in one chat.
 def test_reading_the_history_moves_nobody_elses_screen():
     r, t = night(7)
@@ -48,7 +48,7 @@ def test_reading_the_history_moves_nobody_elses_screen():
     assert len(shown_wins(render.board(t))) == render.LAST_ENTRIES   # what the others keep
 
 
-# S5.5 — a screen the player can walk into has to be one they can walk out of without typing, and
+# A screen the player can walk into has to be one they can walk out of without typing, and
 # walking out must not look like work: the same message, edited back, nothing posted.
 def test_back_out_of_the_history_returns_the_score_board():
     r, t = night(7)
@@ -62,7 +62,7 @@ def test_back_out_of_the_history_returns_the_score_board():
     assert t.version == before, "reading the night is not a change, so nobody's buttons went stale"
 
 
-# S5.6 — the history is read *during* a night, so it has to be survivable mid-draft: the holder's ladder
+# The history is read *during* a night, so it has to be survivable mid-draft: the holder's ladder
 # is replaced for a moment, and Back must hand the same draft back rather than a dead screen.
 def test_back_out_of_the_history_returns_a_draft_still_in_progress():
     r, t = night(7)
@@ -77,11 +77,9 @@ def test_back_out_of_the_history_returns_a_draft_still_in_progress():
     assert t.version == stage, "the draft, and everyone else's tokens, are exactly as they were"
 
 
-# S5.7 — /history is in the slash menu from the first minute of the night, so tapping it before anyone
-# has won must answer, not hand back a header and four silent seats. 02b/D1 ruled *how* it answers: an
-# empty ledger gets no sentence of its own, so the empty night is the Board shape and nothing added to it.
-# The old `No wins yet.` line went because the `… N earlier — /history` cue only ever appears with Entries
-# behind it — with none, the verb has nothing to point at.
+# /history is in the slash menu from the first minute, so tapping it before anyone has won must
+# answer. An empty log gets no sentence of its own, as the `… N earlier — /history` cue only
+# appears with Entries behind it.
 def test_an_empty_night_shows_the_bare_board_and_no_sentence_of_its_own():
     r, t = seated_four()
 
@@ -91,7 +89,7 @@ def test_an_empty_night_shows_the_bare_board_and_no_sentence_of_its_own():
     assert text == render.board(t), "an empty night's history is the Board, with nothing said about it"
 
 
-# S5.8 — /history sits in the slash menu of anyone the bot has ever met, so it has to answer a chat that
+# /history sits in the slash menu of anyone the bot has ever met, so it has to answer a chat that
 # is bound to nothing with the same sentence every other verb uses.
 def test_history_with_no_table_is_the_answer_every_verb_gives():
     r = table.Room(rng=random.Random(7))
@@ -102,7 +100,7 @@ def test_history_with_no_table_is_the_answer_every_verb_gives():
     assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
-# S5.9 — a member who has joined but not sat is owed the seat picker they are owed for every other verb,
+# A member who has joined but not sat is owed the seat picker they are owed for every other verb,
 # and a refusal saying why the night is not theirs to read yet. The picker alone can look like nothing
 # happened, because their screen already shows it.
 def test_history_before_taking_a_seat_names_what_is_missing():

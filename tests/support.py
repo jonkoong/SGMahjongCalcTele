@@ -8,8 +8,8 @@ GUEST = table.User(22, "Bo")
 CYD = table.User(33, "Cy")
 DEB = table.User(44, "De")
 
-# What the four seats read when nobody is sitting in them (AD5). Pinned here rather than imported from
-# `table` so a test that names a seat says what a player reads, not what the code calls it.
+# What the four seats read when nobody is sitting in them. Pinned here rather than imported from
+# `table` so a test says what a player reads, not what the code calls it.
 PLAYER = ["Player 1", "Player 2", "Player 3", "Player 4"]
 
 
@@ -36,7 +36,7 @@ def buttons(effects):
 
 
 def board_for(effects, chat_id):
-    """The one Board this chat is owed — the only view that ever carries buttons (FR12)."""
+    """The one Board this chat is owed, the only view that carries buttons."""
     return next(e for e in effects if isinstance(e, table.Board) and e.chat_id == chat_id)
 
 
@@ -55,11 +55,8 @@ def buttons_for(effects, chat_id):
 
 def entry_texts(t):
     """
-    What the night's wins read, oldest first.
-
-    The ledger holds a record per win, not a bare sentence: which field of that record holds the
-    words lives here and nowhere else, so a record rename costs this file, not every test that
-    quotes a win.
+    What the night's wins read, oldest first. Which Entry field holds the words lives here only, so
+    a rename costs this file, not every test that quotes a win.
     """
     return [entry.text for entry in t.log]
 
@@ -71,18 +68,16 @@ def entry_deltas(t):
 
 def shown_wins(text):
     """
-    The win lines a screen actually shows, oldest first.
-
-    The tell is the money figure every one ends with (`render.entry_line`) — prose like
-    `Pick who won the round:` cannot imitate it, which `" wins " in text` on its own can.
+    The win lines a screen shows, oldest first. The tell is the money figure each ends with
+    (`render.entry_line`); prose like `Pick who won the round:` cannot imitate it.
     """
     return [ln for ln in text.splitlines() if ln.rstrip()[-1:].isdigit() and " wins " in ln]
 
 
 def score_wins(r, t, n):
     """
-    Score n wins, each a different winner on a different rung of the ladder and fed by a different
-    seat, so a longer night has n distinct sentences to show rather than the same line n times.
+    Score n wins, each with a different winner, rung and feeder, so a longer night has n distinct
+    sentences.
     """
     for i in range(n):
         tap(r, t, HOST, "w", i % 4)
@@ -94,63 +89,51 @@ def fold(deltas):
     """
     The four totals a list of stored vectors adds up to, folded left to right from four zeros.
 
-    This is the tests' own copy of the rule, not a call into `Table.balances`: the point of comparing
-    the two is that they can disagree (S1.3), and the same order matters here for the same reason (AD3).
+    The tests' own copy of the rule, not a call into `Table.balances`, so the two can disagree.
+    The order matters here for the same float-residue reason.
     """
     total = [0.0, 0.0, 0.0, 0.0]
     for delta in deltas:
-        total = [b + d for b, d in zip(total, delta)]
+        total = [b + d for b, d in zip(total, delta, strict=True)]
     return total
 
 
 def undo(r, t, who):
     """
-    Tap `Undo last win` as this player, on the current version of the Table.
-
-    The one way these tests undo, so none of them can accidentally test a stale token instead — the
-    stale ones are written out longhand where a stale token is the point.
+    Tap `Undo last win` as this player on the current version. Stale tokens are written longhand
+    where they are the point.
     """
     return tap(r, t, who, "u", "last")
 
 
 def tap_end_exit(r, t, who, label):
     """
-    Open the settle-up screen and tap one of its exits by the word printed on the button.
-
-    The one way these tests leave that screen, and they tap the label rather than hand-build a `k` token:
-    the words on the buttons are what a player reads, so that is the contract worth pinning, and a token
-    scheme change costs this function instead of every test that settles a night.
+    Open the settle-up screen and tap an exit by the word printed on it. Tapping the label, not a
+    hand-built `k` token, pins what a player reads and confines a token change to this function.
     """
     return r.tap(who, buttons_for(r.message(who, "/end"), who.user_id)[label])
 
 
 def rename_picker(r, t, who):
     """
-    Open the seat picker that `Change player names` draws, and return what that tap drew.
-
-    The one way these tests reach that screen, and it taps the button by the word printed on it — the
-    `tap_end_exit` convention: the words are the contract, so a token scheme change costs this function
-    instead of every test that renames a seat.
+    Open the seat picker that `Change player names` draws, tapping the button by its label as
+    `tap_end_exit` does, and return what the tap drew.
     """
     return r.tap(who, buttons_for(r.message(who, "/settings"), who.user_id)[table.CHANGE_NAMES])
 
 
 def arm_rename(r, t, who, seat_label):
     """
-    Reach the picker and tap the seat printed as `seat_label`, returning what that tap said.
-
-    The one way these tests arm a rename, so none of them hand-builds an `n` token: they choose the seat the
-    way a player reads it, off the screen they were just shown (spec.md Part 3's durability rule).
+    Reach the picker and tap the seat printed as `seat_label`, choosing it as a player reads it
+    rather than hand-building an `n` token.
     """
     return r.tap(who, buttons_for(rename_picker(r, t, who), who.user_id)[seat_label])
 
 
 def rename(r, t, who, seat_label, name):
     """
-    Arm a rename for the seat printed as `seat_label`, then type `name` as the answer.
-
-    The one way these tests complete a rename: both halves are what a player does, in the order they do it,
-    so the ask, the tap, and the write are all reached for real.
+    Arm a rename for the seat printed as `seat_label`, then type `name` as the answer, so the ask,
+    the tap and the write are all exercised for real.
     """
     arm_rename(r, t, who, seat_label)
     return r.message(who, name)
@@ -161,12 +144,12 @@ def tokens_of(effects):
 
 
 def menu_for(effects):
-    """The verbs Telegram's slash menu now offers this chat (AD20)."""
+    """The verbs Telegram's slash menu now offers this chat."""
     return next(e.names for e in effects if isinstance(e, table.Commands))
 
 
 def seated_four():
-    """All four seats filled — the night as it is actually played (AS4)."""
+    """All four seats filled, the night as it is actually played."""
     r, t = seated_table()
     for seat, user in ((2, CYD), (3, DEB)):
         r.message(user, "/join " + t.code)

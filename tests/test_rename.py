@@ -1,4 +1,4 @@
-"""Renaming a seat: the button, the picker, the typed name, and what a name may say (mission 05)."""
+"""Renaming a seat: the button, the picker, the typed name, and what a name may say."""
 import random
 
 import pytest
@@ -10,9 +10,8 @@ from tests.support import arm_rename, board_for, CYD, DEB, GUEST, HOST, PLAYER, 
     seated_table, tap, tap_end_exit, tokens_of
 
 
-# S3.1 (FR2) — the money rules are three, and the fourth button is not one of them: it rides the same
-# screen because it is where a seated player already comes to change the night, alone on its own row so
-# a thumb cannot land on it while reaching for `Back`.
+# The fourth button is not a money rule: it rides the settings screen because that is where a
+# seated player already changes the night, alone on its row so a thumb reaching for `Back` misses it.
 def test_a_free_seat_brings_the_fourth_button_alone_above_back():
     r, t = seated_table()
 
@@ -24,9 +23,8 @@ def test_a_free_seat_brings_the_fourth_button_alone_above_back():
     assert len(row) == 1, "its own row — it shares nothing with the way out"
 
 
-# S3.2 (D4) — both directions of one rule. A full Table has no seat to rename, so the button is not
-# drawn; and it is the *Table's* freeness that decides, so the moment a player stands up the offer is
-# back on the very next screen.
+# Both directions of one rule: a full Table has no seat to rename, so the button isn't drawn, and
+# the *Table's* freeness decides, so it returns on the next screen once a player stands up.
 def test_a_full_table_never_draws_it_and_a_seat_freed_later_brings_it_back():
     r, t = seated_four()
 
@@ -39,9 +37,8 @@ def test_a_full_table_never_draws_it_and_a_seat_freed_later_brings_it_back():
                                                  "Change player names", "Back"]
 
 
-# S3.3 (FR3) — the picker is the Board with the free seats as its buttons: one seat to a row, `Back` last,
-# and the decided line above them saying what they are for. It edits the chat's own message rather than
-# posting one (01/FR12) — a screen that climbed the chat would push the Board out of reach.
+# The picker is the Board with free seats as buttons, one per row, `Back` last, and a line above
+# saying what they are for. It edits the chat's message; a posted one would push the Board away.
 def test_the_picker_names_every_free_seat_one_row_each_then_back():
     r, t = seated_table()
 
@@ -53,8 +50,7 @@ def test_the_picker_names_every_free_seat_one_row_each_then_back():
     assert [e for e in picker if isinstance(e, table.Line)] == [], "the picker edits, it does not post"
 
 
-# S3.6 (FR3) — one level up, the same rule the shooter and max-tai pickers already follow: `Back` returns
-# the settings menu the player came from, not the score underneath it.
+# One level up, as with the shooter and max-tai pickers: `Back` returns to the settings menu, not the score.
 def test_back_out_of_the_rename_picker_returns_the_settings_menu():
     r, t = seated_table()
     picker = rename_picker(r, t, HOST)
@@ -65,9 +61,8 @@ def test_back_out_of_the_rename_picker_returns_the_settings_menu():
                                                    "Change player names", "Back"]
 
 
-# S3.5 (FR4) — a seat tapped is a question asked and nothing else. The words are the decided ones: this
-# message is the whole contract between the tap and the answer, and the ask naming its seat is what lets
-# the answer land on that seat and nowhere else (05/AD7).
+# A seat tap is a question and nothing else. The ask is the whole contract between tap and answer,
+# and its seat is what lets the answer land there and nowhere else.
 def test_tapping_a_picker_seat_asks_for_the_name_and_changes_nothing():
     r, t = seated_table()
     version = t.version
@@ -79,9 +74,8 @@ def test_tapping_a_picker_seat_asks_for_the_name_and_changes_nothing():
     assert r.asked[HOST.user_id].seat == 2
 
 
-# S3.7 (AD6) — `n` is versioned, so a picker left open across somebody's win is a screen Telegram has
-# already replaced: the shared line, this player's own Board behind it, and no write. Both shapes of the
-# one fact — the button that was really on screen, and the longhand stale token.
+# `n` is versioned, so a picker left open across someone's win is already replaced: the shared line,
+# the player's own Board, and no write. Covers the real button and a longhand stale token.
 def test_a_rename_picker_left_open_across_someone_else_s_win_is_stale():
     r, t = seated_table()
     picker = rename_picker(r, t, HOST)
@@ -99,9 +93,8 @@ def test_a_rename_picker_left_open_across_someone_else_s_win_is_stale():
     assert t.seat_label(2) == PLAYER[2], "and no label moved"
 
 
-# S3.10 (ERR-05) — the button hides itself when no seat is free, but the keyboard is not the rule: a
-# replayed tap must not draw `Pick whose name to change:` over zero buttons. A screen promising buttons that
-# are not there is the lie 02b/E2 refused, so the tap gets the shared line and the player's own Board.
+# The button hides when no seat is free, but the keyboard is not the rule: a replayed tap must not
+# draw `Pick whose name to change:` over zero buttons, so it gets the shared line and the player's Board.
 def test_a_replayed_names_button_on_a_full_table_promises_no_empty_picker():
     r, t = seated_four()
 
@@ -113,9 +106,8 @@ def test_a_replayed_names_button_on_a_full_table_promises_no_empty_picker():
                 and render.PICK_SEAT_TO_RENAME in e.text], "no Board carries the empty promise"
 
 
-# S3.8 (AD6) — a seat is the whole rule, at the tap and not only at the keyboard: a member bound to the
-# session but holding nothing is owed the picker they were already shown, plus the words saying what is
-# missing. Both doors of the settings screen are covered — the button and the picker's own seat token.
+# A seat is the whole rule, at the tap as well as the keyboard: a seatless member gets the picker
+# plus the missing reason. Covers both doors: the button and the picker's own seat token.
 @pytest.mark.parametrize("kind,meaning", [("g", "names"), ("n", 2)])
 def test_a_member_with_no_seat_may_not_choose_whose_name_changes(kind, meaning):
     r, t = seated_table()
@@ -130,9 +122,8 @@ def test_a_member_with_no_seat_may_not_choose_whose_name_changes(kind, meaning):
     assert t.version == version and t.seat_label(2) == PLAYER[2]
 
 
-# S3.9 (FR13, D7, AD13) — the draft holder is refused at the one door where the rule can still be
-# discovered, with the screen he stands on coming back beside the popup: the `⏳` clause in the words is the
-# same `render.entering` his Board prints, so the refusal and the screen say one thing (02b/D10).
+# The draft holder is refused at the one door where the rule can be discovered, with their screen
+# coming back beside the popup; the popup's `⏳` clause is `render.entering`, as on their Board.
 def test_the_player_holding_their_own_win_is_refused_where_he_stands():
     r, t = seated_table()
     stage = tap(r, t, HOST, "w", 1)                          # Al is one tap from the ladder
@@ -148,9 +139,8 @@ def test_the_player_holding_their_own_win_is_refused_where_he_stands():
     assert (t.version, t.seat_label(2)) == (version, PLAYER[2])
 
 
-# S4.1 (FR5) — the name lands on the free seat, and the player is left where they asked. Being dropped back
-# on the score after a rename would make `/settings` a place things happen *to* you rather than a screen
-# you are working on (05/D9).
+# The name lands on the free seat and the player stays on the settings screen; dropping them back on
+# the score would make `/settings` a place things happen *to* them.
 def test_a_typed_name_renames_the_free_seat_and_leaves_the_player_on_settings():
     r, t = seated_table()
 
@@ -161,9 +151,8 @@ def test_a_typed_name_renames_the_free_seat_and_leaves_the_player_on_settings():
                                                  "Change player names", "Back"]
 
 
-# S4.2 (FR5, D9, AD24) — a rename is a write to the Table, so the two always move together: one bump, and
-# every seated Board redrawn in the same breath. A bump with no fan-out leaves half the night tapping
-# buttons labelled with a name that no longer exists.
+# A rename is a write: one bump and every seated Board redrawn together. A bump without fan-out
+# leaves half the night tapping buttons labelled with a name that no longer exists.
 def test_every_seated_board_moves_in_the_same_breath_with_one_bump():
     r, t = seated_table()
     version = t.version
@@ -176,9 +165,8 @@ def test_every_seated_board_moves_in_the_same_breath_with_one_bump():
     assert sorted(e.chat_id for e in applied if isinstance(e, table.Board)) == sorted(t.seated_ids())
 
 
-# S4.3 (FR7) — the vertical slice: one rename, three screens. `name_for` and `seats_view` are why nothing
-# else had to change, and every one of these buttons still carries the seat's *index* (05/FR17), so the name
-# that reads it cannot change what tapping it means.
+# One rename, three screens. `name_for` and `seats_view` mean nothing else changes, and every button
+# still carries the seat's *index*, so the name can't change what tapping it means.
 def test_the_label_reads_on_every_button_that_used_to_say_player_n():
     r, t = seated_table()
     rename(r, t, HOST, PLAYER[2], "Wifey")
@@ -199,9 +187,8 @@ def test_the_label_reads_on_every_button_that_used_to_say_player_n():
     assert table.parse_token(buttons_for(joined, eve.user_id)["Wifey"])[3] == "2"
 
 
-# S4.4 (FR7) — the sentences too, not only the buttons: the Entry line a fresh win writes, and the money the
-# night is settled with. The frozen figure is asserted beside the name because a rename that moved the money
-# is the one defect this mission must not have (NFR1).
+# The sentences too, not only the buttons: the Entry line a fresh win writes and the settlement.
+# The frozen figure is asserted beside the name because a rename must never move money.
 def test_the_label_is_in_the_sentences_too_a_new_entry_line_and_the_settlement():
     r, t = seated_table()
     rename(r, t, HOST, PLAYER[2], "Wifey")
@@ -215,8 +202,7 @@ def test_the_label_is_in_the_sentences_too_a_new_entry_line_and_the_settlement()
     assert "Wifey (empty)" in board_text(r.message(HOST, "/end"), HOST.user_id)
 
 
-# S4.5 (FR18, AD11) — a label that already holds is not a change, which is `_write_setting`'s rule for a
-# name: no bump, nobody else's message rewritten, and no keyboard gone stale to say nothing.
+# A label that already holds is no change, as in `_write_setting`: no bump, no rewritten messages.
 def test_renaming_a_seat_to_the_name_it_already_has_costs_nobody_a_call():
     r, t = seated_table()
     version = t.version
@@ -230,8 +216,8 @@ def test_renaming_a_seat_to_the_name_it_already_has_costs_nobody_a_call():
                                                  "Change player names", "Back"]
 
 
-# S4.6 (FR16) — `list(SEAT_LABELS)` in `__init__` is the whole of this requirement, and the kind of bug that
-# only surfaces at 3am with two nights running: sharing one list would rename De's seat from Al's chat.
+# `list(SEAT_LABELS)` in `__init__` is the whole requirement: sharing one list would rename De's
+# seat from Al's chat once two nights run.
 def test_two_live_tables_never_share_a_label_list():
     r, t = seated_table()
     r.message(DEB, "/new")
@@ -244,9 +230,8 @@ def test_two_live_tables_never_share_a_label_list():
     assert t.seat_labels is not other.seat_labels
 
 
-# S4.7 (FR17, NFR8) — the token-shape pin, widened to everything the rename draws. A label in callback data
-# is a name Telegram would redeliver after it stopped being true, and a meaning carrying a dot would break
-# `parse_token`'s four fields on the way back in.
+# The token-shape pin, widened to everything the rename draws. A label in callback data would be
+# redelivered after it stopped being true, and a dot in a meaning would break `parse_token`.
 def test_nothing_the_picker_drew_carries_a_letter_of_the_label():
     r, t = seated_table()
     t.version = 999999                                 # the longest version the code will ever hand a token
@@ -264,8 +249,7 @@ def test_nothing_the_picker_drew_carries_a_letter_of_the_label():
     assert picked == ["2", "3"], "the picker's buttons name seats by index"
 
 
-# S4.8 (FR8) — trimmed, and every interior run of whitespace collapsed to one space, before it lands: what
-# the player meant is what the seat is called, and the row stays exactly one line (05/FR19).
+# Trimmed, with interior whitespace runs collapsed to one space, before it lands; the row stays one line.
 def test_a_name_is_trimmed_and_its_inner_runs_collapsed_before_it_lands():
     r, t = seated_table()
 
@@ -273,12 +257,11 @@ def test_a_name_is_trimmed_and_its_inner_runs_collapsed_before_it_lands():
 
     assert t.seat_label(2) == "Jon Lee"
     assert len([ln for ln in render.board(t).splitlines()
-                if ln.startswith("Player 3  Jon Lee")]) == 1, "one line, name and all (05/FR19)"
+                if ln.startswith("Player 3  Jon Lee")]) == 1, "one line, name and all"
 
 
-# S4.9 (01/AD21 as amended, 05/AD7) — one question per player, answered by whichever one is armed *now*. The
-# rename has to displace the rate ask rather than queue behind it, or a player who moved on to naming a seat
-# would have their answer read as a rate.
+# One question per player, answered by whichever is armed *now*. The rename must displace the rate
+# ask, or a player who moved on to naming a seat would have the answer read as a rate.
 def test_arming_a_rename_replaces_the_rate_ask():
     r, t = seated_table()
     tap(r, t, HOST, "g", "rate")
@@ -290,9 +273,8 @@ def test_arming_a_rename_replaces_the_rate_ask():
     assert t.seat_label(2) == "0.5"
 
 
-# S5.1 (01/AD21 as amended) — a blank is input, not an attempt at an answer: it ends the ask and is answered
-# where the player stands, exactly as a sticker is. Refusing a name nobody typed is the S6.3 defect wearing a
-# different label.
+# A blank is input, not an answer: it ends the ask and is answered where the player stands, as a
+# sticker is. Refusing a name nobody typed would blame them for a message they never sent.
 def test_a_name_that_is_only_whitespace_ends_the_ask_and_the_board_answers():
     r, t = seated_table()
     version = t.version
@@ -306,8 +288,8 @@ def test_a_name_that_is_only_whitespace_ends_the_ask_and_the_board_answers():
     assert r.asked == {}, "the ask is over: the next message is an ordinary one"
 
 
-# S5.2 (FR8) — the length rule, reached the way a player reaches it: by typing. No test in this suite calls a
-# private parser, so the breadth comes from the parameter instead (`_rate_value` is pinned the same way).
+# The length rule, reached by typing as a player does. No test calls a private parser, so breadth
+# comes from the parameter (`_rate_value` is pinned the same way).
 @pytest.mark.parametrize("name,accepted", [("x" * 13, False), ("x" * 12, True), ("x", True)])
 def test_a_name_off_the_length_rule_costs_one_conditions_message(name, accepted):
     r, t = seated_table()
@@ -322,8 +304,8 @@ def test_a_name_off_the_length_rule_costs_one_conditions_message(name, accepted)
     assert (t.version == version) == (not accepted), "a refusal moves nobody's screen"
 
 
-# S5.3 (FR8) — a leading `@` is how a player tags a person, not a name a seat answers to, and it is the one
-# shape Telegram itself treats specially. Refused whole; the same word without it is a name.
+# A leading `@` tags a person and Telegram treats it specially, so it is refused whole; the same
+# word without it is a name.
 def test_a_name_starting_with_the_at_sign_is_refused():
     r, t = seated_table()
     arm_rename(r, t, HOST, PLAYER[2])
@@ -332,13 +314,12 @@ def test_a_name_starting_with_the_at_sign_is_refused():
     applied = r.message(HOST, "Wifey")
 
     assert [e.text for e in refused if isinstance(e, table.Line)] == [table.NAME_CONDITIONS]
-    assert t.seat_label(2) == "Wifey", "no re-tap needed: the refusal leaves the ask armed (05/FR6)"
+    assert t.seat_label(2) == "Wifey", "no re-tap needed: the refusal leaves the ask armed"
     assert [e for e in applied if isinstance(e, table.Line)] == []
 
 
-# S5.8 (FR6, D6) — the stuck-chat rule, seen as a sequence: one message says the rules, the next message is
-# the retry, and the player never has to find the button again. A rejection that dropped the ask would make
-# them tap through the picker a second time for a typo.
+# As a sequence: one message says the rules and the next is the retry, so the player never
+# re-finds the button. Dropping the ask on rejection would make them re-tap the picker for a typo.
 def test_a_rejection_costs_one_message_and_one_re_type_with_no_retap():
     r, t = seated_table()
     version = t.version
@@ -350,17 +331,16 @@ def test_a_rejection_costs_one_message_and_one_re_type_with_no_retap():
     assert [e for e in refused if isinstance(e, table.Board)] == [], "no screen moves with a refusal"
     assert r.asked[HOST.user_id] == table.Ask("name", 2), "the same seat is still being asked about"
 
-    applied = r.message(HOST, "Wifey")
+    r.message(HOST, "Wifey")
 
     assert t.seat_label(2) == "Wifey"
     assert t.version == version + 1, "the refusal cost no bump: one change, one bump in total"
     assert r.asked == {}, "and the accepted answer ends it"
 
 
-# S5.4 (ERR-01, FR19) — the whole `str.splitlines()` set, not the two characters a player would name. One
-# U+2028 reached a label on the tree this mission started from and split the settlement's money line in two:
-# `Bo pays Wife` / `y (empty): $1.60`. The belt behind the rule is a line count on the two screens that
-# produced it, because a name that adds a line to a screen is the bug nobody asked for.
+# The whole `str.splitlines()` set, not the two characters a player would name. One U+2028 once
+# reached a label and split the settlement's money line in two (`Bo pays Wife` / `y (empty): $1.60`).
+# Backed by a line count on the two screens that produced it.
 @pytest.mark.parametrize("break_char", ["\n", "\r", "\v", "\f", "\x1c", "\x1d", "\x1e",
                                         "\x85", "\u2028", "\u2029"])
 def test_a_name_carrying_any_line_break_character_is_refused_and_no_screen_gains_a_line(break_char):
@@ -387,9 +367,9 @@ def test_a_name_carrying_any_line_break_character_is_refused_and_no_screen_gains
             len(render.settlement(t).splitlines())) == before, "and the legal name keeps it that way"
 
 
-# S5.5 (FR8, ERR-12) — the words are the bot's own, read off the constants the screens are built from rather
-# than retyped. A seat called `Back` beside the `Back` button teaches a player that tapping one does the
-# other; and the list is matched for equality, so the case variant is refused and a longer word is not.
+# The words are the bot's own, read off the screens' constants rather than retyped. A seat called
+# `Back` beside the `Back` button would confuse players. Matched for equality: the case variant is
+# refused, a longer word is not.
 @pytest.mark.parametrize("word", [table.ZI_MO, table.CANCEL, table.BACK, table.KEEP_PLAYING,
                                  table.UNDO_LAST, table.RESET_SCOREBOARD, table.CLOSE_SESSION,
                                  table.CHANGE_NAMES, "Pay Rate", "Shooter", "Max Tai", "zi mo"])
@@ -404,8 +384,8 @@ def test_a_name_that_is_one_of_the_bot_s_own_words_is_refused(word):
     assert (t.seat_label(2), t.version) == (PLAYER[2], version), "the seat was never renamed"
 
 
-# S5.6 (FR9, ERR-03) — a duplicate is the other three seats' labels *plus the seated players' names*, both
-# casefolded after trimming; `Table.names` would over-refuse, because it holds the seatless too.
+# A duplicate is the other seats' labels *plus the seated players' names*, casefolded after
+# trimming; `Table.names` would over-refuse because it holds the seatless too.
 @pytest.mark.parametrize("name", ["Bo", "Player 4", "BO", "  bo  "])
 def test_a_name_another_seat_or_a_seated_player_answers_to_is_a_duplicate(name):
     r, t = seated_table()
@@ -418,9 +398,8 @@ def test_a_name_another_seat_or_a_seated_player_answers_to_is_a_duplicate(name):
     assert (t.seat_label(2), t.version) == (PLAYER[2], version)
 
 
-# S5.6's other edge, the one ERR-03 was written for: Cy is bound to the Table and in `names`, but holds no
-# seat and so appears in no row. Refusing their name would blame this player for somebody who is not at the
-# Table in the only sense the Board shows.
+# The other edge: Cy is bound to the Table and in `names` but holds no seat, so appears in no row.
+# Refusing Cy's name would blame this player for someone not at the Table in any sense the Board shows.
 def test_a_seatless_member_s_display_name_is_not_a_duplicate():
     r, t = seated_table()
     r.message(CYD, "/join " + t.code)                    # bound, holding nothing: in `names`, not on any row
@@ -431,9 +410,9 @@ def test_a_seatless_member_s_display_name_is_not_a_duplicate():
     assert t.seat_label(2) == "Cy"
 
 
-# S5.7 (FR8, NFR2) — no parse mode is ever sent, so `_`, `*`, CJK and emoji are the literal words on the
-# button and the row. The line count is the FR19 belt: a name is allowed to be long and strange, never taller.
-# (The name is 12 characters because that is the cap FR8 sets — see S5.2; the character classes are the point.)
+# No parse mode is sent, so `_`, `*`, CJK and emoji are literal words on the button and row. The
+# line count guards that a name may be long and strange, never taller. (12 characters is the cap;
+# the character classes are the point.)
 def test_punctuation_emoji_and_cjk_are_legal_and_render_literally():
     r, t = seated_table()
     name = "W_2 *x* 太 🎴."
@@ -450,8 +429,8 @@ def test_punctuation_emoji_and_cjk_are_legal_and_render_literally():
         assert name in board.text and len(board.text.splitlines()) == before
 
 
-# S5.9 (ERR-11) — the sentence that says the rules must not disagree with the code that applies them. The
-# bound is interpolated from `NAME_LIMIT`, the way `CODE_LENGTH` is not restated as "six characters".
+# The sentence stating the rules must not disagree with the code applying them, so the bound is
+# interpolated from `NAME_LIMIT`.
 def test_the_conditions_message_states_the_cap_the_code_enforces():
     r, t = seated_table()
     arm_rename(r, t, HOST, PLAYER[2])
@@ -464,9 +443,8 @@ def test_the_conditions_message_states_the_cap_the_code_enforces():
         assert rule in text.lower(), "%s is not named by %r" % (rule, text)
 
 
-# S6.1 (FR12) — the ask grants nothing: freeness is read again when the answer lands, not when the seat was
-# tapped. The typed name is not swallowed either — the answer is the picker, with whatever seats are still
-# free on it, because a sentence alone about a seat that went missing is the refusal 02b/D9 retired.
+# The ask grants nothing: freeness is read when the answer lands, not when the seat was tapped. The
+# typed name isn't swallowed; the answer is the picker with the seats still free.
 def test_a_seat_that_filled_between_the_ask_and_the_answer_is_refused_and_the_name_is_not_swallowed():
     r, t = seated_table()
     arm_rename(r, t, HOST, PLAYER[2])
@@ -483,8 +461,8 @@ def test_a_seat_that_filled_between_the_ask_and_the_answer_is_refused_and_the_na
     assert [label for label, _ in picker.rows[0]] == [PLAYER[3]], "the seat still free, still on offer"
 
 
-# S6.1's harder edge, same rule: when the seat that filled was the *last* free one there is no picker to hand
-# back, and ERR-05 refuses the tail line above zero seat buttons. The sentence stands alone.
+# Harder edge, same rule: when the seat that filled was the *last* free one there is no picker to
+# hand back, and the tail line is never shown above zero seat buttons. The sentence stands alone.
 def test_a_taken_seat_with_no_other_seat_free_promises_no_empty_picker():
     r, t = seated_table()
     arm_rename(r, t, HOST, PLAYER[2])
@@ -500,9 +478,8 @@ def test_a_taken_seat_with_no_other_seat_free_promises_no_empty_picker():
                 and render.PICK_SEAT_TO_RENAME in e.text], "no tail line over zero buttons"
 
 
-# S6.2 (FR12, 02/ERR-04's shape) — authority is re-read too, and the player is landed on the picker rather
-# than on the score. The seat is freed by hand because no honest input can do it: every move that frees a
-# seat is a command or a tap, and since 05/FR14 both end the ask (05/AD8).
+# Authority is re-read too, and the player lands on the picker, not the score. The seat is freed by
+# hand because no honest input can: every move that frees a seat is a command or tap, which ends the ask.
 def test_authority_gone_at_the_answer_lands_the_player_on_the_picker_not_on_the_score():
     r, t = seated_table()
     arm_rename(r, t, HOST, PLAYER[2])
@@ -517,8 +494,8 @@ def test_authority_gone_at_the_answer_lands_the_player_on_the_picker_not_on_the_
         "the picker they were owed, not the score they cannot use"
 
 
-# S6.3 (FR12) — the same rule seen from the other end of the night: the Table itself is gone, so the answer
-# is what any message from a chat with no session is — one sentence, and no Board to write on.
+# The Table itself is gone, so the answer is what any message from a sessionless chat gets: one
+# sentence, no Board.
 def test_a_table_closed_by_another_player_mid_ask_leaves_an_ordinary_message_not_a_write():
     r, t = seated_table()
     arm_rename(r, t, HOST, PLAYER[2])
@@ -531,8 +508,8 @@ def test_a_table_closed_by_another_player_mid_ask_leaves_an_ordinary_message_not
     assert [e for e in answer if isinstance(e, table.Board)] == [], "there is no Table left to draw"
 
 
-# S6.4 (briefing) — the seat is the resource, not the ask: two players may hold a question about one free
-# seat, and the seat cannot hold both answers. Last write wins, and each write fans out on its own.
+# The seat is the resource, not the ask: two players may hold a question about one free seat, but
+# it can't hold both answers. Last write wins, and each write fans out on its own.
 def test_two_renames_of_one_seat_land_last_write_wins_with_both_fanouts():
     r, t = seated_table()
     version = t.version
@@ -549,21 +526,19 @@ def test_two_renames_of_one_seat_land_last_write_wins_with_both_fanouts():
     assert all("Madam" in b.text for b in boards)
 
 
-# --- Task 7: the night's past, and the night's exits -----------------------------------------------
-# These five are behaviour Task 1 already bought: the labels live on the Table, the Entries live in the log,
-# and nothing on either side reads the other. They are pinned anyway, because "the rename did not leak into
-# the ledger" is a claim about four different screens and no earlier test makes it.
+# --- the night's past, and the night's exits ---------------------------------------------------
+# Labels live on the Table and Entries in the log, and neither reads the other. Pinned because "the
+# rename did not leak into the log" is a claim about four screens that no earlier test makes.
 
 def win_by_the_empty_seat(r, t):
-    """One Entry booked by `Player 3` while nobody sits there, fed by Bo — the night S7 reads."""
+    """One Entry booked by `Player 3` while nobody sits there, fed by Bo."""
     tap(r, t, HOST, "w", 2)
     tap(r, t, HOST, "a", "t3")
     tap(r, t, HOST, "p", 1)
 
 
-# S7.1 (FR11, 02/ERR-01) — both directions of the freeze: the stored sentence byte for byte what it was, and
-# the Board's rows reading the new name. A rename that rewrote the ledger would re-credit a win to whoever
-# holds the seat later, which is the defect 02/ERR-01 killed.
+# Both directions of the freeze: the stored sentence is byte-for-byte unchanged and the Board's
+# rows read the new name. Rewriting the log would re-credit a win to whoever holds the seat later.
 def test_a_rename_after_a_win_does_not_rewrite_that_win():
     r, t = seated_table()
     win_by_the_empty_seat(r, t)
@@ -576,8 +551,8 @@ def test_a_rename_after_a_win_does_not_rewrite_that_win():
     assert "Wifey" in board_text(r.message(HOST, "/board"), HOST.user_id)
 
 
-# S7.2 (FR11) — the same freeze one screen later: `/history` is the night as it happened, so it keeps the name
-# the win was booked under, while the seat rows above it read the name the seat has now.
+# The same freeze on `/history`: the night as it happened keeps the name the win was booked under,
+# while the seat rows read the current name.
 def test_history_keeps_the_old_label_while_the_board_shows_the_new_one():
     r, t = seated_table()
     win_by_the_empty_seat(r, t)
@@ -589,8 +564,7 @@ def test_history_keeps_the_old_label_while_the_board_shows_the_new_one():
     assert any(ln.startswith("Player 3  Wifey") for ln in lines), "the seat row reads the new name"
 
 
-# S7.3 (FR15) — a rename is a rule of the Table, like the rate and the shooter: wiping the slate for the next
-# round wipes the money and nothing else.
+# A rename is a Table rule like the rate and shooter: wiping the slate wipes the money and nothing else.
 def test_reset_scoreboard_keeps_the_labels_like_the_rate_and_the_shooter():
     r, t = seated_table()
     win_by_the_empty_seat(r, t)
@@ -602,8 +576,8 @@ def test_reset_scoreboard_keeps_the_labels_like_the_rate_and_the_shooter():
     assert t.seat_labels == [PLAYER[0], PLAYER[1], "Wifey", PLAYER[3]]
 
 
-# S7.4 (FR15) — leaving takes the person's name off the row and leaves the slot's own name where it is, with
-# the money still in the seat they vacated (01/AD4). Two different facts, and `/leave` moves only one.
+# Leaving takes the person's name off the row but leaves the slot's own name and the money in the
+# vacated seat; `/leave` moves only the first.
 def test_leave_keeps_the_label_and_drops_the_person_s_name():
     r, t = seated_table()
     win_by_the_empty_seat(r, t)
@@ -618,8 +592,8 @@ def test_leave_keeps_the_label_and_drops_the_person_s_name():
     assert t.balances[1] == bo_left, "the money stays in the seat"
 
 
-# S7.5 (FR15) — the other exit destroys the labels with everything else, because there is no Table left to
-# own them; the farewell the chats keep is the settlement, and it reads the rename one last time.
+# The other exit destroys the labels with the Table; the farewell the chats keep is the settlement,
+# which reads the rename one last time.
 def test_close_session_takes_the_labels_with_the_table():
     r, t = seated_table()
     win_by_the_empty_seat(r, t)
@@ -634,9 +608,8 @@ def test_close_session_takes_the_labels_with_the_table():
     assert t.seat_labels[2] == "Wifey", "the labels went with the Table, not out of it"
 
 
-# S10.1 (05/AD18) — the Board's first column is the seat's number, always. A hand-named seat is `quammenn` to
-# the buttons and to the night's sentences, but the row still says which slot it is, so a renamed seat reads
-# like every other row: slot, then who or what is sitting in it.
+# The Board's first column is always the seat's number. A hand-named seat is `quammenn` to buttons
+# and sentences, but its row still reads slot first, then who or what is in it.
 def test_the_board_row_keeps_the_seat_number_and_the_hand_name_goes_in_the_name_column():
     r, t = seated_table()
 
@@ -649,9 +622,8 @@ def test_the_board_row_keeps_the_seat_number_and_the_hand_name_goes_in_the_name_
     assert "quammenn" in keyboard_for(r.message(HOST, "/board"), HOST.user_id), "the button stays the name"
 
 
-# S10.2 (05/AD18, D1) — a person in the seat is the row's name, exactly as an unnamed seat's is. The hand-name
-# is what the *empty* seat is called, so it comes back the moment they stand up; the money stayed put the
-# whole time (01/AD4), which is the only reason the row can swap names at all.
+# A person in the seat is the row's name, as with an unnamed seat. The hand-name is what the
+# *empty* seat is called, so it returns when they stand up; the money stays put throughout.
 def test_a_named_seat_somebody_sits_in_reads_that_person_and_gives_the_name_back_when_they_leave():
     r, t = seated_table()
     rename(r, t, HOST, PLAYER[2], "quammenn")
@@ -669,10 +641,9 @@ def test_a_named_seat_somebody_sits_in_reads_that_person_and_gives_the_name_back
     assert seat_rows()[2].startswith("Player 3  quammenn"), "the empty seat is called that again"
 
 
-# NFR3 / AS1 — the 4096-character ceiling, made a pin rather than an eye-test. Three seats at the cap — the
-# fourth is the one the actor is sitting in, and a filled seat is out of scope (D1) — every visible Entry
-# naming one of them, and the wide characters Telegram measures a message in. If a future change lets a label
-# grow, or the Board window widen, this is the test that says the Board is what breaks.
+# The 4096-character ceiling as a pin: three seats at the name cap (the fourth is the actor's),
+# every visible Entry naming one, in the wide characters Telegram measures. If a label or the
+# Board window grows, this is where the Board breaks.
 def test_labels_at_the_cap_keep_the_board_and_the_settlement_inside_telegrams_ceiling():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")

@@ -4,24 +4,32 @@ Both seats, money, and settings are plain values; nothing here knows about Teleg
 """
 
 TAI_LADDER = [0, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
-MAX_TAI = len(TAI_LADDER) - 1     # the highest rung that exists — nothing above it can be paid
+MAX_TAI = len(TAI_LADDER) - 1     # the highest rung; nothing above it can be paid
 
-# How to read the ids below: `02/FRn` is a `02-uiux-overhaul` requirement; a bare FR/AD names mission
-# `01-pooled-table`.
-
-# A seat nobody is sitting at still holds a balance. Inside this file it is the shape of a win nobody
-# paid for; `table.Table.balances` starts its nightly fold here, which is the one read from outside.
+# An empty seat still holds a balance. `table.Table.balances` starts its nightly fold from this.
 ZERO = [0.0, 0.0, 0.0, 0.0]
 
 
+def _all_pay(winner, each):
+    """Every other seat pays `each`; the winner collects all three shares."""
+    factor = [-each] * 4
+    factor[winner] = 3 * each
+    return factor
+
+
+def _one_pays(winner, payer, amount):
+    """The payer hands the winner `amount`; the other two seats are untouched."""
+    factor = list(ZERO)
+    factor[winner] = amount
+    factor[payer] = -amount
+    return factor
+
+
 def _tai(ntai, winner, payer, rate, shooter):
-    factor = [0.0, 0.0, 0.0, 0.0]
-    if payer is None:  # Zi Mo — nobody fed the tile, all three pay
-        factor = [-0.5, -0.5, -0.5, -0.5]
-        factor[winner] = 1.5
+    if payer is None:  # Zi Mo: nobody fed the tile, all three pay
+        factor = _all_pay(winner, 0.5)
     elif shooter:
-        factor[winner] = 1.0
-        factor[payer] = -1.0
+        factor = _one_pays(winner, payer, 1.0)
     else:
         factor = [-0.25, -0.25, -0.25, -0.25]
         factor[winner] = 1.0
@@ -31,49 +39,37 @@ def _tai(ntai, winner, payer, rate, shooter):
 
 
 def _kang(winner, payer, blind, rate, shooter):
-    factor = list(ZERO)
     if shooter:
         if not blind and payer is not None:
-            factor[winner] = 3.0
-            factor[payer] = -3.0
+            factor = _one_pays(winner, payer, 3.0)
         elif not blind:
-            factor = [-1.0, -1.0, -1.0, -1.0]
-            factor[winner] = 3.0
-        elif blind:
-            factor = [-2.0, -2.0, -2.0, -2.0]
-            factor[winner] = 6.0
+            factor = _all_pay(winner, 1.0)
+        else:
+            factor = _all_pay(winner, 2.0)
     else:
         # Known quirk: with Shooter off, a named payer is ignored and all three pay.
         if not blind and payer is not None:
-            factor = [-1.0, -1.0, -1.0, -1.0]
-            factor[winner] = 3.0
+            factor = _all_pay(winner, 1.0)
         elif not blind:
-            factor = [-2.0, -2.0, -2.0, -2.0]
-            factor[winner] = 6.0
-        elif blind:
-            factor = [-4.0, -4.0, -4.0, -4.0]
-            factor[winner] = 12.0
+            factor = _all_pay(winner, 2.0)
+        else:
+            factor = _all_pay(winner, 4.0)
     return [rate * f for f in factor]
 
 
 def _flower(winner, payer, blind, rate, shooter):
     """
-    A flower belongs to whoever holds it, so nobody fed it and Shooter has nothing to say about it:
-    the rate comes out of all three other seats, twice as much when the win is concealed (02/FR1).
+    Nobody feeds a flower, so Shooter is irrelevant: the rate comes out of all three other seats,
+    twice as much when concealed.
 
-    `payer` and `shooter` are accepted and ignored on purpose — every kernel takes these five
-    arguments, which is what lets `AMOUNTS` hold the six kinds in one table. Do not "fix" this by
-    reading them: 🥀 used to charge one player when Shooter was on and nobody at all when it was off,
-    and that is the bug this mission exists to remove. Kang, tai and the concealed wins keep their
-    numbers exactly (02/FR15).
+    `payer` and `shooter` are ignored on purpose: every kernel takes the same five arguments so
+    `AMOUNTS` can hold them all in one table. Do not read them here; an earlier version charged one
+    player with Shooter on and nobody with it off.
     """
-    factor = [-2.0, -2.0, -2.0, -2.0] if blind else [-1.0, -1.0, -1.0, -1.0]
-    factor[winner] = 6.0 if blind else 3.0
-    return [rate * f for f in factor]
+    return [rate * f for f in _all_pay(winner, 2.0 if blind else 1.0)]
 
 
-# kind -> (kernel, concealed, has a payer stage). Only tai and Kang ask who fed the tile — the
-# concealed wins never do, and neither does a flower, which nobody fed either (02/FR2).
+# kind -> (kernel, concealed, has a payer stage). Only tai and Kang ask who fed the tile.
 AMOUNTS = {
     "tai": (_tai, False, True),
     "kang": (_kang, False, True),
@@ -97,8 +93,8 @@ def amount_delta(kind, winner, payer, *, ntai=None, rate, shooter):
 
 
 def settle(balances, names):
-    """Who pays whom, in the order the old howtopay printed. Zero-sum by construction."""
-    owed = [(name, value) for name, value in zip(names, balances) if value != 0]
+    """Who pays whom. Zero-sum by construction."""
+    owed = [(name, value) for name, value in zip(names, balances, strict=True) if value != 0]
     losers = [value for value in balances if value < 0]
     if not owed:
         return "No Payment"

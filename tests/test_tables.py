@@ -15,7 +15,7 @@ def bo_wins_a_tai(r, t):
     return tap(r, t, HOST, "p", 0)
 
 
-# S3.4 — the seat goes back to the pool; the money sitting in it does not (FR20, AD4).
+# The seat goes back to the pool; the money sitting in it does not.
 def test_leaving_frees_the_seat_but_leaves_its_money_where_it_is():
     r, t = seated_table()
     bo_wins_a_tai(r, t)
@@ -27,7 +27,7 @@ def test_leaving_frees_the_seat_but_leaves_its_money_where_it_is():
     assert re.search(r"Player 2\s+empty\s+\+\$0\.40", board_text(effects, HOST.user_id))
 
 
-# S3.5 — a seat is not a leash. /leave drops the binding too (FR4), so the player can sit elsewhere
+# A seat is not a leash. /leave drops the binding too, so the player can sit elsewhere
 # and the Table they left stops pushing them a Board.
 def test_leaving_frees_them_to_sit_at_another_table():
     r, first = seated_table()
@@ -47,7 +47,7 @@ def test_leaving_frees_them_to_sit_at_another_table():
 
 
 
-# S3.6 — a draft dies with its holder. Only they may cancel it (FR10 retired), so a holder walking
+# A draft dies with its holder. Only they may cancel it, so a holder walking
 # off would leave the whole Table waiting behind someone who has already gone.
 def test_leaving_discards_the_draft_the_leaver_started():
     r, t = seated_table()
@@ -62,8 +62,7 @@ def test_leaving_discards_the_draft_the_leaver_started():
     assert keyboard_for(effects, HOST.user_id) == ["Al", "Player 2", "Player 3", "Player 4"]
 
 
-# S3.7 — a draft names a seat, not a person, so being the named winner abandons it too. Written
-# after T3.2's GREEN already handled both directions: this is a pin, not a new behaviour.
+# A draft names a seat, not a person, so being the named winner abandons it too.
 def test_leaving_discards_a_draft_that_named_the_leaver_as_winner():
     r, t = seated_table()
     tap(r, t, HOST, "w", 1)
@@ -75,7 +74,7 @@ def test_leaving_discards_a_draft_that_named_the_leaver_as_winner():
     assert t.balances == [0.0, 0.0, 0.0, 0.0]
 
 
-# S3.8 — the screen they were left on must stop offering buttons (Q4).
+# The screen they were left on must stop offering buttons.
 def test_the_leaver_is_told_they_have_left_and_offers_nothing():
     r, t = seated_table()
 
@@ -86,8 +85,8 @@ def test_the_leaver_is_told_they_have_left_and_offers_nothing():
     assert t.code in notice.text and "left" in notice.text.lower()
 
 
-# S3.10 — closing dissolves the Table for everyone at it, seated or not: the night left readable in every
-# chat, old keyboards refused, bindings freed, and each player able to start afresh (04/D3).
+# Closing dissolves the Table for everyone at it, seated or not: the night left readable in every
+# chat, old keyboards refused, bindings freed, and each player able to start afresh.
 def test_closing_dissolves_the_table_for_everyone():
     r, t = seated_table()
     r.message(CYD, "/join " + t.code)
@@ -112,7 +111,7 @@ class PlannedRng:
     """
     Hands out the planned codes in order, one letter per call. Answered as an index into the alphabet,
     because that is how `new_code` asks — the alphabet stays the source of the letters and this fake
-    only chooses positions in it (S7.6).
+    only chooses positions in it.
     """
 
     def __init__(self, *codes):
@@ -126,7 +125,7 @@ class PlannedRng:
         return table.CODE_ALPHABET.index(char) % n
 
 
-# S3.2 — a code in use is never handed out again while the Table lives (FR3): the repeat is stepped
+# A code in use is never handed out again while the Table lives: the repeat is stepped
 # over instead of silently replacing the Table that holds it.
 def test_a_code_already_in_use_is_never_handed_out_again():
     r = table.Room(rng=PlannedRng("AAAAAA", "AAAAAA", "BBBBBB"))
@@ -138,9 +137,8 @@ def test_a_code_already_in_use_is_never_handed_out_again():
     assert r.table_of(HOST) is not r.table_of(GUEST)
 
 
-# S7.3 (FR13, AD8) — inverts this suite's old S3.3, which asked for the opposite: "unique while live"
-# was not enough. A code is a key, and a key that gets re-cut for the next night lets whoever kept the
-# old copy into a room they were not invited to — with no way to tell, because the letters match.
+# "Unique while live" is not enough: a code is a key, and one re-cut for the next night lets whoever
+# kept the old copy into a room they weren't invited to, undetectably.
 def test_a_closed_code_is_never_dealed_again_while_the_process_lives():
     r = table.Room(rng=PlannedRng("AAAAAA", "AAAAAA", "B2B2B2", "C3C3C3", "D4D4D4"))
     r.message(HOST, "/new")
@@ -165,7 +163,7 @@ def seated_second_table(r):
     return b
 
 
-# S3.1 — two Tables at once must not see each other (FR5): money, Boards and entry lines all stay
+# Two Tables at once must not see each other: money, Boards and entry lines all stay
 # inside their own Table.
 def test_two_tables_do_not_bleed_into_each_other():
     r, a = seated_table()
@@ -177,13 +175,12 @@ def test_two_tables_do_not_bleed_into_each_other():
     assert b.balances == [0.0, 0.0, 0.0, 0.0]
     assert b.log == []
     board = next(e for e in r.message(CYD, "/board") if isinstance(e, table.Board))
-    # Both Boards carry their own code, so the tell that these are two nights is that Bo's win reads in
-    # Al's Board and nowhere in Cy's.
+    # Both Boards carry their own code; Bo's win reads in Al's Board and nowhere in Cy's.
     assert board.chat_id == CYD.user_id and "$0.00" in board.text and "wins" not in board.text
 
 
-# S3.15 — standing up ends the chat's Board rather than leaving it owed: the notice is a `Retired`
-# effect, so nothing is promised to that message again and the next Table's Board is sent fresh.
+# Standing up ends the chat's Board: the notice is a `Retired` effect, so that message is never
+# edited again and the next Table's Board is sent fresh.
 def test_leaving_returns_the_board_slot_instead_of_owing_it():
     r, t = seated_table()
 
@@ -195,11 +192,9 @@ def test_leaving_returns_the_board_slot_instead_of_owing_it():
     assert not [e for e in effects if isinstance(e, table.Board) and e.chat_id == GUEST.user_id]
 
 
-# S3.21 — the slash menu should match where the player stands, so /leave is not offered to somebody
-# with no Table and 04/D7's `/close` offered to nobody at all. `/start` drops out once the
-# chat has a Table: it only ever says "the bot is running" (FR26 as amended). 02b/D6 — `/board` left the
-# menu: the Board edits itself, and outside a seat it did nothing the other verbs do not. It is still the
-# trigger below, because the catch-all is what answers a typed verb the menu no longer offers.
+# The slash menu matches where the player stands: no /leave without a Table, no /close at all.
+# `/start` drops out once the chat has a Table. `/board` is not in the menu since the Board edits
+# itself, but it remains the trigger below: the catch-all answers a typed verb the menu doesn't offer.
 def test_the_command_menu_matches_where_the_player_stands():
     r = table.Room(rng=random.Random(7))
 
@@ -209,15 +204,12 @@ def test_the_command_menu_matches_where_the_player_stands():
     assert menu_for(r.message(CYD, "/board")) == ("/leave",)
 
     tap(r, r.table_of(CYD), CYD, "s", 0)
-    # Every verb in the Command Surface is now live, so the menu is the whole surface for a seated host —
-    # /history and /end joined with slice 5, /settings with slice 4, each the day it started doing
-    # something. NOT_BUILT is empty by ruling, and kept as a marker of that rule.
+    # Every verb is live, so the menu is the whole surface for a seated host.
     assert menu_for(r.message(CYD, "/board")) == ("/leave", "/history", "/end", "/settings")
 
 
-# S5.9 (FR11, FR12) — the whole menu is an exact tuple, because a substring check would not see a verb
-# leak onto the wrong keyboard. 04/D7 — and the two seated menus are now identical: the one verb that made
-# a host's menu different lives on the settle-up screen instead, where every seated player can reach it.
+# The whole menu is an exact tuple, as a substring check would miss a verb leaking onto the wrong
+# keyboard. The two seated menus are identical.
 def test_the_two_seated_menus_are_now_identical():
     r, t = seated_table()
 
@@ -225,7 +217,7 @@ def test_the_two_seated_menus_are_now_identical():
     assert menu_for(r.message(HOST, "/board")) == ("/leave", "/history", "/end", "/settings")
 
 
-# 04/D7 — `/close` is not a verb any more. A player who types it from muscle memory is neither refused nor
+# `/close` is not a verb any more. A player who types it from muscle memory is neither refused nor
 # punished for it: they are shown where they stand, and the night they are in survives the typo.
 def test_typing_the_old_close_verb_costs_the_night_nothing():
     r, t = seated_table()
@@ -241,7 +233,7 @@ def test_typing_the_old_close_verb_costs_the_night_nothing():
     assert any(isinstance(e, table.Board) for e in effects), "they are shown where they stand"
 
 
-# S3.24 — /join from the command menu has no argument to carry, so it must ask for the code instead
+# /join from the command menu has no argument to carry, so it must ask for the code instead
 # of answering with generic help the player cannot act on.
 def test_a_bare_join_asks_for_the_code():
     r = table.Room(rng=random.Random(7))
@@ -249,26 +241,25 @@ def test_a_bare_join_asks_for_the_code():
     effects = r.message(CYD, "/join")
 
     ask = next(e.text for e in effects if isinstance(e, table.Line))
-    # The old answer was generic help, which also contains the word "code" — so the tell is that an
-    # ask does not send the player off to do something else instead.
+    # Generic help also contains "code", so the tell is that the ask doesn't send the player elsewhere.
     assert "code" in ask.lower() and "/new" not in ask
 
 
-# S3.25 — and the next plain message is that code: bound, seated offer, nothing else required.
+# And the next plain message is that code: bound, seated offer, nothing else required.
 def test_the_next_message_is_read_as_the_code():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
     code = r.table_of(HOST).code
 
     r.message(CYD, "/join")
-    effects = r.message(CYD, code.lower())                    # typed casually, lowercase
+    r.message(CYD, code.lower())                              # typed casually, lowercase
 
     assert r.table_of(CYD) is r.table_of(HOST)
     assert set(keyboard_for(r.message(CYD, "/board"), CYD.user_id)) == set(PLAYER)
     assert CYD.user_id not in r.table_of(CYD).occupants      # bound; the seat pick is still theirs
 
 
-# S3.26 — a code that matches nothing is refused, and the asking stops: one attempt per ask, so no
+# A code that matches nothing is refused, and the asking stops: one attempt per ask, so no
 # player can be left sitting in a prompt they did not mean to answer.
 def test_a_wrong_code_is_refused_and_the_asking_stops():
     r = table.Room(rng=random.Random(7))
@@ -285,7 +276,7 @@ def test_a_wrong_code_is_refused_and_the_asking_stops():
     assert not any(isinstance(e, table.Line) and "no live session" in e.text for e in later)
 
 
-# S3.27 — a command is not an answer to the prompt: /board must not be eaten as a code.
+# A command is not an answer to the prompt: /board must not be eaten as a code.
 def test_a_command_while_asked_is_not_read_as_a_code():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
@@ -297,9 +288,8 @@ def test_a_command_while_asked_is_not_read_as_a_code():
     assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
-# S4.8 (AD4) — a seat keeps what it earned, and the next person to sit there inherits it: the money was
-# never in the person. The older line still reads `Player 3`, because that is what the night wrote and
-# nothing re-renders a past win from the seat it happens to name today.
+# A seat keeps what it earned and the next person to sit there inherits it; the money was never in
+# the person. The older line still reads `Player 3`, as nothing re-renders a past win.
 def test_money_earned_by_an_empty_seat_waits_for_whoever_sits_there():
     r, t = seated_table()
     tap(r, t, HOST, "w", 2)                              # an empty seat wins
@@ -315,8 +305,7 @@ def test_money_earned_by_an_empty_seat_waits_for_whoever_sits_there():
     assert entry_texts(t)[-1] == "Player 3 wins 1 Tai from Bo: +$0.40"
 
 
-# S4.9 (FR14 of mission 01, relabelled) — the picker still offers only the seats that are free. What
-# changed is how they are named: a slot, not a wind, and the number is the same one the Board uses.
+# The picker offers only free seats, named by slot with the same number the Board uses.
 def test_the_seat_picker_offers_only_the_free_seats_by_number():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
@@ -329,7 +318,7 @@ def test_the_seat_picker_offers_only_the_free_seats_by_number():
     assert offered == [PLAYER[1], PLAYER[2], PLAYER[3]]
 
 
-# S4.10 — two people, one empty chair: the second is refused, and refused in the words the picker
+# Two people, one empty chair: the second is refused, and refused in the words the picker
 # showed them. The seat ends up with exactly one occupant either way.
 def test_a_seat_someone_else_holds_is_refused_by_its_slot_name():
     r, t = seated_table()
@@ -343,8 +332,7 @@ def test_a_seat_someone_else_holds_is_refused_by_its_slot_name():
     assert t.occupants[2] == CYD.user_id, "the seat has one occupant, not two and not nobody"
 
 
-# S6.4 (FR21), retargeted by 04/D7 — once the Table is gone, a player who still types the verb that used
-# to dissolve it is told they hold no Table, and never told somebody else could close the one they lost.
+# Once the Table is gone, a player typing the old dissolving verb is told they hold no Table.
 def test_a_former_member_who_types_the_old_close_verb_hears_they_have_no_table():
     r, t = seated_table()
     tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
@@ -356,13 +344,13 @@ def test_a_former_member_who_types_the_old_close_verb_hears_they_have_no_table()
     assert "close table" not in effects[0].text.lower()
 
 
-# --- Task 7: codes are six characters, and dealt once -----------------------------------------------
+# --- codes are six characters, and dealt once -------------------------------------------------------
 
 class WorstRng:
     """
     An rng trying to sabotage the code: the widest index every time, and a `choice` that reaches
     straight for `O`. A code dealt against it still cannot hold a confusable letter, because the
-    alphabet is the only thing that supplies letters (S7.6 — the rng is not trusted to behave).
+    alphabet is the only thing that supplies letters (the rng is not trusted to behave).
     """
 
     def randrange(self, n):
@@ -372,8 +360,8 @@ class WorstRng:
         return "O"
 
 
-# S7.1 (02/FR13, 01/FR3) — six characters of the confusable-free alphabet, and it is *on the screen* the host is
-# left looking at: a code nobody can read out loud is a code nobody can hand on.
+# Six characters of the confusable-free alphabet, shown on the host's screen: a code nobody can
+# read aloud can't be handed on.
 def test_a_dealt_code_is_six_confusable_free_characters_and_reads_on_the_board():
     r = table.Room(rng=random.Random(7))
 
@@ -385,7 +373,7 @@ def test_a_dealt_code_is_six_confusable_free_characters_and_reads_on_the_board()
     assert board.text.splitlines()[0] == "Session %s · 0 of 4 seated" % code
 
 
-# S7.6 (01/FR3) — the guarantee is the alphabet's, not the random source's.
+# The guarantee is the alphabet's, not the random source's.
 def test_a_code_cannot_come_back_with_a_confusable_letter_even_from_a_mutinous_rng():
     code = table.new_code(set(), WorstRng())
 
@@ -394,8 +382,7 @@ def test_a_code_cannot_come_back_with_a_confusable_letter_even_from_a_mutinous_r
     assert not set(code) & set("OoIl10"), "no letter a phone renders as another one"
 
 
-# 01/FR2 — however the code is typed it is the code, and nothing the bot sends back reads
-# it is the code, and the joining player is seated.
+# However the code is typed it is the code, and the joining player is seated.
 def test_a_code_typed_any_which_way_seats_a_player():
     for spell in (lambda c: c, lambda c: c.lower(), lambda c: "  " + c + "  "):
         r = table.Room(rng=random.Random(7))
@@ -408,8 +395,7 @@ def test_a_code_typed_any_which_way_seats_a_player():
         assert set(keyboard_for(effects, CYD.user_id)) == set(PLAYER)   # the seat picker is the answer
 
 
-# 01/AD21 — six letters that name no live Table cost one refusal, and the player is not handed
-# anything from the Table they merely typed the code of: no Board, no seat row, nothing to score with.
+# Six letters naming no live Table cost one refusal and hand over nothing: no Board, no seat row.
 def test_six_letters_that_name_no_live_table_seat_nobody_and_offer_nothing():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
@@ -423,8 +409,8 @@ def test_six_letters_that_name_no_live_table_seat_nobody_and_offer_nothing():
     assert not [e for e in effects if isinstance(e, table.Board)]
 
 
-# 01/FR2 — the whole message is the code, or it is a message. Reading a code out of the end of a
-# sentence would seat a player from text that never meant to seat them.
+# The whole message is the code, or it is a message: reading a code out of a sentence would seat a
+# player from text that never meant to.
 def test_a_code_wearing_a_word_is_not_read_as_a_code():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
@@ -437,23 +423,19 @@ def test_a_code_wearing_a_word_is_not_read_as_a_code():
     assert "no live session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
-# S7.2 (FR14) — the ask says six and *shows* six: a question that describes a shape it does not
-# demonstrate makes the player count the letters in their own code to decide whether they have it.
-# S7.2 (02/FR14, superseded on this point by 02b/D12) — the code ask used to say "six characters" and
-# show a six-character example, which is why CODE_EXAMPLE existed. D12 retired both: the shape is on a
-# seated player's Board, and a made-up code costs exactly one refusal either way, so the example carried
-# nothing but characters. The length rule itself (02/FR13) is untouched and pinned by S7.1 and S7.6.
+# The code ask describes no shape or example: the shape is on a seated player's Board, and a
+# made-up code costs one refusal either way. The length rule itself is pinned by the tests above.
 def test_the_code_ask_says_the_decided_words_and_nothing_else():
     r = table.Room(rng=random.Random(7))
 
     ask = next(e.text for e in r.message(CYD, "/join") if isinstance(e, table.Line))
 
-    assert ask == "Enter the session code.", "decided copy, word for word (02b/D12)"
+    assert ask == "Enter the session code.", "fixed copy, word for word"
     assert "/new" not in ask, "the ask asks — it does not send the player off to do something else"
 
 
-# S7.4 (FR3, AD8) — five deals, codes offered on purpose that are already live or already spent. A hang
-# here is a Table nobody can open, so this test failing loudly is the point of it.
+# Five deals, with codes offered on purpose that are already live or spent. A hang here is a Table
+# nobody can open.
 def test_five_deals_repeat_no_code_that_is_live_or_spent():
     r = table.Room(rng=PlannedRng("AAAAAA", "AAAAAA", "AAAAAA", "B2B2B2", "B2B2B2",
                                   "C3C3C3", "D4D4D4", "E5E5E5"))
@@ -465,7 +447,7 @@ def test_five_deals_repeat_no_code_that_is_live_or_spent():
     assert len({r.table_of(who) for who in (HOST, GUEST, CYD, DEB)}) == 4
 
 
-# FR2, FR21 — the code belongs to the Table, not the person who opened it: the host walking out
+# The code belongs to the Table, not the person who opened it: the host walking out
 # changes nothing, and the code goes only when the Table does.
 def test_a_code_outlives_its_host_and_dies_with_its_table():
     r, t = seated_table()
@@ -480,8 +462,7 @@ def test_a_code_outlives_its_host_and_dies_with_its_table():
     assert r.tables[code] is t, "an empty Table is still a Table — only `Close session` dissolves it"
 
 
-# S7.6 (02/FR13) — the old bot dealt four characters and this one deals six, so any code still in a player's
-# chat history from before is a four-letter thing that must join nothing at all.
+# Codes were once four characters; one still in a player's chat history must join nothing.
 def test_an_old_four_character_code_joins_nothing():
     r, t = seated_table()
 
@@ -491,7 +472,7 @@ def test_an_old_four_character_code_joins_nothing():
     assert "no live session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
-# FR5 — two live Tables, one code typed casually: the right Table takes them, and the wrong
+# Two live Tables, one code typed casually: the right Table takes them, and the wrong
 # Table is not even named, let alone shown.
 def test_a_code_typed_in_lower_case_picks_its_own_table_out_of_two():
     r, a = seated_table()
@@ -503,12 +484,11 @@ def test_a_code_typed_in_lower_case_picks_its_own_table_out_of_two():
     assert r.table_of(eli) is b
     said = "".join(e.text for e in effects if hasattr(e, "text"))
     assert b.code in said, "his own Table, where its code says it is"
-    assert a.code not in said, "and the other Table is not even named (FR5)"
+    assert a.code not in said, "and the other Table is not even named"
 
 
-# FR2, FR13 — the code persists across every screen of the night, in the same header slot, whatever the
-# Board has been edited into. A player who has to open something else to find their own Table's name
-# cannot tell a newcomer what to send.
+# The code persists in the same header slot across every screen of the night, so a player never has
+# to open something else to tell a newcomer what to send.
 def test_the_code_sits_in_the_header_of_every_screen_the_night_shows():
     r, t = seated_four()
     tap(r, t, HOST, "w", 0)
@@ -529,10 +509,9 @@ def test_the_code_sits_in_the_header_of_every_screen_the_night_shows():
         assert text.splitlines()[0].startswith("Session %s ·" % t.code), text.splitlines()[0]
 
 
-# S7.5 (02/NFR4) — Telegram allows 64 bytes of callback data and the token carries the code in the middle of
-# it. Six characters is still short enough at the deepest stage, with the longest name a seat can carry
-# and a version that has run all night: the stage that ends one tap before money moves is where a token
-# has the least room left, and a truncated token is a tap that silently means something else.
+# Telegram allows 64 bytes of callback data, with the code in the middle of the token. Checked at
+# the deepest stage (least room left, one tap before money moves) with the longest name and a
+# version that has run all night: a truncated token silently means something else.
 def test_a_six_character_code_leaves_room_in_telegrams_64_byte_token():
     r, t = seated_four()
     t.names[HOST.user_id] = "Aarón Miguel Ángel"

@@ -1,10 +1,8 @@
 """
-The ledger — every win is written once, and the night's totals are the fold of what was written.
+The ledger: every win is written once, and the night's totals are the fold of what was written.
 
-These tests guard the change itself: the numbers in `golden_payouts.json` are frozen, so the fold has
-to reproduce the balances the old incremental addition produced, residue and all. S1.1, S1.3, S1.6 and
-S1.7 are pins rather than REDs — they hold before the ledger lands and after it, which is the only way
-they can catch the money or the wording moving later.
+The numbers in `golden_payouts.json` are frozen, so the fold must reproduce the original
+incremental balances, float residue and all.
 """
 import random
 
@@ -38,9 +36,8 @@ def score_a(r, t, win):
         tap(r, t, HOST, "p", "z" if payer is None else payer)
 
 
-# S1.1 — the frozen contract, read the way a player produces it. Every step of the fixture's night is
-# what four real taps leave behind, so the derived totals and the 2022 bot's running totals are the
-# same numbers (`tests/golden_payouts.json`).
+# The frozen contract, read the way a player produces it: every fixture step is what four real
+# taps leave behind, so the derived totals match `tests/golden_payouts.json`.
 @pytest.mark.parametrize("night", GOLDEN["sequences"], ids=lambda n: "rate %s" % n["rate"])
 def test_a_night_driven_through_real_taps_lands_on_the_frozen_balances(night):
     r, t = seated_four()
@@ -51,9 +48,9 @@ def test_a_night_driven_through_real_taps_lands_on_the_frozen_balances(night):
         assert t.balances == night["steps"][step], "after win %d of the night" % (step + 1)
 
 
-# S1.2 — undo and the two screens that list the night all need the win as one object: the sentence the
+# Undo and the two screens that list the night all need the win as one object: the sentence the
 # players read, and the numbers behind it, written in the same breath so neither can be revised
-# without the other (FR1, AD1).
+# without the other.
 def test_a_committed_win_carries_its_sentence_and_its_money_together():
     r, t = seated_table()
     tap(r, t, HOST, "w", 0)
@@ -64,9 +61,9 @@ def test_a_committed_win_carries_its_sentence_and_its_money_together():
     assert entry_deltas(t)[-1] == (1.6, -1.6, 0.0, 0.0)
 
 
-# S1.3 — the totals are not a second fact about the night, they are this fold (AD2). Asserted bit for
+# The totals are not a second fact about the night, they are this fold. Asserted bit for
 # bit, not to the cent: the residue the frozen numbers carry is part of the contract, and folding in
-# any other order moves it (ERR-05).
+# any other order moves it.
 def test_the_balances_are_the_fold_of_the_stored_money():
     r, t = seated_four()
     score_wins(r, t, 5)
@@ -74,7 +71,7 @@ def test_the_balances_are_the_fold_of_the_stored_money():
     assert fold(entry_deltas(t)) == t.balances
 
 
-# S1.4 — the rate is allowed to move, tonight is not (AD3). A win is priced once, at the tap that
+# The rate is allowed to move, tonight is not. A win is priced once, at the tap that
 # committed it; re-pricing the ledger at the live rate would let one settings change rewrite every
 # sentence and every total the night already agreed to.
 def test_a_later_rate_change_does_not_reprice_a_past_win():
@@ -98,9 +95,8 @@ def test_a_later_rate_change_does_not_reprice_a_past_win():
     assert entry_texts(t)[-1] == "Al wins 3 Tai from Bo: +$16.00"
 
 
-# S1.5 — the two screens that list the night show the sentences written at commit, in the order they
-# were written (AD4). Neither rebuilds a win from the seats and the rate it happens to read off today —
-# that is what ERR-01 and ERR-05 are about.
+# The two screens that list the night show the sentences written at commit, in order, and never
+# rebuild a win from today's seats and rate.
 def test_the_board_and_history_read_exactly_what_the_night_wrote():
     r, t = seated_four()
     score_wins(r, t, 7)
@@ -112,7 +108,7 @@ def test_the_board_and_history_read_exactly_what_the_night_wrote():
     assert "… 4 earlier" in render.board(t)
 
 
-# S1.6 — a win belongs to the night, not to the seat (ERR-01). The tempting saving throw is to store
+# A win belongs to the night, not to the seat. The tempting saving throw is to store
 # who won as a seat index and let the screens read a name off it each time; that is how a history
 # starts crediting yesterday's win to whoever sits down today.
 def test_a_win_keeps_naming_who_won_after_they_leave():
@@ -138,7 +134,7 @@ def test_a_win_keeps_naming_who_won_after_they_leave():
     assert "Cy" not in "\n".join(shown_wins(text)), "the night does not credit the newcomer"
 
 
-# S1.7 — a night is a set of wins, not a pile of sentences (NFR3): comparing two nights, or counting
+# A night is a set of wins, not a pile of sentences: comparing two nights, or counting
 # the distinct ones, is a thing the ledger has to support. A record holding a list is not a record you
 # can put in a set, and the failure would land here rather than in whatever wanted to compare them.
 def test_a_nights_wins_can_be_set_compared():

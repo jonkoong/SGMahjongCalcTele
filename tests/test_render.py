@@ -2,8 +2,6 @@
 
 import random
 
-import pytest
-
 import render
 import table
 from tests.support import board_text, DEB, GUEST, HOST, entry_texts, keyboard_for, PLAYER, \
@@ -19,7 +17,6 @@ def record_one_win(r, t):
     return r.tap(HOST, table.token("p", t.code, t.version, 1))
 
 
-# S1.12
 def test_every_seated_dm_shows_the_same_board():
     r, t = seated_table()
     effects = record_one_win(r, t)
@@ -29,18 +26,17 @@ def test_every_seated_dm_shows_the_same_board():
     assert boards[0].text == boards[1].text
 
     text = boards[0].text
-    assert all(label in text for label in PLAYER)     # every seat is named on the Board, FR13
+    assert all(label in text for label in PLAYER)     # every seat is named on the Board
     assert "Al" in text and "Bo" in text
     assert "+$1.60" in text and "-$1.60" in text
-    # FR2, FR13 — the code lives in the header, permanently. A seated player is the only route a new
-    # player has into the night, and "ask someone for the code" is pointless unless they can read it out.
+    # The code lives permanently in the header: a seated player is a newcomer's only way in, and
+    # must be able to read it out.
     assert text.splitlines()[0] == "Session %s · 2 of 4 seated" % t.code
-    # The win itself belongs to S3.13 (test_render::test_a_committed_win_reads_on_the_board…).
-    # It used to be asserted here as a separate line per DM — FR14 moved it onto the Board.
+    # The win itself is asserted in test_a_committed_win_reads_on_the_board_and_sends_nothing_else.
 
 
-# S4.5 (AD5) — one row per seat, in seat order, named by slot, and the vacant ones say so. This is the
-# test that catches a seat label leaking into the occupancy test: the row is named, and still empty.
+# One row per seat, in seat order, named by slot, with vacant ones saying so. Catches a seat label
+# leaking into the occupancy test: the row is named and still empty.
 def test_the_board_names_all_four_seats_and_marks_the_vacant_ones():
     r, t = seated_table()                                    # Al and Bo sit; two seats are empty
 
@@ -53,8 +49,8 @@ def test_the_board_names_all_four_seats_and_marks_the_vacant_ones():
     assert "+$0.00" not in render.board(t)
 
 
-# S4.6 (FR17, ERR-03) — the header counts people, not labels. Give an empty seat a label of its own and
-# counting labels reads `4 of 4 seated` on a table with nobody sitting at it.
+# The header counts people, not labels: counting labels would read `4 of 4 seated` on an empty
+# table once seats have labels.
 def test_the_header_counts_seats_by_occupancy_not_by_label():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")                                   # bound to it, holding nothing
@@ -70,7 +66,7 @@ def test_the_header_counts_seats_by_occupancy_not_by_label():
     assert "4 of 4 seated" not in render.board(t)
 
 
-# S2.15 — a bystander must be able to see a draft is live, without messaging the bot.
+# A bystander must be able to see a draft is live, without messaging the bot.
 def test_the_board_names_the_live_draft_in_every_dm():
     r, t = seated_table()
 
@@ -82,7 +78,7 @@ def test_the_board_names_the_live_draft_in_every_dm():
     assert boards[0].text == boards[1].text
 
 
-# S2.15 — once the Entry is committed the cue goes away; a committed win is not "entering".
+# Once the Entry is committed the cue goes away; a committed win is not "entering".
 def test_the_cue_disappears_once_the_entry_is_committed():
     r, t = seated_table()
     record_one_win(r, t)
@@ -93,9 +89,8 @@ def test_the_cue_disappears_once_the_entry_is_committed():
     assert "entering a win" not in text
 
 
-# 02b/D3 — position, not presence. S2.15 and S3.13 both assert the `⏳` line as a substring, so either of
-# them stays green however the tail is arranged. This is the pin that says *where* it sits: last line of
-# the message, and below the night's Entries rather than above them.
+# Position, not presence: other tests assert the `⏳` line as a substring and would pass however the
+# tail is arranged. This pins *where* it sits: last line, below the night's Entries.
 def test_the_draft_line_is_the_last_line_and_sits_below_the_ledger():
     r, t = seated_four()
     score_wins(r, t, 5)                                        # past the window, so the cue prints too
@@ -108,8 +103,7 @@ def test_the_draft_line_is_the_last_line_and_sits_below_the_ledger():
     assert " wins " in lines[-2], "the Entries first, then the tail: %r" % lines[-4:]
 
 
-# 02b/D2 — for every other moment of the night the last line carries the standing ask instead. One line,
-# always last, one or the other: never both and never neither.
+# At every other moment the last line carries the standing ask: exactly one of the two, always last.
 def test_the_board_always_ends_by_naming_what_to_do():
     r, t = seated_four()
 
@@ -122,15 +116,14 @@ def test_the_board_always_ends_by_naming_what_to_do():
     assert render.board(t).splitlines()[-1] == render.PICK_WINNER          # and holds over a real win
 
 
-# 02b/D4 — the phrase is decided copy, colon and all, and lives in exactly one place now that the popup
-# which quoted it is gone. A test on the constant is what catches the colon drifting off it.
+# The phrase is fixed copy, colon included, living in one place; a test on the constant catches
+# the colon drifting off.
 def test_the_invitation_says_the_decided_words():
     assert render.PICK_WINNER == "Pick who won the round:"
 
 
-# 02b/E1 (Jon, 2026-10-30) — the last line is asked of the buttons under it. A member who joined and holds
-# no seat is offered seats, so `Pick who won the round:` over them asks a stranger to score the night.
-# Seating is what swaps the line back; nothing else does.
+# The last line is asked of the buttons under it: a seatless member is offered seats, and `Pick who
+# won the round:` over them would ask a stranger to score. Only seating swaps the line back.
 def test_a_member_holding_no_seat_is_asked_which_player_they_are():
     r, t = seated_table()
     late = table.User(55, "Eve")
@@ -147,22 +140,19 @@ def test_a_member_holding_no_seat_is_asked_which_player_they_are():
     assert board_text(r.message(late, "/board"), late.user_id).splitlines()[-1] == render.PICK_WINNER
 
 
-# 02b/E1's wording, pinned on the constant for the same reason `PICK_WINNER` is: the colon is the whole
-# difference between a heading over a list and a sentence about nothing.
+# Pinned on the constant like `PICK_WINNER`: the colon makes it a heading over a list.
 def test_the_choose_line_says_the_decided_words():
     assert render.CHOOSE_SEAT == "Choose which player you are:"
 
 
-# 05/FR3 — the rename picker's tail, pinned the same two ways as the two lines above: the words are decided
-# copy, and the colon is the whole difference between a heading over a list of seats and a sentence about
-# nothing.
+# The rename picker's tail, pinned like the two lines above: fixed copy whose colon makes it a
+# heading over the seats.
 def test_the_rename_line_says_the_decided_words():
     assert render.PICK_SEAT_TO_RENAME == "Pick whose name to change:"
 
 
-# 02b/E1's one hard case: both facts want the last line, and there is room for one. A seatless member
-# cannot score, so a draft in progress is not their news — the seat is. The four seats keep the `⏳` line,
-# which is who 01/FR9 was written for.
+# The hard case: both facts want the last line. A seatless member cannot score, so a draft in
+# progress is not their news; the seat is. The four seats keep the `⏳` line.
 def test_the_choose_line_outranks_the_hourglass_for_someone_with_no_seat():
     r, t = seated_table()
     tap(r, t, HOST, "w", 0)                                   # Al is entering a win
@@ -175,10 +165,9 @@ def test_the_choose_line_outranks_the_hourglass_for_someone_with_no_seat():
     assert "⏳ Al is entering a win" in board_text(r.message(HOST, "/board"), HOST.user_id)
 
 
-# 05/S3.4 (NFR7) — a third moment wants the last line, and the rule is unchanged by it: whoever drew the
-# picker asked to rename a seat, and a `⏳` line about somebody else's draft is not what to do next. Here a
-# seated bystander opens it while the draft holder is mid-win — the two lines genuinely both apply, which is
-# what makes this the ranking case rather than a restatement of the one above.
+# A third claimant on the last line: whoever drew the rename picker asked to rename, and a `⏳`
+# line about somebody else's draft is not their next step. A seated bystander opens it mid-win,
+# so both lines genuinely apply and the ranking is tested.
 def test_the_rename_line_outranks_the_hourglass():
     r, t = seated_four()
     r.message(DEB, "/leave")                                  # one seat free, or there is no picker to draw
@@ -190,9 +179,8 @@ def test_the_rename_line_outranks_the_hourglass():
     assert "⏳" not in board_text(picker, GUEST.user_id), "one tail line, never both"
 
 
-# 02b/E2 — a full session has no seat to choose, so the line points at the one verb that works instead of
-# promising buttons that are not there. This is the case the zero-button Board ships with (see
-# test_delivery's full-session test): text, and no keyboard at all.
+# A full session has no seat to choose, so the line names the one verb that works instead of
+# promising buttons: text and no keyboard (see test_delivery's full-session test).
 def test_a_member_of_a_full_session_is_pointed_at_leave_instead():
     r, t = seated_four()
     late = table.User(55, "Eve")
@@ -204,9 +192,8 @@ def test_a_member_of_a_full_session_is_pointed_at_leave_instead():
     assert keyboard_for(effects, late.user_id) == [], "nothing is on offer, and nothing is claimed"
 
 
-# S3.13 — the night's wins read on the Board itself, so a tap adds no message to the chat and the
-# Board stays the newest thing in it. [FR14 amendment 2026-10-29: the entry line is a line of the
-# Board, not a message of its own — the drift it caused is what Jon hit at 21:52.]
+# The night's wins read on the Board itself, so a tap adds no message and the Board stays the
+# newest thing in the chat.
 def test_a_committed_win_reads_on_the_board_and_sends_nothing_else():
     r, t = seated_table()
 
@@ -218,8 +205,8 @@ def test_a_committed_win_reads_on_the_board_and_sends_nothing_else():
     assert boards[0].text == boards[1].text
 
 
-# S3.14 — folding the log into the Board puts the night's length inside Telegram's 4096-character
-# message limit (AS5), so the Board keeps a recent window and counts what it stopped showing.
+# Folding the log into the Board puts the night's length inside Telegram's 4096-character
+# message limit, so the Board keeps a recent window and counts what it stopped showing.
 def test_a_long_night_shows_the_recent_wins_and_counts_the_rest():
     r, t = seated_four()
     score_wins(r, t, 15)                             # 15 Entries, each a distinct winner + amount
@@ -232,8 +219,7 @@ def test_a_long_night_shows_the_recent_wins_and_counts_the_rest():
     assert entry_texts(t)[-1] in text and entry_texts(t)[0] not in text
 
 
-# S3.20 — three recent Entries is the window Jon asked for: enough to see what just happened, small
-# enough that the Board stays a glance rather than a scroll.
+# Three recent Entries: enough to see what just happened, small enough to stay a glance.
 def test_the_board_keeps_three_recent_entries_and_no_more():
     r, t = seated_four()
     score_wins(r, t, 5)
