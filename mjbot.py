@@ -90,8 +90,6 @@ apihelper.CUSTOM_REQUEST_SENDER = _timed(_request) if TIMING else _request
 if os.environ.get('MJ_DEBUG') == '1':
     telebot.logger.setLevel(logging.DEBUG)
 
-server = Flask(__name__)
-
 # One worker: taps are handled one at a time, so two players cannot interleave a win.
 bot = telebot.TeleBot(config.token, num_threads=1)
 
@@ -388,23 +386,6 @@ def on_tap(call):
     _handle('TAP', lambda: ROOM.tap(player(call.from_user), call.data), callback_id=call.id)
 
 
-#--------------Webhook
-
-@server.route('/' + config.token, methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
-
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=config.webhook_url + config.token)
-    return "!", 200
-
-
 def start_reconciler(delivery, interval=None):
     """Players should not have to tap again to see a Board they are owed."""
     wait = interval or float(os.environ.get('MJ_RECONCILE_SECONDS', 5))
@@ -438,21 +419,18 @@ def polling_kwargs(first=True):
 
 
 if __name__ == "__main__":
-    if os.environ.get('MJ_MODE', 'polling') == 'webhook':
-        server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
-    else:
-        start_reconciler(DELIVERY)
-        poll = polling_kwargs()
-        print('Bot online (polling, hold=%ss). Press Ctrl+C to stop.'
-              % poll['long_polling_timeout'])
-        while True:
-            try:
-                bot.polling(**poll)
-            except KeyboardInterrupt:
-                raise
-            except Exception as e:
-                # Transient drop (ReadTimeout/ConnectionError): restart, don't die.
-                print('Polling dropped (%s: %s) - restarting in 3s' % (type(e).__name__, _brief(e)))
-                time.sleep(3)
-                # The Tables survived this restart, so the queued updates are tonight's, not stale.
-                poll = polling_kwargs(first=False)
+    start_reconciler(DELIVERY)
+    poll = polling_kwargs()
+    print('Bot online (polling, hold=%ss). Press Ctrl+C to stop.'
+          % poll['long_polling_timeout'])
+    while True:
+        try:
+            bot.polling(**poll)
+        except KeyboardInterrupt:
+            raise
+        except Exception as e:
+            # Transient drop (ReadTimeout/ConnectionError): restart, don't die.
+            print('Polling dropped (%s: %s) - restarting in 3s' % (type(e).__name__, _brief(e)))
+            time.sleep(3)
+            # The Tables survived this restart, so the queued updates are tonight's, not stale.
+            poll = polling_kwargs(first=False)

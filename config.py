@@ -16,7 +16,3 @@ _load_dotenv()
 
 # Telegram bot token from @BotFather. Never commit a real token.
 token = os.environ.get('MJ_TOKEN', '...')
-
-# Public HTTPS base URL of the deployed bot, only used in webhook mode.
-# e.g. https://your-app.herokuapp.com/
-webhook_url = os.environ.get('MJ_WEBHOOK_URL', '...')

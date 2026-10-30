@@ -9,4 +9,3 @@ import config
 import telebot
 from telebot import types
 import requests
-from flask import Flask, request
