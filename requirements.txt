@@ -1,15 +1,18 @@
-certifi==2022.5.18.1
-charset-normalizer==2.0.12
-click
-colorama
-Flask
-idna==3.3
-importlib-metadata
-itsdangerous
-Jinja2
-MarkupSafe
+# Runtime dependencies, exact versions. A public install is reproducible or it is not — a stranger
+# cloning this repo gets these versions, and upgrading them is a deliberate, tested bump.
+# Tested together on Python 3.12 (the suite in tests/ must pass on exactly these).
+certifi==2026.10.23
+charset-normalizer==3.5.2
+click==8.5.0
+colorama==0.4.6
+Flask==3.1.3
+idna==3.20
+importlib-metadata==10.1.0
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==3.0.4
 pyTelegramBotAPI==4.37.1
-requests==2.27.1
-urllib3==1.26.9
-Werkzeug
-zipp
+requests==2.34.2
+urllib3==2.8.0
+Werkzeug==3.1.9
+zipp==4.1.2

@@ -10,3 +10,4 @@ venv/
 .pi/
 scratchpad.md
 .pytest_cache/
+todo.md
