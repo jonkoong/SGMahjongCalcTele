@@ -1,8 +1,11 @@
 """Delivery: one Board message per chat, edited in place, keyboard and all."""
 
 import random
+import threading
+import time
 
 import pytest
+from telebot.apihelper import ApiTelegramException
 
 import mjbot
 import table
@@ -124,7 +127,7 @@ def test_a_seat_offer_with_no_seats_free_sends_a_board_and_no_keyboard():
 
 
 # S3.11 — the seat offer rides the Board message, so seating edits that same message instead of
-# leaving a spent row of seat buttons above the score (Q4, scratchpad.md).
+# leaving a spent row of seat buttons above the score.
 def test_seating_edits_the_seat_offer_in_place():
     r = table.Room(rng=random.Random(7))
     bot = FakeBot()
@@ -302,3 +305,110 @@ def test_a_night_of_plain_messages_never_stacks_a_second_board():
     assert len(delivery.boards) == 2, "two chats, two live messages — never a third thing"
     assert {c: b.message_id for c, b in delivery.boards.items()} == slot, "the same two messages, edited"
     assert len(bot.boards()) == 2, "one Board ever sent per chat"
+
+
+# 04/timing — an unanswered callback leaves the tapped button flashing in the client until Telegram's
+# own timeout, long after the Board changed. Every tap is answered; only a refusal has words to say.
+def test_a_plain_tap_is_answered_so_the_button_stops_flashing():
+    r, t = seated_table()
+    bot = FakeBot()
+    delivery = mjbot.Delivery(bot)
+    delivery.run(r.message(HOST, "/board"))
+
+    delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)), callback_id="abc")
+
+    assert bot.toasts == [("abc", None, {})]
+
+
+def test_a_tap_that_telegram_calls_too_old_does_not_count_against_the_route():
+    r, t = seated_table()
+    delivery = mjbot.Delivery(FakeBot())
+    delivery.bot.answer_callback_query = lambda *a, **k: (_ for _ in ()).throw(
+        ApiTelegramException("answerCallbackQuery", {}, {"error_code": 400, "description": "query is too old"}))
+
+    for _ in range(mjbot.BREAKER_AFTER + 1):
+        delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)), callback_id="old")
+
+    assert not delivery._held()
+
+
+# A call costs ~0.35 s on this route; four Boards in a row made the last seat wait ~1.4 s. Every seat's
+# edit must be in flight at once — a Barrier only opens when all four calls are waiting in it together.
+class RendezvousBot(FakeBot):
+    def __init__(self, parties):
+        FakeBot.__init__(self)
+        self.meeting = threading.Barrier(parties, timeout=2)
+
+    def edit_message_text(self, **kwargs):
+        self.meeting.wait()
+        return FakeBot.edit_message_text(self, **kwargs)
+
+
+def test_every_seats_board_is_edited_at_the_same_time():
+    r, t = seated_four()
+    bot = RendezvousBot(parties=4)
+    delivery = mjbot.Delivery(bot)
+    delivery.run(r.message(HOST, "/board"))
+
+    delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)))     # raises BrokenBarrierError if serial
+
+    assert len(bot.edited) == 4
+
+
+# A Board edit and the menu change are different calls to different methods; when the menu rides behind
+# the Board in the same chat, a tap that changes it costs two round trips (0.69 s + 0.33 s live).
+class RendezvousMenuBot(FakeBot):
+    """The Board edit and the menu call each wait for the other, so they must be in flight together."""
+
+    def __init__(self):
+        FakeBot.__init__(self)
+        self.meeting = threading.Barrier(2, timeout=2)
+
+    def edit_message_text(self, **kwargs):
+        self.meeting.wait()
+        return FakeBot.edit_message_text(self, **kwargs)
+
+    def set_my_commands(self, commands, scope=None, language_code=None):
+        self.meeting.wait()
+        return FakeBot.set_my_commands(self, commands, scope=scope, language_code=language_code)
+
+
+def test_a_menu_change_does_not_queue_behind_the_board_edit():
+    bot = RendezvousMenuBot()
+    delivery = mjbot.Delivery(bot)
+    delivery.boards[HOST.user_id] = mjbot.BoardInChat(1, ("old", ()))
+
+    delivery.run([table.Board(HOST.user_id, "new", ()),
+                  table.Commands(HOST.user_id, ("/leave",))])       # BrokenBarrierError if one waits for the other
+
+    assert len(bot.edited) == 1 and len(bot.menus) == 1
+
+
+# A job that blows up on something other than the network must not let run() return while the other
+# chats' writes are still going out: the next batch would overlap them.
+def test_a_job_that_crashes_does_not_release_the_batch_early():
+    r, t = seated_four()
+    bot = SlowOnePeerBot(slow_chat=GUEST.user_id)
+    delivery = mjbot.Delivery(bot)
+    delivery.run(r.message(HOST, "/board"))
+    bot.crash_chat = HOST.user_id
+
+    with pytest.raises(RuntimeError):
+        delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)))
+
+    assert bot.finished_slow, "run() came back while a chat's edit was still in flight"
+
+
+class SlowOnePeerBot(FakeBot):
+    def __init__(self, slow_chat):
+        FakeBot.__init__(self)
+        self.slow_chat, self.crash_chat, self.finished_slow = slow_chat, None, False
+
+    def edit_message_text(self, text=None, chat_id=None, message_id=None, reply_markup=None):
+        if chat_id == self.crash_chat:
+            raise RuntimeError("a bug, not the network")
+        if chat_id == self.slow_chat:
+            time.sleep(0.3)
+            self.finished_slow = True
+        return FakeBot.edit_message_text(self, text=text, chat_id=chat_id, message_id=message_id,
+                                         reply_markup=reply_markup)

@@ -5,6 +5,7 @@ import threading
 import time
 import logging
 from collections import namedtuple
+from concurrent.futures import ThreadPoolExecutor, wait
 
 import telebot.apihelper as apihelper
 import requests
@@ -56,7 +57,32 @@ def _request(method, url, params=None, files=None, timeout=None, proxies=None):
     raise failure
 
 
-apihelper.CUSTOM_REQUEST_SENDER = _request
+# MJ_TIMING=1 prints one line per API call (seconds, and the idle gap since the previous call on that
+# thread, which shows whether a slow call was a cold connection) and one per handled update.
+TIMING = os.environ.get('MJ_TIMING') == '1'
+_last_end = {}
+
+
+def _timed(send):
+    def timed(method, url, *args, **kwargs):
+        name = url.rsplit('/', 1)[-1]               # the method only - the path before it holds the token
+        who = threading.current_thread().name
+        start = time.monotonic()
+        idle = start - _last_end.get(who, start)
+        outcome = 'ok'
+        try:
+            return send(method, url, *args, **kwargs)
+        except Exception as e:
+            outcome = type(e).__name__
+            raise
+        finally:
+            _last_end[who] = time.monotonic()
+            print('[timing] %-20s %6.2fs idle-before=%6.1fs %s [%s]'
+                  % (name, _last_end[who] - start, idle, outcome, who))
+    return timed
+
+
+apihelper.CUSTOM_REQUEST_SENDER = _timed(_request) if TIMING else _request
 
 # MJ_DEBUG=1 turns on telebot's own update diagnostics ('Received N new updates').
 # Telebot installs its own stderr handler, so only the level needs changing.
@@ -109,6 +135,10 @@ BREAKER_COOLDOWN = float(os.environ.get('MJ_BREAKER_COOLDOWN', 15))
 # the bot — must not sit at the head of the queue forever, because everything earned after it is
 # behind it. Three beats, then it is said and gone.
 PARK_TRIES = 3
+# The four Boards of one win go out side by side, not one after another: a call costs ~0.35 s here,
+# so four in a row made the last seat wait ~1.4 s. The rules stay on the one worker (NFR4); only the
+# writes they earned fan out. One slot for the tap's own answer, one per seat, and one per menu change.
+FAN_OUT = 9
 
 
 class Delivery:
@@ -126,7 +156,9 @@ class Delivery:
         self.intended = {}
         self.owed = []                       # [write, tries left] for writes the route never got to
         self.menus = {}                      # last command list each chat was given
-        self.lock = threading.Lock()
+        self.lock = threading.Lock()         # one batch (or one beat) at a time
+        self.books = threading.Lock()        # the parked queue, while a batch fans out
+        self.pool = ThreadPoolExecutor(max_workers=FAN_OUT, thread_name_prefix='deliver')
         self.clock = clock
         self.failures = 0
         self.retry_after = 0.0
@@ -135,26 +167,69 @@ class Delivery:
         """
         Deliver one batch of effects.
 
+        The tap is answered first and on its own line: an unanswered callback leaves the button
+        flashing in the player's client until Telegram's own timeout, long after the Board changed.
+        A refusal's Toast is that answer; any other tap is answered with nothing to say. Then each
+        chat's effects go out in the order they were earned, and different chats go out at once.
+
         A Board is remembered so the beat can retry it. A write that was never even attempted while
         the route was down is parked, because sending it later cannot duplicate it — unlike one
         that timed out (AD16). A toast that turns up a minute late is worthless, so it is lost.
         """
+        toast = next((e for e in effects if isinstance(e, Toast)), None)
+        chats = {}
+        for effect in effects:
+            if isinstance(effect, Toast):
+                continue
+            # A menu change is its own call to its own method, so it needs nothing from the Board edit
+            # beside it — queued behind it, it added a whole round trip to the tap.
+            lane = ('menu', effect.chat_id) if isinstance(effect, Commands) else effect.chat_id
+            chats.setdefault(lane, []).append(effect)
+        jobs = [lambda c=c: self._chat(c) for c in chats.values()]
+        if callback_id:
+            jobs.insert(0, lambda: [self._try(lambda: self._answer(callback_id, toast), 'Answer')])
         with self.lock:
-            for effect in effects:
-                retry = None
-                if isinstance(effect, Retired):
-                    # the slot goes back even if the write has to wait
-                    write, retriable = self._spend(effect)
-                    retry = write if retriable else None
-                else:
-                    if isinstance(effect, Board):
-                        self.intended[effect.chat_id] = effect      # stays dirty until it lands
-                    write = lambda e=effect: self._deliver(e, callback_id)
-                if self._held():
-                    if isinstance(effect, (Line, Retired, Commands)):
+            if len(jobs) == 1:
+                outcomes = jobs[0]()
+            else:
+                done = [self.pool.submit(job) for job in jobs]
+                wait(done)                  # all of them, even if one crashed: the next batch must not overlap
+                outcomes = [o for f in done for o in f.result()]
+            self._streak(outcomes)
+
+    def _chat(self, effects):
+        outcomes = []
+        for effect in effects:
+            retry = None
+            if isinstance(effect, Retired):
+                # the slot goes back even if the write has to wait
+                write, retriable = self._spend(effect)
+                retry = write if retriable else None
+            else:
+                if isinstance(effect, Board):
+                    self.intended[effect.chat_id] = effect      # stays dirty until it lands
+                write = lambda e=effect: self._deliver(e)
+            if self._held():
+                if isinstance(effect, (Line, Retired, Commands)):
+                    with self.books:
                         self.owed.append([write, PARK_TRIES])   # never attempted, so it cannot duplicate
-                    continue
-                self._try(write, 'Delivery', retry)
+                continue
+            outcomes.append(self._try(write, 'Delivery', retry))
+        return outcomes
+
+    def _answer(self, callback_id, toast):
+        # `show_alert` is the whole point of a refusal. Telegram's default is a quiet
+        # notification at the top of the chat that clears itself — sent without it, the 19
+        # refusals in table.py were never read. An alert stays until dismissed,
+        # and it belongs to this one callback query, so only the player who tapped sees it.
+        try:
+            if toast:
+                self.bot.answer_callback_query(callback_id, toast.text, show_alert=True)
+            else:
+                self.bot.answer_callback_query(callback_id)
+        except apihelper.ApiTelegramException as e:
+            # Telegram answered, so the route is fine: this tap is just too old to answer.
+            print('Answer refused (%s)' % _brief(e))
 
     def reconcile(self):
         """
@@ -165,9 +240,9 @@ class Delivery:
             if self._held():
                 return
             while self.owed:
-                before = self.failures
-                self._try(self.owed[0][0], 'Flush')
-                if self.failures > before:
+                outcome = self._try(self.owed[0][0], 'Flush')
+                self._streak([outcome])
+                if outcome == 'failed':
                     self.owed[0][1] -= 1
                     if not self.owed[0][1]:
                         print('Flush given up on — that write never landed')
@@ -175,7 +250,7 @@ class Delivery:
                     break                               # still down — the queue keeps its order
                 self.owed.pop(0)
             for chat_id, board in list(self.intended.items()):
-                self._try(lambda b=board: self._board(b), 'Reconcile')
+                self._streak([self._try(lambda b=board: self._board(b), 'Reconcile')])
 
     def _held(self):
         return self.clock() < self.retry_after
@@ -183,8 +258,8 @@ class Delivery:
     def _try(self, deliver, note, retry=None):
         """
         A kicked chat, a too-old tap or a dead route must not take the polling thread down with it.
-        The Board stamp is left unrecorded, so the next reconcile edits it again. Enough failures
-        in a row and writes are held rather than stalling every player behind them.
+        The Board stamp is left unrecorded, so the next reconcile edits it again. Returns 'failed',
+        'sent', or None when nothing went out; `_streak` turns those into the breaker.
 
         A failed `Retired` is parked like a write the route never got to (AD19), because its text —
         the settlement — is said once and exists nowhere else: `clear_round` has already zeroed the
@@ -192,33 +267,38 @@ class Delivery:
         names the message it writes; AD16's at-most-once rule is about duplication, not about edits.
         """
         if self._held():
-            return
+            return None
         try:
-            deliver()
+            sent = deliver()
         except (apihelper.ApiTelegramException, requests.exceptions.RequestException) as e:
             print('%s dropped (%s: %s)' % (note, type(e).__name__, _brief(e)))
             if retry is not None:
-                self.owed.append([retry, PARK_TRIES])   # the beat flushes it in order, with the rest
+                with self.books:
+                    self.owed.append([retry, PARK_TRIES])   # the beat flushes it in order, with the rest
+            return 'failed'
+        return None if sent is False else 'sent'    # a write skipped as already current proves nothing
+
+    def _streak(self, outcomes):
+        """
+        Enough failures in a row and writes are held rather than stalling every player behind them.
+        A batch is one event: a blip that kills the four Boards of a win together was one stall, not
+        four, and counting each would hold the table for 15 s over a hiccup.
+        """
+        if 'failed' in outcomes:
             self.failures += 1
             if self.failures >= BREAKER_AFTER:
                 self.retry_after = self.clock() + BREAKER_COOLDOWN
                 print('Route looks down — holding writes for %.0fs' % BREAKER_COOLDOWN)
-        else:
+        elif 'sent' in outcomes:
             self.failures = 0
 
-    def _deliver(self, effect, callback_id):
+    def _deliver(self, effect):
         if isinstance(effect, Board):
-            self._board(effect)
+            return self._board(effect)
         elif isinstance(effect, Commands):
-            self._menu(effect)
+            return self._menu(effect)
         elif isinstance(effect, Line):
             self.bot.send_message(effect.chat_id, effect.text)
-        elif isinstance(effect, Toast) and callback_id:
-            # `show_alert` is the whole point of a refusal. Telegram's default is a quiet
-            # notification at the top of the chat that clears itself — sent without it, the 19
-            # refusals in table.py were never read. An alert stays until dismissed,
-            # and it belongs to this one callback query, so only the player who tapped sees it.
-            self.bot.answer_callback_query(callback_id, effect.text, show_alert=True)
 
     def _menu(self, effect):
         """
@@ -228,7 +308,7 @@ class Delivery:
         so the player's next message tries it again.
         """
         if self.menus.get(effect.chat_id) == effect.names:
-            return
+            return False
         self.bot.set_my_commands(
             [types.BotCommand(command=command, description=COMMAND_HELP[command])
              for command in effect.names],
@@ -268,7 +348,7 @@ class Delivery:
         held = self.boards.get(effect.chat_id)
         stamp = (effect.text, effect.rows)
         if held and held.stamp == stamp:
-            return  # Telegram rejects an edit that would change nothing.
+            return False  # Telegram rejects an edit that would change nothing.
         markup = keyboard(effect.rows)
         if held:
             self.bot.edit_message_text(text=effect.text, chat_id=effect.chat_id,
@@ -288,14 +368,24 @@ def player(chat_user):
     return User(chat_user.id, name)
 
 
+def _handle(label, decide, callback_id=None):
+    start = time.monotonic()
+    effects = decide()
+    decided = time.monotonic()
+    DELIVERY.run(effects, callback_id=callback_id)
+    if TIMING:
+        print('[timing] %s rules=%.3fs deliver=%.2fs effects=%d'
+              % (label, decided - start, time.monotonic() - decided, len(effects)))
+
+
 @bot.message_handler(content_types=MESSAGES)
 def on_message(message):
-    DELIVERY.run(ROOM.message(player(message.from_user), message.text or ''))
+    _handle('MESSAGE', lambda: ROOM.message(player(message.from_user), message.text or ''))
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def on_tap(call):
-    DELIVERY.run(ROOM.tap(player(call.from_user), call.data), callback_id=call.id)
+    _handle('TAP', lambda: ROOM.tap(player(call.from_user), call.data), callback_id=call.id)
 
 
 #--------------Webhook
@@ -341,7 +431,9 @@ def polling_kwargs(first=True):
     real poll. A poll restarted inside this process drops the flag: the Tables are still live there, and
     the queued taps name them.
     """
-    return dict(non_stop=True, interval=1, skip_pending=first,
+    # interval=0: telebot sleeps `interval` between every poll, even straight after a reply, and a tap
+    # landing in that sleep waited out the rest of it.
+    return dict(non_stop=True, interval=0, skip_pending=first,
                 long_polling_timeout=int(os.environ.get('MJ_POLL_TIMEOUT', 5)))
 
 

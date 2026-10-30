@@ -5,7 +5,7 @@ from telebot.apihelper import ApiTelegramException
 
 import mjbot
 import table
-from tests.support import GUEST, HOST, seated_table, tap_end_exit
+from tests.support import GUEST, HOST, seated_four, seated_table, tap_end_exit
 
 from tests.fakes import FakeBot
 
@@ -101,6 +101,12 @@ def test_updates_queued_before_a_restart_are_skipped():
     assert options["skip_pending"] is True
     assert options["non_stop"] is True
     assert mjbot.polling_kwargs(first=False)["skip_pending"] is False
+
+
+# telebot sleeps `interval` after every poll, even one that just returned a tap, so a second tap
+# inside that sleep waited it out.
+def test_polling_does_not_sleep_between_polls():
+    assert mjbot.polling_kwargs()["interval"] == 0
 
 
 # --- S1.21–S1.24: resend only what provably never arrived -------------------------------------
@@ -289,17 +295,37 @@ def board_needs_an_edit(r, delivery):
                                          r.table_of(HOST).version, 0)))
 
 
-# S2.16 — one stalled call freezing the table is what made it look crashed at 21:26.
-def test_two_lost_boards_hold_the_route_instead_of_stalling_every_tap():
+# S2.16 — one stalled call freezing the table is what made it look crashed at 21:26. A stall is one
+# batch: two in a row are an outage.
+def test_two_lost_batches_hold_the_route_instead_of_stalling_every_tap():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=False)
     delivery = mjbot.Delivery(bot, clock=clock)
 
     board_needs_an_edit(r, delivery)
 
-    assert bot.attempted == mjbot.BREAKER_AFTER                 # it tried, twice, then stopped
+    assert bot.attempted == 2                                   # both seats tried, side by side
+    delivery.reconcile()                                        # the beat's try is the second stall in a row
+    attempted = bot.attempted
+    assert attempted > 2
     delivery.reconcile()
-    assert bot.attempted == mjbot.BREAKER_AFTER                 # held: not even an attempt
+    assert bot.attempted == attempted                           # held: not even an attempt
+
+
+# One stall is one event, however many calls were in flight when it hit: a blip that kills the four
+# Boards of a win together is a single failure, not four — otherwise any hiccup holds the whole table.
+def test_one_batch_of_lost_boards_is_one_failure_not_many():
+    r, t = seated_four()
+    clock, bot = FrozenClock(), RouteDown(up=True)
+    delivery = mjbot.Delivery(bot, clock=clock)
+    delivery.run(r.message(HOST, "/board"))
+    bot.up = False
+
+    delivery.run(r.tap(HOST, table.token("w", t.code, t.version, 0)))
+
+    assert bot.attempted == 4                                    # all four tried, side by side
+    assert not delivery._held()                                  # and one stall is not yet "down"
+    assert delivery.failures == 1
 
 
 # S2.17 — holding is temporary; when the route is back the dirty Boards go out.
@@ -324,7 +350,8 @@ def test_a_line_written_during_an_outage_arrives_afterwards():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=False)
     delivery = mjbot.Delivery(bot, clock=clock)
-    board_needs_an_edit(r, delivery)                            # the breaker is open now
+    board_needs_an_edit(r, delivery)
+    delivery.reconcile()                                        # the beat fails too: the breaker is open now
     sent_before = len(bot.sent)
 
     delivery.run(r.message(GUEST, "/end"))                  # the draft Al left open refuses Bo at the ask
