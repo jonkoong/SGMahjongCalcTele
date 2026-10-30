@@ -117,21 +117,40 @@ def test_closing_leaves_the_final_scoreboard_readable_in_every_chat():
     assert not tokens_of(effects), "a dead Table offers no buttons"
 
 
-# 04/D5 — the settle-up screen is the confirm, but it buys no override. A win halfway through being
-# entered still stops the night from ending (01/FR10), and the same sentence has to stop both exits,
-# because throwing away someone else's half-entered Entry is what each of them would do.
-def test_a_close_asked_while_someone_is_entering_a_win_refuses_them():
+# 04/D5 — the settle-up screen is the confirm, but it buys no override, and 02b/E3 moved that ruling to the
+# ask: a win halfway through being entered means the close exit is never offered in the first place, at
+# either exit, because throwing away someone else's half-entered Entry is what each of them would do.
+def test_a_close_asked_while_someone_is_entering_a_win_is_never_offered():
     r, t = a_night_two_up_two_down()
     tap(r, t, GUEST, "w", 1)                          # Bo is halfway through an Entry
     before = (list(t.balances), list(t.log), t.version)
 
-    effects = tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
+    effects = r.message(HOST, "/end")
 
     assert next(e.text for e in effects if isinstance(e, table.Line)) == \
         "Game cannot end when someone is entering a win — Bo is entering a win."
+    assert table.CLOSE_SESSION not in keyboard_for(effects, HOST.user_id)
     assert t.code in r.tables and r.table_of(HOST) is t, "nobody was freed"
     assert (t.balances, t.log, t.version) == before
     assert t.pending is not None, "Bo's draft is untouched"
+
+
+# 02b/E3 — the ask is the rule; this is the backstop behind it. A `k…reset` token cannot reach a live
+# settle-up screen over somebody else's draft (the draft bumps the version, and the ask refuses), so this
+# is a forged or badly-replayed payload — and it still must not wipe the slate over a live Entry. It
+# shares the one line every replaced screen gets (02b/D9): the screen it arrived from is gone.
+def test_a_reset_reaching_the_tap_over_someone_elses_draft_pops_the_shared_line():
+    r, t = a_night_two_up_two_down()
+    tap(r, t, GUEST, "w", 1)
+    before = (list(t.balances), list(t.log), t.version)
+
+    effects = r.tap(HOST, table.token("k", t.code, t.version, table.RESET_SCOREBOARD))
+
+    assert next(e.text for e in effects if isinstance(e, table.Toast)) == table.OUTDATED
+    assert (t.balances, t.log, t.version) == before, "the slate is intact"
+    assert t.pending is not None, "Bo's draft is untouched"
+    assert any(isinstance(e, table.Board) and e.chat_id == HOST.user_id for e in effects), \
+        "and the tapper is landed back on their own screen"
 
 
 # 04/D5 — one fewer confirmation is not one fewer version check. A win scored after the settle-up screen
@@ -309,15 +328,15 @@ def test_settling_one_table_leaves_the_other_nights_money_alone():
     assert (t2.balances, t2.log) == other
 
 
-# S5.15 — FR10 is not overridable by a confirmation. /end is offered to every seated player, so without
-# this a bystander could destroy the Entry someone else is halfway through; the Board is re-rendered so
-# they can see *why*, not just be told (FR9, FR15).
-def test_confirming_end_while_someone_is_entering_a_win_refuses_and_names_them():
+# S5.15 / 02b-E3 — FR10 is not overridable by a confirmation, and it is now said at the ask: `/end` is
+# offered to every seated player, so a bystander used to be shown `Reset scoreboard` over someone else's
+# draft and refused one tap later. The exits are never offered at all now.
+def test_asking_to_end_while_someone_is_entering_a_win_refuses_and_names_them():
     r, t = a_night_two_up_two_down()
     tap(r, t, GUEST, "w", 1)                          # Bo is halfway through an Entry (a draft bumps)
     before = (list(t.balances), list(t.log), t.version)
 
-    effects = tap_end_exit(r, t, HOST, table.RESET_SCOREBOARD)
+    effects = r.message(HOST, "/end")
 
     refusal = next(e.text for e in effects if isinstance(e, table.Line))
     # FR27 (Jon, 2026-10-30) — the sentence names the reason, not just the holder. It replaces the wording
@@ -326,6 +345,8 @@ def test_confirming_end_while_someone_is_entering_a_win_refuses_and_names_them()
     assert (t.balances, t.log, t.version) == before, "no money said, no slate wiped, nothing bumped"
     assert t.pending is not None, "Bo's draft is untouched"
     assert "⏳ Bo is entering a win" in board_text(effects, HOST.user_id)   # the Board says why too
+    assert table.RESET_SCOREBOARD not in keyboard_for(effects, HOST.user_id), \
+        "02b/E3: an exit that will be refused is never offered"
 
 
 # S5.15b / 02b-D8 and 02b-D17 — the holder's own exit goes over the top of their own draft: no confirmation

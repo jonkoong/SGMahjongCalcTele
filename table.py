@@ -818,14 +818,15 @@ class Room:
         who joined and never sat is bound to it all the same, and a binding outliving its Table is a player
         stuck unable to `/new` or `/join` anything.
 
-        A half-entered Entry stops a bystander at either exit, exactly as it stops the reset (02b/D8):
-        the confirmation 04/D5 moved onto this screen was never what bought the right to discard someone
-        else's win. The holder is not stopped — closing destroys the `Table` outright, and the draft dies
+        A half-entered Entry stops a bystander at either exit, and a bystander is stopped at the ask (02b/E3)
+        — the sentence they read is `_end`'s, not this one. What is protected here is the same fact from the
+        back seat: a settle-up screen left open across somebody's win is a screen the version has moved on
+        from, so it answers with the shared line rather than destroying the `Table` under a half-entered Entry.
+        The holder is not stopped — closing destroys the `Table` outright, and the draft dies
         with it, which is the one exit that needs no clearing.
         """
-        refused = self._draft_stops(table, user)
-        if refused:
-            return refused
+        if self._others_draft(table, user):
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         del self.tables[table.code]
         gone = list(table.members)
         farewell = render.session_closed(table)
@@ -866,25 +867,16 @@ class Room:
             return [self._seat_offer(table, user)]
         return self._show_board(table)
 
-    def _draft_stops(self, table, user):
+    def _others_draft(self, table, user):
         """
-        The one refusal both exits answer to (01/FR10), said once.
+        The open Entry this player did not start, or None.
 
-        A half-entered Entry stops a **bystander**, and that is the whole of it now (02b/D8, 02b/D17): the
-        holder may settle over the top of their own draft at either exit, because no confirmation was ever
-        what bought the right to discard *another* player's entry — and their own thumb reaching Reset or
-        Close says more about wanting it gone than an error line ever did.
-
-        The refusal carries the Board with it, so the `⏳` line sits beside the words that name the reason
-        (01/FR9, 01/FR15) — the same heal every other quiet guard gives, and for the same reason.
+        One predicate, because three places ask the same question and the holder is the exception in all
+        three (02b/D8, 02b/D17): the holder may settle over the top of their own draft at either exit,
+        because no confirmation was ever what bought the right to discard *another* player's entry.
         """
         pending = table.pending
-        if pending is None or pending["holder"] == user.user_id:
-            return None
-        return [Line(user.user_id,
-                     "Game cannot end when someone is entering a win — %s."
-                     % render.entering(table.names[pending["holder"]])),
-                *self._where_you_stand(table, user)]
+        return pending if pending is not None and pending["holder"] != user.user_id else None
 
     def _settle_up(self, table, user):
         """
@@ -897,17 +889,18 @@ class Room:
         message *becomes* the settlement and hands its slot back (AD22), and the fresh zeroed Board is
         sent at the bottom as that chat's one live message.
 
-        A half-entered Entry stops a **bystander** (01/FR19, narrowed by 02b/D8): `/end` is offered to
-        every seated player, so without that check one player's tap could throw away an Entry somebody
-        else started, and no confirmation buys an override. The holder is not stopped — their own exit over
-        their own draft is allowed, and the draft goes with the slate, because `clear_round` empties the
-        ledger and nothing else. Leaving a draft pointing at a wiped ledger would judge the next tap
-        against a win that no longer exists (02b/D17). The refuser's Board comes back with the refusal, so
-        the `⏳ Bo is entering a win` line sits next to the words that say why (01/FR9, 01/FR15).
+        A half-entered Entry stops a **bystander** (01/FR19, narrowed by 02b/D8) — but a bystander is now
+        stopped one step earlier, at the ask (02b/E3), so by the time this tap exists the settle-up screen
+        it came from is already a screen the version check retires. The guard stays as the backstop and
+        shares the one line every replaced screen gets: starting a draft bumps the version, so a tap that
+        reaches here is one Telegram still has live and the bot's Board has moved past (02b/D9).
+
+        The holder is not stopped — their own exit over their own draft is allowed, and the draft goes with
+        the slate, because `clear_round` empties the ledger and nothing else. Leaving a draft pointing at a
+        wiped ledger would judge the next tap against a win that no longer exists (02b/D17).
         """
-        refused = self._draft_stops(table, user)
-        if refused:
-            return refused
+        if self._others_draft(table, user):
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
         settled = render.settlement(table)
         table.clear_round()
         table.pending = None
@@ -926,12 +919,28 @@ class Room:
         Nothing is stored about who looked: the exits are tokens, so a screen nobody answers is just the
         screen the next win replaces — no prompt to get stuck in, and no second piece of conversational
         state for the `chatStatus` family to grow back from (02/AD21).
+
+        A half-entered Entry stops a **bystander here**, at the ask, rather than after they have been shown
+        the two exits (02b/E3, Jon 2026-10-30): the ask is where the rule is discovered, and offering
+        `Reset scoreboard` over someone else's win to take it back one tap later taught the player that the
+        bot offers things it will not let them do. The sentence rides beside their own Board, so the `⏳`
+        line is next to the words that name the reason (01/FR9, 01/FR15). The holder is not stopped.
+
+        A popup is not available here: Telegram prints one on the receipt a button tap hands the bot, and a
+        typed verb hands over no receipt. This is the reason the refusal has to be read as a message, and
+        why the tap path — which does have a receipt — answers with the shared out-of-date line instead.
         """
         table = self.table_of(user)
         if table is None:
             return self._no_table(user)
         if table.seat_of(user.user_id) is None:
             return self._take_a_seat(table, user, "accessing /end")
+        blocked = self._others_draft(table, user)
+        if blocked:
+            return [Line(user.user_id,
+                         "Game cannot end when someone is entering a win — %s."
+                         % render.entering(table.names[blocked["holder"]])),
+                    *self._where_you_stand(table, user)]
         return [Board(user.user_id, render.settlement(table), self._end_rows(table))]
 
     def _end_rows(self, table):

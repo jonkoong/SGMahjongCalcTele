@@ -248,12 +248,12 @@ moving. `Undo last win` reaches neither exit.
 
 ```mermaid
 flowchart TD
-    E["/end — a read: nothing moves"] --> Q["your Board becomes:<br/>totals + transfers + Reset scoreboard / Close session / Keep playing"]
+    E["/end — a read: nothing moves"] --> D{"someone *else* mid-Entry?"}
+    D -->|yes| R["refused — 'Game cannot end when someone is<br/>entering a win — @Bo is entering a win'<br/>plus that player's own Board, so the ⏳ line sits beside it<br/><br/>the exits are never offered"]
+    D -->|"no, or it is your own draft"| Q["your Board becomes:<br/>totals + transfers + Reset scoreboard / Close session / Keep playing"]
     Q -->|"Keep playing"| B["your Board comes back,<br/>nothing settled"]
-    Q -->|"Reset scoreboard"| D{"someone *else* mid-Entry?"}
-    Q -->|"Close session"| D
-    D -->|yes| R["refused — 'Game cannot end when someone is<br/>entering a win — @Bo is entering a win'<br/>plus that player's own Board, so the ⏳ line sits beside it"]
-    D -->|"no, or it is your own draft"| S["settlement, from score.settle()"]
+    Q -->|"Reset scoreboard"| S["settlement, from score.settle()"]
+    Q -->|"Close session"| S
     S --> Z1["reset: balances → 0 · log → empty · the draft goes with it"]
     S --> Z2["close: the Table is destroyed and every member is freed"]
     Z1 --> F["every seated DM: their message becomes the settlement,<br/>and a fresh $0.00 Board is sent beneath it"]
@@ -266,10 +266,22 @@ money is settled by hand, off the bot, and the screen is where it is read from. 
 copy of the numbers from the bot's side, so a bare *closed* notice written over them would destroy the
 debt to announce it.
 
-A half-entered win stops a **bystander** at both exits and stops **nobody** at their own (02b/D8, 02b/D17):
-the draft is another player's work, and no confirmation buys the right to discard it — but the holder's own
-thumb reaching `Reset scoreboard` says exactly what they want, and the draft is cleared with the ledger so
-the next tap is never judged against a win that no longer exists.
+A half-entered win stops a **bystander** and stops **nobody** at their own (02b/D8, 02b/D17): the draft is
+another player's work, and no confirmation buys the right to discard it — but the holder's own thumb
+reaching `Reset scoreboard` says exactly what they want, and the draft is cleared with the ledger so the
+next tap is never judged against a win that no longer exists.
+
+The bystander's refusal is said **at the ask** (02b/E3, Jon 2026-10-30): `/end` over someone else's draft
+sends the sentence and never shows the exits, rather than offering two destructive buttons and taking them
+back one tap later. Two things follow, and both are Telegram's, not the bot's:
+
+- **The refusal cannot be a popup at `/end`.** A popup is printed on the receipt a button press hands the
+  bot (`answerCallbackQuery`), and a typed verb hands over no receipt — so a typed command can only send a
+  message, redraw a screen, or say nothing. Where the same situation *is* a tap, it does get a popup.
+- **A settle-up screen cannot outlive the draft.** Starting an Entry bumps `version`, so the `k…reset` and
+  `k…close` tokens on a screen drawn before it die at the version check and answer with the shared
+  `That message is outdated…` popup. `_settle_up` and `_close_session` still re-check the draft as the
+  backstop behind that, and it shares the same popup rather than a sentence of its own (02b/D9).
 
 The transfer lines come from `score.settle`, the old `howtopay` logic, in its own order:
 

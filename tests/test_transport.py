@@ -327,7 +327,7 @@ def test_a_line_written_during_an_outage_arrives_afterwards():
     board_needs_an_edit(r, delivery)                            # the breaker is open now
     sent_before = len(bot.sent)
 
-    delivery.run(tap_end_exit(r, t, GUEST, table.CLOSE_SESSION))   # the draft Al left open refuses Bo
+    delivery.run(r.message(GUEST, "/end"))                  # the draft Al left open refuses Bo at the ask
     assert len(bot.sent) == sent_before                          # nothing was even attempted
 
     clock.advance(mjbot.BREAKER_COOLDOWN + 1)
