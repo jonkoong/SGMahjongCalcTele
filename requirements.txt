@@ -1,6 +1,6 @@
-# Runtime dependencies, exact versions. A public install is reproducible or it is not — a stranger
-# cloning this repo gets these versions, and upgrading them is a deliberate, tested bump.
-# Tested together on Python 3.12 (the suite in tests/ must pass on exactly these).
+# Runtime dependencies, pinned for reproducible installs. Tested together on Python 3.12;
+# bump deliberately and re-run the suite in tests/. `mjbot.py` relies on a private telebot
+# function, so re-check it when upgrading pyTelegramBotAPI.
 certifi==2026.10.23
 charset-normalizer==3.5.2
 idna==3.20

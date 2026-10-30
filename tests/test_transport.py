@@ -1,14 +1,16 @@
-"""The transport must survive a bad network and a restart (S1.18–S1.20)."""
+"""The transport must survive a bad network and a restart."""
+
+import time
 
 import pytest
+import requests
+from telebot import apihelper
 from telebot.apihelper import ApiTelegramException
 
 import mjbot
 import table
-from tests.support import GUEST, HOST, seated_four, seated_table, tap_end_exit
-
 from tests.fakes import FakeBot
-
+from tests.support import GUEST, HOST, seated_four, seated_table, tap_end_exit
 
 
 def refused(method, description):
@@ -36,7 +38,7 @@ class ExplodingBot(FakeBot):
         raise refused("sendMessage", "Bad Request: chat not found")
 
 
-# S1.18 — a dead callback id must not take the poller down with it.
+# A dead callback id must not take the poller down with it.
 def test_a_refusal_that_telegram_wont_accept_is_ignored():
     r, t = seated_table()
     bot = ExplodingBot()
@@ -46,11 +48,10 @@ def test_a_refusal_that_telegram_wont_accept_is_ignored():
     assert bot.blown == 1
 
 
-# F-03 — the same class of defect, one layer earlier: a payload this bot never wrote reached `parse_token`
-# and raised on `int("x")` on the way in, out through the handler and into the poll loop — where F-04
-# then threw away every update Telegram had queued behind it. Telegram redelivers whatever an old
-# keyboard carried, so an unreadable payload is a shape question, and the answer is the refusal an
-# unknown kind already gets.
+# The same defect one layer earlier: a payload this bot never wrote reached `parse_token`, raised
+# on `int("x")`, and escaped into the poll loop, discarding every update queued behind it. Telegram
+# redelivers whatever an old keyboard carried, so an unreadable payload gets the refusal an unknown
+# kind already gets.
 @pytest.mark.parametrize("data", ["a.CODE.x.y", "junk", "w.NBT5.3", ""])
 def test_a_payload_the_bot_never_writes_refuses_like_any_other_tap(data):
     r, t = seated_table()
@@ -59,12 +60,12 @@ def test_a_payload_the_bot_never_writes_refuses_like_any_other_tap(data):
 
     assert any(isinstance(e, table.Toast) for e in effects), "a refusal, not a crash"
     assert effects[0].text == "Error, please try again.", \
-        "02b/D9 — the one unreachable popup that keeps words: nothing in this payload names a session, "\
+        "the one popup that keeps words: nothing in this payload names a session, "\
         "so there is no screen to draw"
     assert t.log == [] and t.pending is None, "and nothing moved"
 
 
-# S1.18 — one unreachable DM must not stop the other three getting the Board.
+# One unreachable DM must not stop the other three getting the Board.
 def test_one_unreachable_chat_does_not_stop_the_rest_of_the_fanout():
     r, t = seated_table()
 
@@ -86,16 +87,15 @@ def test_one_unreachable_chat_does_not_stop_the_rest_of_the_fanout():
     assert delivery.boards[HOST.user_id].message_id == 101     # untouched, retried next refresh
 
 
-# S1.19 — a stalled request must give up in seconds, not half a minute.
+# A stalled request must give up in seconds, not half a minute.
 def test_a_stalled_api_call_gives_up_within_ten_seconds():
     from telebot import apihelper
     assert apihelper.READ_TIMEOUT <= 10
     assert apihelper.CONNECT_TIMEOUT <= 10
 
 
-# S1.20 — taps queued before a *cold start* describe a Table that no longer exists: the process is
-# new, so every Table went with the old one. A poll restarted inside this process is the other case
-# (F-04) — those Tables are alive and those taps name them.
+# Taps queued before a *cold start* describe Tables that went with the old process. A poll
+# restarted inside this process is the other case: those Tables are alive and the taps name them.
 def test_updates_queued_before_a_restart_are_skipped():
     options = mjbot.polling_kwargs()
     assert options["skip_pending"] is True
@@ -103,17 +103,13 @@ def test_updates_queued_before_a_restart_are_skipped():
     assert mjbot.polling_kwargs(first=False)["skip_pending"] is False
 
 
-# telebot sleeps `interval` after every poll, even one that just returned a tap, so a second tap
-# inside that sleep waited it out.
+# Telebot sleeps `interval` after every poll, so a tap landing in that sleep waited it out.
 def test_polling_does_not_sleep_between_polls():
     assert mjbot.polling_kwargs()["interval"] == 0
 
 
-# --- S1.21–S1.24: resend only what provably never arrived -------------------------------------
-import requests
-from telebot import apihelper
-
-SEND = "https://api.telegram.org/botX/sendMessage"
+# --- resend only what provably never arrived --------------------------------------------------
+SEND ="https://api.telegram.org/botX/sendMessage"
 GETU = "https://api.telegram.org/botX/getUpdates"
 
 
@@ -138,7 +134,7 @@ def net(monkeypatch, fails):
     return session
 
 
-# S1.21 — Telegram may already have delivered it; a resend prints the win twice. Giving up must
+# Telegram may already have delivered it; a resend prints the win twice. Giving up must
 # still say so, because a dropped line is a missing record.
 def test_a_send_that_times_out_is_not_resent(monkeypatch):
     session = net(monkeypatch, [requests.exceptions.ReadTimeout()] * 5)
@@ -147,28 +143,28 @@ def test_a_send_that_times_out_is_not_resent(monkeypatch):
     assert len(session.attempts) == 1
 
 
-# S1.21 — a connect failure never reached Telegram, so trying again is safe.
+# A connect failure never reached Telegram, so trying again is safe.
 def test_a_send_that_never_connected_is_resent(monkeypatch):
     session = net(monkeypatch, [requests.exceptions.ConnectTimeout()])
     mjbot._request("post", SEND, params={}, files=None, timeout=(10, 10), proxies=None)
     assert len(session.attempts) == 2
 
 
-# S1.22 — a held getUpdates is not a stalled call; the read must outlast the hold.
+# A held getUpdates is not a stalled call; the read must outlast the hold.
 def test_long_polling_reads_longer_than_it_holds(monkeypatch):
     session = net(monkeypatch, [])
     mjbot._request("get", GETU, params={}, files=None, timeout=(10, 10), proxies=None)
     assert session.attempts[0][2][1] >= mjbot.polling_kwargs()["long_polling_timeout"] + 10
 
 
-# S1.23 — polling is harmless to repeat, so it gets the patient retry budget.
+# Polling is harmless to repeat, so it gets the patient retry budget.
 def test_a_timed_out_poll_is_retried(monkeypatch):
     session = net(monkeypatch, [requests.exceptions.ReadTimeout()])
     mjbot._request("get", GETU, params={}, files=None, timeout=(10, 15), proxies=None)
     assert len(session.attempts) >= 2
 
 
-# S1.24 — a dead route to one DM must not strand the others or kill the poller.
+# A dead route to one DM must not strand the others or kill the poller.
 def test_a_network_error_on_one_chat_does_not_stop_the_others(monkeypatch):
     r, t = seated_table()
 
@@ -183,11 +179,7 @@ def test_a_network_error_on_one_chat_does_not_stop_the_others(monkeypatch):
     assert [chat for chat, _, _ in bot.sent] == [GUEST.user_id]
 
 
-# --- S2.14: a Board that did not land must not stay wrong -------------------------------
-import time
-
-import requests
-
+# --- a Board that did not land must not stay wrong --------------------------------------------
 
 class FlakyEdits(FakeBot):
     """The first edit dies on the route, the rest arrive."""
@@ -212,7 +204,7 @@ def edited_chats(bot):
     return [chat for chat, _, _, _ in bot.edited]
 
 
-# S2.14 — one DM must not sit on a dead keyboard because a packet went missing.
+# One DM must not sit on a dead keyboard because a packet went missing.
 def test_a_board_that_never_landed_is_pushed_again_on_the_next_beat():
     r, t = seated_table()
     bot = FlakyEdits()
@@ -227,7 +219,7 @@ def test_a_board_that_never_landed_is_pushed_again_on_the_next_beat():
     assert edited_chats(bot) == [GUEST.user_id, HOST.user_id]
 
 
-# S2.14 — reconciling a Board that is already current is a wasted call Telegram refuses.
+# Reconciling a Board that is already current is a wasted call Telegram refuses.
 def test_reconcile_leaves_a_board_that_is_already_right_alone():
     r, t = seated_table()
     bot = FakeBot()
@@ -240,7 +232,7 @@ def test_reconcile_leaves_a_board_that_is_already_right_alone():
     assert bot.edited == []
 
 
-# S2.14 — nobody has to tap for the beat to do its job.
+# Nobody has to tap for the beat to do its job.
 def test_the_beat_fixes_a_dropped_board_with_no_further_taps():
     r, t = seated_table()
     bot = FlakyEdits()
@@ -258,7 +250,7 @@ def test_the_beat_fixes_a_dropped_board_with_no_further_taps():
     assert HOST.user_id in edited_chats(bot)
 
 
-# --- S2.16–S2.19: a dead route must not make every player wait on it ---------------------
+# --- a dead route must not make every player wait on it ---------------------------------------
 class FrozenClock:
     def __init__(self):
         self.now = 1000.0
@@ -295,8 +287,8 @@ def board_needs_an_edit(r, delivery):
                                          r.table_of(HOST).version, 0)))
 
 
-# S2.16 — one stalled call freezing the table is what made it look crashed at 21:26. A stall is one
-# batch: two in a row are an outage.
+# One stalled call freezing the table made the bot look crashed. A stall is one batch; two in a row
+# are an outage.
 def test_two_lost_batches_hold_the_route_instead_of_stalling_every_tap():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=False)
@@ -312,8 +304,8 @@ def test_two_lost_batches_hold_the_route_instead_of_stalling_every_tap():
     assert bot.attempted == attempted                           # held: not even an attempt
 
 
-# One stall is one event, however many calls were in flight when it hit: a blip that kills the four
-# Boards of a win together is a single failure, not four — otherwise any hiccup holds the whole table.
+# One stall is one event however many calls were in flight: a blip killing a win's four Boards is a
+# single failure, or any hiccup would hold the whole table.
 def test_one_batch_of_lost_boards_is_one_failure_not_many():
     r, t = seated_four()
     clock, bot = FrozenClock(), RouteDown(up=True)
@@ -328,7 +320,7 @@ def test_one_batch_of_lost_boards_is_one_failure_not_many():
     assert delivery.failures == 1
 
 
-# S2.17 — holding is temporary; when the route is back the dirty Boards go out.
+# Holding is temporary; when the route is back the dirty Boards go out.
 def test_the_beat_delivers_what_the_outage_swallowed():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=False)
@@ -342,10 +334,8 @@ def test_the_beat_delivers_what_the_outage_swallowed():
     assert [chat for chat, _, _, _ in bot.edited] == [HOST.user_id, GUEST.user_id]
 
 
-# S2.18 — a line that was never sent is safe to send late; one that timed out is not.
-# Rewritten 2026-10-29: FR14 moved entry lines onto the Board, so the parked queue is exercised
-# by a refusal instead. The rule it guards is unchanged: never-sent may be retried,
-# one that timed out may not.
+# A line never sent is safe to send late; one that timed out is not. The parked queue is exercised
+# by a refusal.
 def test_a_line_written_during_an_outage_arrives_afterwards():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=False)
@@ -365,7 +355,7 @@ def test_a_line_written_during_an_outage_arrives_afterwards():
         ["Game cannot end when someone is entering a win — Al is entering a win."]
 
 
-# S2.19 — two isolated hiccups are not an outage; only failures in a row count.
+# Two isolated hiccups are not an outage; only failures in a row count.
 def test_a_delivery_that_gets_through_clears_the_streak():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(script=[False, True])
@@ -378,11 +368,10 @@ def test_a_delivery_that_gets_through_clears_the_streak():
     assert bot.attempted == 4                                   # 2 + 2: nothing was held back
 
 
-# F-01 — `/end` zeroes the balances its own settlement was computed from, so a settlement write that
-# dies is the only copy of the night's money leaving existence: `/history` reads a zeroed Board and
-# `/end` again says the night is empty. AD19 parks a write the route never got to; an edit that died
-# mid-call is just as safe to attempt again, because it names the message it writes — AD16's
-# at-most-once rule is about duplicating a send, and no send can duplicate an edit.
+# `/end` zeroes the balances its settlement was computed from, so a settlement write that dies is
+# the only copy of the night's money lost: `/history` reads a zeroed Board and `/end` says the
+# night is empty. An edit that died mid-call is safe to retry because it names the message it
+# writes; the at-most-once rule is about duplicate sends.
 def test_a_settlement_whose_edit_died_is_said_on_the_beat():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=True)
@@ -390,7 +379,9 @@ def test_a_settlement_whose_edit_died_is_said_on_the_beat():
     delivery.run(r.message(HOST, "/board"))
     for kind, meaning in (("w", 0), ("a", "t3"), ("p", 1)):     # Al wins 3 Tai off Bo
         delivery.run(r.tap(HOST, table.token(kind, t.code, t.version, meaning)))
-    settled = lambda: sorted(c for c, _, text, _ in bot.edited if " · settled" in text)
+
+    def settled():
+        return sorted(c for c, _, text, _ in bot.edited if " · settled" in text)
 
     bot.script = [False]                                        # the next edit dies mid-call
     delivery.run(r.tap(HOST, table.token("k", t.code, t.version, "reset")))
@@ -405,15 +396,15 @@ def test_a_settlement_whose_edit_died_is_said_on_the_beat():
     assert delivery.owed == []
 
 
-# S3.12 — a Table closed while the route is down must not go on showing its score afterwards: the
-# notice replaces what the chat was owed, so the beat has nothing stale left to push.
+# A Table closed while the route is down must not keep showing its score: the notice replaces what
+# the chat was owed, leaving the beat nothing stale to push.
 def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=False)
     delivery = mjbot.Delivery(bot, clock=clock)
     board_needs_an_edit(r, delivery)                            # the breaker is open now
     delivery.run(r.tap(HOST, table.token("x", t.code, t.version, "c")))     # that tap left a draft, and a
-    #                                                            draft now refuses a close, so cancel it
+    #                                                            Draft now refuses a close, so cancel it
     delivery.run(tap_end_exit(r, t, HOST, table.CLOSE_SESSION))
     delivery.reconcile()                                        # still down: nothing attempted
     assert bot.edited == []
@@ -426,9 +417,8 @@ def test_a_table_closed_during_an_outage_stops_showing_up_once_the_route_returns
     assert len(texts) == 2 and all("Closed" in text for text in texts)
 
 
-# F-01 — the retry is bounded. A parked write Telegram will never take (a message the player deleted,
-# a chat that blocked the bot) would otherwise sit at the head of the queue forever, with everything
-# the players earn after it stranded behind it.
+# The retry is bounded: a parked write Telegram will never take (a deleted message, a chat that
+# blocked the bot) would otherwise sit at the head of the queue and strand everything behind it.
 def test_a_parked_write_telegram_wont_take_is_given_up_on():
     r, t = seated_table()
     clock, bot = FrozenClock(), RouteDown(up=True)

@@ -33,7 +33,6 @@ def score_a_win(r, t, ntai):
     return r.tap(HOST, table.token("p", t.code, t.version, 1))
 
 
-# S1.13
 def test_three_wins_still_leave_one_board_message_per_chat():
     r, t = seated_table()
     bot = FakeBot()
@@ -50,7 +49,6 @@ def test_three_wins_still_leave_one_board_message_per_chat():
     assert {chat for chat, _, _, _ in bot.edited} <= set(boards)
 
 
-# S1.14
 def test_a_board_that_did_not_change_is_not_sent_again():
     r, t = seated_table()
     bot = FakeBot()
@@ -66,7 +64,6 @@ def _board_traffic(bot):
     return (len(bot.boards()), len(bot.edited))
 
 
-# S1.12 at the Telegram edge
 def test_the_board_keyboard_travels_on_the_board_message():
     r, t = seated_table()
     bot = FakeBot()
@@ -83,8 +80,8 @@ def test_the_board_keyboard_travels_on_the_board_message():
     # proves the keyboard reaches Telegram attached to the Board message.
 
 
-# refusals reach the tap, not the chat — and as an alert that must be dismissed, because the quiet
-# notification at the top of the chat was never seen at all (mission 03: toast visibility).
+# Refusals reach the tap, not the chat, as an alert that must be dismissed: the quiet notification
+# at the top of the chat went unseen.
 def test_a_refusal_shows_as_an_alert_on_the_tap():
     r, t = seated_table()
     late = table.User(44, "Di")
@@ -99,16 +96,14 @@ def test_a_refusal_shows_as_an_alert_on_the_tap():
     assert "taken" in bot.toasts[0][1]
     assert bot.toasts[0][2].get("show_alert") is True              # a popup, not a flash
     assert not bot.edited, "a refusal moves nobody's live Board"
-    # 02b/D6c — and the tapper is handed a fresh seat offer beside the popup: a seatless chat's Board is
-    # never edited again, so words alone would say "pick another" with nothing left on screen to pick.
+    # The tapper also gets a fresh seat offer: a seatless chat's Board is never edited again, so
+    # words alone would leave nothing on screen to pick.
     assert len(bot.sent) == 1, bot.sent
 
 
-# 02b/D6c and D15 both hand a seatless tapper a fresh seat offer, so the offer arriving at a session that
-# is already full became load-bearing: `_seat_rows` offers no row when no seat is free, and this is the one
-# place that decides whether Telegram is asked to draw a keyboard of zero buttons. It is not — `keyboard()`
-# returns None and the Board goes out as plain text, which is what a player in a full session can act on
-# (`/leave` in the menu, nothing on the tiles).
+# A seatless tapper is handed a fresh seat offer, which can arrive at a full session.
+# `_seat_rows` then offers no row, and this is where Telegram is spared a zero-button keyboard:
+# `keyboard()` returns None and the Board goes out as plain text (`/leave` is in the menu).
 def test_a_seat_offer_with_no_seats_free_sends_a_board_and_no_keyboard():
     r, t = seated_four()
     late = table.User(55, "Eve")                         # a fifth account; 44 is De's seat already
@@ -117,16 +112,16 @@ def test_a_seat_offer_with_no_seats_free_sends_a_board_and_no_keyboard():
     bot = FakeBot()
     delivery = mjbot.Delivery(bot)
 
-    delivery.run(r.tap(late, table.token("p", t.code, t.version, 1)))   # a money tap with no seat (D9)
+    delivery.run(r.tap(late, table.token("p", t.code, t.version, 1)))   # a money tap with no seat
 
     sent = [s for s in bot.sent if s[0] == late.user_id]
     assert len(sent) == 1, "one message, and it did not raise on the way out"
     assert "seated" in sent[0][1], "the Board text arrived"
     assert sent[0][2] is None, "zero buttons is no keyboard, not an empty one"
-    assert not bot.toasts, "02b/D9: the picker answers a seatless tap, so there is nothing to say"
+    assert not bot.toasts, "the picker answers a seatless tap, so there is nothing to say"
 
 
-# S3.11 — the seat offer rides the Board message, so seating edits that same message instead of
+# The seat offer rides the Board message, so seating edits that same message instead of
 # leaving a spent row of seat buttons above the score.
 def test_seating_edits_the_seat_offer_in_place():
     r = table.Room(rng=random.Random(7))
@@ -147,8 +142,8 @@ def test_seating_edits_the_seat_offer_in_place():
     assert set(labels(edited[HOST.user_id][2])) == {"Al", "Player 2", "Player 3", "Player 4"}
 
 
-# S3.15 — the 21:52 defect: /leave then /new wrote the fresh Board over the old "you have left
-# table XYZA" message, so the live Board appeared buried up the chat instead of at the bottom.
+# /leave then /new once wrote the fresh Board over the old "you have left table XYZA" message,
+# burying the live Board up the chat instead of at the bottom.
 def test_a_table_opened_after_leaving_is_sent_afresh_not_written_over_the_notice():
     r = table.Room(rng=random.Random(7))
     bot = FakeBot()
@@ -167,8 +162,8 @@ def test_a_table_opened_after_leaving_is_sent_afresh_not_written_over_the_notice
     assert len(bot.edited) == edited, "nothing may be written over the spent notice"
 
 
-# S3.16 — Telegram takes about one message per second into a chat, and every call here costs ~0.7 s
-# on this route with one worker behind it. A win now costs three stages of edits and nothing else.
+# Telegram takes about one message per second into a chat and each call costs ~0.7s on this route
+# with one worker, so a win costs three stages of edits and nothing else.
 def test_a_whole_win_costs_edits_and_no_messages_at_all():
     r, t = seated_table()
     bot = FakeBot()
@@ -184,8 +179,7 @@ def test_a_whole_win_costs_edits_and_no_messages_at_all():
     assert len(bot.sent) == sent                                 # nothing posted beneath the Board
 
 
-# S3.22 — the slash menu belongs to the player, and a tap that changes nothing about it must not
-# spend an API call on it.
+# The slash menu belongs to the player; a tap that doesn't change it must not spend an API call.
 def test_the_command_menu_is_set_per_chat_and_only_when_it_changes():
     r, t = seated_table()
     bot = FakeBot()
@@ -205,8 +199,7 @@ def test_the_command_menu_is_set_per_chat_and_only_when_it_changes():
     assert bot.menus[-1] == (HOST.user_id, ("/start", "/new", "/join"))
 
 
-# S3.23 — closing dissolves everyone's Table, so everyone's menu has to move with it, not just the
-# caller's.
+# Closing dissolves everyone's Table, so everyone's menu must move, not just the caller's.
 def test_closing_resets_every_member_s_menu():
     r, t = seated_table()
     bot = FakeBot()
@@ -220,9 +213,8 @@ def test_closing_resets_every_member_s_menu():
     assert all(names == ("/start", "/new", "/join") for _, names in bot.menus[-2:])
 
 
-# S4.13 — a Table's settings ride the chat's one live message. If a settings screen or a settings
-# change posted its own message, the Board would climb away from the player scoring the next win — the
-# exact defect FR12 exists for, so this counts messages rather than trusting the effect types.
+# Settings ride the chat's one live message. A separate message would push the Board up the chat
+# away from the player scoring, so this counts messages rather than trusting effect types.
 def test_changing_a_setting_edits_the_one_message_and_posts_nothing_new():
     r, t = seated_table()
     bot = FakeBot()
@@ -241,9 +233,8 @@ def test_changing_a_setting_edits_the_one_message_and_posts_nothing_new():
     assert {c: b.message_id for c, b in delivery.boards.items()} == slot, "same messages, edited"
 
 
-# S5.2 — reading the night is a read. A list posted under the Board would push the live Board up the chat
-# and the player scoring the next win would have to scroll for it, which is the drift FR12 exists for, so
-# this counts calls rather than trusting the effect types.
+# Reading the night is a read. A list posted under the Board would push it up the chat, so this
+# counts calls rather than trusting effect types.
 def test_reading_the_history_edits_the_one_message_and_posts_nothing():
     r, t = seated_table()
     for ntai in (1, 2, 3, 4):                         # longer than the Board's window, or nothing to read
@@ -262,9 +253,8 @@ def test_reading_the_history_edits_the_one_message_and_posts_nothing():
     assert delivery.boards[HOST.user_id].message_id == slot, "same message, edited"
 
 
-# S5.13 — the settlement is what the chat's spent message *becomes*, and the fresh zeroed Board is a new
-# message beneath it. `Retired` and `Board` arriving in one batch is the pattern FR12 leans on here, and
-# S3.15 only proved the pair across two separate updates.
+# The settlement is what the chat's spent message *becomes*, with the zeroed Board a new message
+# beneath it. This covers `Retired` and `Board` arriving in one batch, not across two updates.
 def test_an_ended_night_leaves_one_live_message_beneath_the_settlement():
     r, t = seated_table()
     score_a_win(r, t, 3)
@@ -290,8 +280,8 @@ def test_an_ended_night_leaves_one_live_message_beneath_the_settlement():
                                              for b in delivery.boards.values())
 
 
-# S6.8 — whatever a plain message posts beneath the Board, it must never leave a second Board above it:
-# the refresh is an edit of the slot the chat already holds, however many stray messages a night holds.
+# However many stray messages a night holds, a refresh edits the chat's existing slot and never
+# leaves a second Board above it.
 def test_a_night_of_plain_messages_never_stacks_a_second_board():
     r, t = seated_table()
     bot = FakeBot()
@@ -307,8 +297,8 @@ def test_a_night_of_plain_messages_never_stacks_a_second_board():
     assert len(bot.boards()) == 2, "one Board ever sent per chat"
 
 
-# 04/timing — an unanswered callback leaves the tapped button flashing in the client until Telegram's
-# own timeout, long after the Board changed. Every tap is answered; only a refusal has words to say.
+# An unanswered callback leaves the button flashing until Telegram's timeout. Every tap is answered;
+# only a refusal has words.
 def test_a_plain_tap_is_answered_so_the_button_stops_flashing():
     r, t = seated_table()
     bot = FakeBot()
@@ -332,8 +322,8 @@ def test_a_tap_that_telegram_calls_too_old_does_not_count_against_the_route():
     assert not delivery._held()
 
 
-# A call costs ~0.35 s on this route; four Boards in a row made the last seat wait ~1.4 s. Every seat's
-# edit must be in flight at once — a Barrier only opens when all four calls are waiting in it together.
+# Four Boards in a row made the last seat wait ~1.4s, so every edit must be in flight at once: the
+# Barrier only opens when all four calls are waiting together.
 class RendezvousBot(FakeBot):
     def __init__(self, parties):
         FakeBot.__init__(self)
@@ -355,8 +345,8 @@ def test_every_seats_board_is_edited_at_the_same_time():
     assert len(bot.edited) == 4
 
 
-# A Board edit and the menu change are different calls to different methods; when the menu rides behind
-# the Board in the same chat, a tap that changes it costs two round trips (0.69 s + 0.33 s live).
+# The Board edit and the menu change are different calls; queued behind the Board, a menu change
+# costs a second round trip (0.69s + 0.33s live).
 class RendezvousMenuBot(FakeBot):
     """The Board edit and the menu call each wait for the other, so they must be in flight together."""
 

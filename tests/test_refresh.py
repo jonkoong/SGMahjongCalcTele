@@ -7,9 +7,9 @@ from tests.support import CYD, GUEST, HOST, board_text, keyboard_for, menu_for, 
     seated_table, tap
 
 
-# S6.3 — 🔴 with a code ask outstanding, a sticker used to be read as a code and refused as a bad one:
-# `No live session with code .` blames a player for a message they never typed. AD21 says any further input
-# *clears* the ask — it does not say an empty payload is an attempt at an answer.
+# 🔴 with a code ask outstanding, a sticker used to be read as a code and refused as a bad one:
+# `No live session with code .` blames a player for a message they never typed. Further input
+# *clears* the ask; an empty payload is not an attempt at an answer.
 def test_a_sticker_while_asked_for_a_code_is_not_read_as_a_code():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
@@ -26,7 +26,7 @@ def test_a_sticker_while_asked_for_a_code_is_not_read_as_a_code():
     assert "not in a session" in later[0].lower(), "the next message is an ordinary one, not a retry"
 
 
-# S6.4 — the same defect one setting over: a sticker is not a rate the host got wrong.
+# The same defect one setting over: a sticker is not a rate the host got wrong.
 def test_a_sticker_while_asked_for_a_rate_is_not_read_as_a_rate():
     r, t = seated_table()
     r.message(HOST, "/settings")
@@ -40,12 +40,9 @@ def test_a_sticker_while_asked_for_a_rate_is_not_read_as_a_rate():
     assert isinstance(effects[0], table.Board), "the host is shown the Table they are still sitting at"
 
 
-# S6.5 — FR26 as amended (Jon, 2026-10-30): `/start` starts the bot, and nothing else. Telegram's own
-# slash menu already carries every verb *with* its description, straight from COMMAND_HELP (mjbot.py:200),
-# so the listing /start printed was that menu reprinted into the chat. 02b/D6b took the second half: the
-# one line `/start` did send was a pointer at `/board`, so a chat already in a session now hears nothing.
-# It changes nothing either way — a command that wipes a live session is the one thing this bot has never
-# allowed.
+# `/start` starts the bot and nothing else: the slash menu already carries every verb with its
+# COMMAND_HELP description, and a chat already in a session hears nothing. It never changes the
+# session either way.
 def test_start_is_a_greeting_that_touches_no_screen():
     r, t = seated_table()
     before = (list(t.balances), list(t.log), list(t.occupants), t.version)
@@ -57,9 +54,8 @@ def test_start_is_a_greeting_that_touches_no_screen():
     assert (t.balances, t.log, t.occupants, t.version) == before, "no command in this bot wipes a night"
 
 
-# S6.6 — help is asked for mid-hand, so it cannot cost the player their draft. It cannot re-put their
-# stage buttons either: a greeting that repaints the Board would bump the version and stale the ladder
-# the player is one tap from.
+# Help asked for mid-hand must not cost the player their draft, nor repaint the Board: that would
+# bump the version and stale the ladder they are one tap from.
 def test_start_mid_draft_keeps_the_draft_and_costs_nothing():
     r, t = seated_table()
     tap(r, t, GUEST, "w", 1)
@@ -71,7 +67,7 @@ def test_start_mid_draft_keeps_the_draft_and_costs_nothing():
     assert t.pending is not None and t.version == stage
 
 
-# S6.7 — from a chat with no Table it is the one line that tells them how to get to a Table, and it
+# From a chat with no Table it is the one line that tells them how to get to a Table, and it
 # creates nothing.
 def test_start_from_an_unbound_chat_opens_nothing():
     r = table.Room(rng=random.Random(7))
@@ -83,9 +79,8 @@ def test_start_from_an_unbound_chat_opens_nothing():
     assert "/new" in line and "/join" in line, line
 
 
-# S6.8 — the greeting is for a chat that has no conversation yet. Once a chat is bound, `/start` leaves
-# the menu: the verbs that remain are all things a player at a Table does, and a verb that only says
-# "Bot is running" beside them is noise in the one place players look for what to do next (AD20).
+# The greeting is for a chat with no conversation yet. Once bound, `/start` leaves the menu: a verb
+# that only says "Bot is running" is noise where players look for what to do next.
 def test_start_is_offered_only_to_a_chat_that_has_no_table_yet():
     r = table.Room(rng=random.Random(7))
 
@@ -99,9 +94,8 @@ def e_boards(effects):
     return [e for e in effects if isinstance(e, table.Board)]
 
 
-# S6.1 — FR15, absorbed by slice 2 early and pinned here: the line names what *this* player may tap.
-# 02b/D2 changed which channel that line lives on: the invitation is the Board's own last line now, so the
-# answer to an ordinary message is the Board alone — the same words, costing the chat nothing.
+# The invitation naming what *this* player may tap is the Board's own last line, so the answer to
+# an ordinary message is the Board alone.
 def test_a_plain_message_refreshes_the_boards_and_costs_the_chat_nothing():
     r, t = seated_table()
 
@@ -113,8 +107,8 @@ def test_a_plain_message_refreshes_the_boards_and_costs_the_chat_nothing():
         "the Board ends by naming what to tap"
 
 
-# S6.2 — the manifest's headline: a photo or sticker counts as "they showed up". mjbot hands the Room
-# `message.text or ''`, so the empty string is the whole of it, and the answer is the same as a word's.
+# A photo or sticker counts as showing up. mjbot hands the Room `message.text or ''`, so the
+# answer to an empty string is the same as to a word.
 def test_a_message_with_no_text_at_all_still_refreshes_the_board():
     r, t = seated_table()
 
@@ -124,9 +118,8 @@ def test_a_message_with_no_text_at_all_still_refreshes_the_board():
     assert [e for e in effects if isinstance(e, table.Line)] == []
 
 
-# S2.1 (FR14) — an ask is one question, and a tap is an answer to *something else*. A rate left armed
-# while the player goes and taps a winner would eat the number they type next, which is how a chat gets
-# stuck: the player meant `0.2` as a message to the table, not as the rate.
+# A tap is an answer to *something else*. A rate left armed while the player taps a winner would
+# eat the number they type next, sticking the chat.
 def test_a_tap_ends_the_rate_ask_so_the_next_number_is_an_ordinary_message():
     r, t = seated_table()
     tap(r, t, HOST, "g", "rate")
@@ -139,10 +132,9 @@ def test_a_tap_ends_the_rate_ask_so_the_next_number_is_an_ordinary_message():
     assert [e for e in effects if isinstance(e, table.Line)] == [], "and nobody is refused for a rate"
 
 
-# S2.2 (FR14 across kinds) — the rule is about tapping, not about which question was open or which Table
-# the button belonged to. Cy was never in Al's session, so the tap is refused by the authority gate — and a
-# refused tap still happened: the code ask is gone, and the code they then type is an ordinary message from
-# a chat with no Table rather than a `/join` that lands them in a session by the back door.
+# The rule is about tapping, whatever question was open or Table the button belonged to. Cy was
+# never in Al's session, so the tap is refused, but it still happened: the code ask is gone, and the
+# code Cy types next is an ordinary message, not a `/join` by the back door.
 def test_a_tap_aimed_at_a_session_the_player_is_not_in_still_ends_the_code_ask():
     r = table.Room(rng=random.Random(7))
     r.message(HOST, "/new")
@@ -158,8 +150,7 @@ def test_a_tap_aimed_at_a_session_the_player_is_not_in_still_ends_the_code_ask()
     assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
 
 
-# S6.9 — the picker *is* their options. A line naming winner buttons they cannot tap yet would be the
-# lying kind of option line (slice 4's ruling: the buttons are the feedback).
+# The picker *is* their options; a line naming winner buttons they cannot tap yet would mislead.
 def test_a_plain_message_from_an_unseated_member_is_the_picker_they_already_hold():
     r, t = seated_table()
     r.message(CYD, "/join " + t.code)
@@ -170,9 +161,7 @@ def test_a_plain_message_from_an_unseated_member_is_the_picker_they_already_hold
     assert [e for e in effects if isinstance(e, table.Line)] == []
 
 
-# S6.10 / 02b-D8 — FR15's other half, seen by a bystander, is now said in one place instead of two: the
-# Board they get carries the `⏳` line, and the separate sentence naming the holder is gone with the other
-# two copies of it.
+# A bystander learns who holds a draft from the `⏳` line on their Board, with no separate sentence.
 def test_a_plain_message_names_who_holds_the_draft():
     r, t = seated_table()
     tap(r, t, GUEST, "w", 1)
