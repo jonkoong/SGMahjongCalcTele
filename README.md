@@ -3,6 +3,10 @@ Telegram bot that helps track winnings based on the Singaporean mahjong rules <b
 https://telegram.me/sg_mj_bot  <br>
 Runs on long polling by default; the webhook target is still there for a deploy.
 
+Credit: this is a rewrite of [RyanTanYiWei/SGMahjongCalcTele](https://github.com/RyanTanYiWei/SGMahjongCalcTele),
+the 2022 project it started from. The rules and the payout numbers are that project's; the code, the seats
+and the Board are this one's.
+
 ## How to use
 1. Clone this project.
     > git clone https://github.com/jonkoong/SGMahjongCalcTele.git
