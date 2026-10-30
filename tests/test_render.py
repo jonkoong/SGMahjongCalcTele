@@ -6,8 +6,8 @@ import pytest
 
 import render
 import table
-from tests.support import board_text, GUEST, HOST, entry_texts, keyboard_for, PLAYER, score_wins, \
-    seated_four, seated_table, tap
+from tests.support import board_text, DEB, GUEST, HOST, entry_texts, keyboard_for, PLAYER, \
+    rename_picker, score_wins, seated_four, seated_table, tap
 
 
 
@@ -153,6 +153,13 @@ def test_the_choose_line_says_the_decided_words():
     assert render.CHOOSE_SEAT == "Choose which player you are:"
 
 
+# 05/FR3 — the rename picker's tail, pinned the same two ways as the two lines above: the words are decided
+# copy, and the colon is the whole difference between a heading over a list of seats and a sentence about
+# nothing.
+def test_the_rename_line_says_the_decided_words():
+    assert render.PICK_SEAT_TO_RENAME == "Pick whose name to change:"
+
+
 # 02b/E1's one hard case: both facts want the last line, and there is room for one. A seatless member
 # cannot score, so a draft in progress is not their news — the seat is. The four seats keep the `⏳` line,
 # which is who 01/FR9 was written for.
@@ -166,6 +173,21 @@ def test_the_choose_line_outranks_the_hourglass_for_someone_with_no_seat():
     assert board_text(effects, late.user_id).splitlines()[-1] == render.CHOOSE_SEAT
     assert "⏳" not in board_text(effects, late.user_id), "one tail line, never both"
     assert "⏳ Al is entering a win" in board_text(r.message(HOST, "/board"), HOST.user_id)
+
+
+# 05/S3.4 (NFR7) — a third moment wants the last line, and the rule is unchanged by it: whoever drew the
+# picker asked to rename a seat, and a `⏳` line about somebody else's draft is not what to do next. Here a
+# seated bystander opens it while the draft holder is mid-win — the two lines genuinely both apply, which is
+# what makes this the ranking case rather than a restatement of the one above.
+def test_the_rename_line_outranks_the_hourglass():
+    r, t = seated_four()
+    r.message(DEB, "/leave")                                  # one seat free, or there is no picker to draw
+    tap(r, t, HOST, "w", 0)                                   # Al is entering a win
+
+    picker = rename_picker(r, t, GUEST)
+
+    assert board_text(picker, GUEST.user_id).splitlines()[-1] == render.PICK_SEAT_TO_RENAME
+    assert "⏳" not in board_text(picker, GUEST.user_id), "one tail line, never both"
 
 
 # 02b/E2 — a full session has no seat to choose, so the line points at the one verb that works instead of

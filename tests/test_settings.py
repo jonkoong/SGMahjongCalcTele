@@ -49,7 +49,8 @@ def test_a_seated_player_may_set_shooter_and_max_tai():
     r, t = seated_table()
 
     opened = r.message(GUEST, "/settings")
-    assert keyboard_for(opened, GUEST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert keyboard_for(opened, GUEST.user_id) == ["Pay Rate", "Shooter", "Max Tai",
+                                                   "Change player names", "Back"]
 
     tap(r, t, GUEST, "g", "shooter")
     tap(r, t, GUEST, "v", "shooter0")
@@ -76,7 +77,8 @@ def test_a_seated_player_may_set_the_rate_by_typing_it():
     assert t.rate == 0.2
     assert "$0.20" in board_text(answer, GUEST.user_id)
     assert not [e for e in answer if isinstance(e, table.Line) and "stray" in e.text.lower()]
-    assert keyboard_for(answer, GUEST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert keyboard_for(answer, GUEST.user_id) == ["Pay Rate", "Shooter", "Max Tai",
+                                                   "Change player names", "Back"]
 
 
 # S5.4 (FR11) — a seat is what makes the rule theirs. A member bound to the Table but holding nothing
@@ -163,7 +165,8 @@ def test_the_host_s_settings_screen_moves_nobody_elses_keyboard():
 
     boards = {e.chat_id: e for e in effects if isinstance(e, table.Board)}
     assert set(boards) == {HOST.user_id}                       # nobody else is owed a rewrite
-    assert list(buttons([boards[HOST.user_id]])) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert list(buttons([boards[HOST.user_id]])) == ["Pay Rate", "Shooter", "Max Tai",
+                                                     "Change player names", "Back"]
     assert boards[HOST.user_id].text == render.board(t)        # the text stays the shared one
 
 
@@ -247,7 +250,8 @@ def test_back_out_of_a_picker_returns_to_the_settings_menu():
     tap(r, t, HOST, "g", "maxtai")
     effects = tap(r, t, HOST, "b", "picker")
 
-    assert keyboard_for(effects, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert keyboard_for(effects, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai",
+                                                   "Change player names", "Back"]
 
 
 # S4.5 — the whole point of the command: the ladder a player is offered is what *this* Table pays, not
@@ -259,7 +263,8 @@ def test_the_amount_ladder_follows_the_cap_the_host_set():
 
     assert t.maxtai == 3
     assert "Max tai 3" in board_text(applied, GUEST.user_id)       # Bo's Board says it too
-    assert keyboard_for(applied, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert keyboard_for(applied, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai",
+                                                   "Change player names", "Back"]
 
     tap(r, t, HOST, "b", "menu")                                   # back to where the host scores
     stage = tap(r, t, HOST, "w", 1)                                # Bo won
@@ -300,7 +305,8 @@ def test_setting_a_value_that_is_already_the_value_costs_nobody_anything():
     effects = tap(r, t, HOST, "v", "maxtai5")            # the default it already is
 
     assert (t.maxtai, t.version) == (5, version)
-    assert keyboard_for(effects, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert keyboard_for(effects, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai",
+                                                   "Change player names", "Back"]
     assert not [e for e in effects if isinstance(e, table.Board) and e.chat_id == GUEST.user_id]
 
 
@@ -406,7 +412,8 @@ def test_the_rate_is_asked_for_and_the_next_message_is_the_answer():
     assert t.rate == 0.2
     assert t.version == version + 1                             # one change, one bump
     assert "$0.20" in board_text(applied, GUEST.user_id)        # Bo's Board moved with it
-    assert keyboard_for(applied, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai", "Back"]
+    assert keyboard_for(applied, HOST.user_id) == ["Pay Rate", "Shooter", "Max Tai",
+                                                   "Change player names", "Back"]
 
 
 # S4.17 — one attempt per ask. A rate that is not a rate costs one refusal, and the following message
@@ -475,17 +482,23 @@ def test_a_command_while_asked_for_a_rate_is_not_eaten_as_the_rate():
     assert t.rate == 0.1
 
 
-# S4.15b — the ask grants nothing. Answering after the Table is gone is an ordinary message from
-# somebody who has no Table, not a write into a Table that no longer exists.
-def test_a_rate_answered_after_the_table_closed_changes_nothing():
+# S2.3 (NFR9, replaces S4.15b) — the ask grants nothing: answering after the Table is gone is an ordinary
+# message from somebody who has no Table, not a write into one that no longer exists. The ask is armed on
+# purpose here, and the *other* player does the closing: this used to be pinned with the asker closing the
+# Table himself, and since every tap and every command ends an ask (FR14) his own `/end` and his own tap had
+# already eaten it — the test passed for a reason it did not name (ERR-15).
+def test_a_rate_answered_after_another_player_closed_the_table_changes_nothing():
     r, t = seated_table()
     tap(r, t, HOST, "g", "rate")
 
-    tap_end_exit(r, t, HOST, table.CLOSE_SESSION)
+    tap_end_exit(r, t, GUEST, table.CLOSE_SESSION)
+    assert r.asked == {HOST.user_id: table.Ask("rate")}, "his ask held — it was her tap"
+
     effects = r.message(HOST, "0.5")
 
     assert t.rate == 0.1
     assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+    assert [e for e in effects if isinstance(e, table.Board)] == [], "there is no Table left to draw"
 
 
 # S4.7 — the rate is the setting the players actually care about: the same win at the same rung, twice

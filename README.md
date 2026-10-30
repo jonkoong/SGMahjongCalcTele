@@ -47,6 +47,7 @@ Set `PYTHONIOENCODING=utf-8` if the console raises `UnicodeEncodeError` on the
 | `MJ_BREAKER_COOLDOWN` | `15` | Seconds to hold writes for; a reconciliation beat re-pushes whatever never landed |
 | `MJ_RECONCILE_SECONDS` | `5` | How often the beat re-pushes a Board that never landed, and flushes writes the breaker held |
 | `MJ_DEBUG` | off | `1` logs each batch of incoming updates (telebot diagnostics) |
+| `MJ_TIMING` | off | `1` prints the seconds each Telegram call took and how long a tap spent in rules vs delivery |
 
 `MJ_POLL_TIMEOUT` is deliberately short. Some networks drop long-held connections to
 `api.telegram.org`, and telebot has historically let a `ReadTimeout` escape `polling()` and kill the
@@ -85,14 +86,22 @@ verbs below need no session code after them.
 | `/new` | anyone not in a session | Create a session and pick a seat. Its six-character code goes on the first line of the Board, so anyone seated can read it out to whoever is still outside |
 | `/join CODE` | anyone not in a session | Join someone else's session with its six-character code, typed whole and in any case; a bare `/join` asks for the code first. Codes are dealt once and never re-dealt while the bot runs, so an old code from last week joins nothing |
 | `/history` | seated | Every win of the night, oldest first |
-| `/settings` | seated | Pay rate, shooter pay, max tai — anyone holding a seat may set them, because the seat is what makes the night's money theirs |
+| `/settings` | seated | Pay rate, shooter pay, max tai, and **Change player names** — anyone holding a seat may set them, because the seat is what makes the night's money theirs |
 | `/end` | seated | Open the settle-up screen — the night's totals and every transfer — with the two exits underneath it: **Reset scoreboard** keeps the players in their seats for the next round, **Close session** dissolves the session and frees everyone |
 | `/leave` | in a session | Free your seat and leave; the money that seat earned stays there |
 
-The **Board** is the only message the bot keeps editing in your chat: the four seats — `Player 1` to
-`Player 4`, filled or empty — who sits where, each seat's balance, what the session pays, and the last three
-wins. Older wins are counted, not hidden — `… 4 earlier — /history`. An empty seat is still a seat: it may
+The **Board** is the only message the bot keeps editing in your chat: one row per seat, each naming its
+slot (`Player 1` … `Player 4`) and whoever is sitting there, plus each seat's balance, what the session
+pays, and the last three wins. Older wins are counted, not
+hidden — `… 4 earlier — /history`. An empty seat is still a seat: it may
 win, it may feed, and it owes and is owed in its own slot.
+
+**Change player names** (in `/settings`) renames a seat nobody is sitting in: tap the button, tap the seat,
+type the name — 1 to 12 characters. The name is what the buttons and the night's sentences call that seat
+from then on, in your chat and in everyone else's; the Board's rows keep their `Player N` and show the name
+where an occupant's name would be, so no seat loses its number. Past wins keep the words they were written
+with. A filled seat is not on
+offer: the player sitting there *is* that row's name, and their own name comes from their Telegram account.
 
 Every button carries the session's version, so a screen you left open is refused as out of date instead of
 scoring a second time. Two buttons are excepted: a seat you sit at is judged on whether the seat is free,

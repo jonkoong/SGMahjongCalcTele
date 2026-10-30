@@ -22,10 +22,17 @@ Cy ────────┤    seats · balances · settings · draft     ├
 De ────────┘                                            └─ own Board ─┘
 ```
 
-- **The Board** carries the four seats — `Player 1` to `Player 4`, filled or empty — who sits where,
-  each seat's balance, what the session pays
-  (`Rate $0.10 · Shooter on · Max tai 5`), and the last three wins. It is the only message the bot keeps
-  editing, so a tap never pushes it up the chat.
+- **The Board** carries the four seats — each row naming its **slot** (`Player 1` … `Player 4`, always) and
+  who or what is in it — each seat's balance, what the session pays (`Rate $0.10 · Shooter on · Max tai 5`),
+  and the last three wins. With nobody sitting in a seat, that second column holds the seat's **own name**, or
+  `empty` (05/AD18). It is the only message the bot keeps editing, so a tap never pushes it up the chat.
+- **A label belongs to the Table, not to the bot** (05/FR16). Rename a seat in one session and nobody else's
+  Board moves; two sessions can call seat 3 the same thing without meeting. The name is what the buttons and
+  the sentences say — the winner and who-fed rows, the seat picker, the Entry line, the settle-up lines —
+  because they all read the one list. The Board's first column is the one exception, on purpose (05/AD18): it
+  stays the slot, so a renamed seat is still findable by number, and the name moves into the occupant's
+  column. What a button *carries* is still the seat's number, never the name, so a keyboard from before a
+  rename cannot mean anything but the seat it named.
 - **The same text in every DM**, except the two screens that belong to one player alone: the history view
   and the settle-up screen that `/end` opens.
 - **The keyboard differs per viewer.** The score is shared; the buttons of a win in progress go only to
@@ -51,13 +58,16 @@ The Board message always carries exactly one of these.
 | --- | --- |
 | No session bound | `/new`, `/join` |
 | Bound, unseated | the free seats only, by number — and the Board's last line reads `Choose which player you are:` rather than the standing ask, because those are the buttons under it (02b/E1). With no seat free it reads `Full — /leave to join another session.` and the message carries no keyboard at all (02b/E2) |
-| Seated, nothing pending | one button per seat: the name in it, or **`Player N`** when nobody is in it; **`Undo last win`** on its own row beneath, only while the ledger holds something |
+| Seated, nothing pending | one button per seat: the name in it, or **that seat's own label** when nobody is in it (`Player 3`, or whatever this Table has renamed it to); **`Undo last win`** on its own row beneath, only while the ledger holds something |
 | Amount stage — **holder only** | `1 Tai` … `<max tai> Tai`, then `Kang` / `Kang 暗` / `🐈` / `🐈 暗` / `🥀` / `🥀 暗` two to a row, then `Cancel` |
-| Who-fed stage — **holder only** | every other seat — a name, or `Player N` for an empty one — then `Zi Mo`, `Cancel` |
+| Who-fed stage — **holder only** | every other seat — a name, or the seat's own label for an empty one — then `Zi Mo`, `Cancel` |
 | Someone else's draft | winner buttons as usual, plus the `⏳ Bo is entering a win` line in the Board text |
 | History (`/history`) | `Back` — and the text is the whole night instead of the last three wins |
 | Settle-up screen (`/end`) | `Reset scoreboard`, `Close session`, `Keep playing` — on the screen of whoever asked |
 | Settings (`/settings`, **any seated player**) | `Pay Rate`, `Shooter`, `Max Tai`, `Back`; pickers for shooter and max tai; the rate is **typed** |
+| …and `Change player names`, on its own row above `Back` | drawn only while some seat is free — a full Table has no button to offer, and the tap is refused the same way if the screen it came from was drawn before the last seat filled (05/ERR-05) |
+| Rename picker (that button) | one row per **free** seat, labelled with that seat's own label, then `Back`; the Board's last line reads `Pick whose name to change:` rather than the standing ask, because those are the buttons under it (05/FR3). A player holding their own win is refused here, with the screen they stand on (05/FR13) |
+| A seat tapped there | the answer is **typed**: `Enter the player's name:`, and your next message is the name. A pick changes nothing and bumps nothing — it only asks (05/FR4) |
 
 ---
 
@@ -144,7 +154,7 @@ stateDiagram-v2
 | State | Where it lives | What clears it |
 | --- | --- | --- |
 | Who is entering a win | `table.pending` — one dict, one at a time, Table-wide | commit, `Cancel`, or the holder leaving |
-| A question waiting for a typed answer | `Room.asked` — who was asked, and *what* (a session code, or a pay rate) | **anything** they send next. A command is never an answer, and a sticker is not an attempt at one |
+| A question waiting for a typed answer | `Room.asked` — one `Ask(kind, seat)` per player, and nothing else: a session code, a pay rate, or the seat whose **name** is being changed | **anything** they send next — and any **tap**, since a tap is an answer to something else (05/FR14). A command is never an answer, and a sticker is not an attempt at one. The seat is held on the question, not on the Table, so it cannot outlive it. Only a rejected **name** re-arms, for the same seat (05/FR6) |
 | Whether a keyboard is still current | the `version` inside the token | every committed change bumps it; nothing else stores it |
 | The night's wins, and so every balance | `table.log` — one `Entry(text, delta)` per win, in the order they landed | `Reset scoreboard` empties it and `Close session` destroys it; **`Undo last win`** pops its newest one. The four balances are never stored: they are this list folded up (02/AD2) |
 
@@ -297,7 +307,9 @@ flowchart TD
 ```
 
 A seat nobody is sitting in still owes and is still owed, because the money is in the slot: the line
-reads `Player 3 (empty) pays Al: $3.20` rather than naming a person who is not there. An empty seat may
+reads `Player 3 (empty) pays Al: $3.20` rather than naming a person who is not there — and it reads
+`Wifey (empty) pays Al: $3.20` on a Table that has renamed that seat, because the name in that sentence is
+the seat's, not a person's (05/FR7). An empty seat may
 win and may feed, so a short-handed night keeps scoring (FR3, FR4); what it settles into is settled by
 hand — four seated is what a night is meant to look like (AS4).
 

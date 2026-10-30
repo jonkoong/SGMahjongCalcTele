@@ -9,11 +9,27 @@ import score
 # this code was written against; `02/…` marks the `02-uiux-overhaul` fact that owns the line, and ERR-nn
 # is that mission's scrutiny list. Both specs are working documents kept outside this repo.
 
-# The four seats, named by slot. A seat is a place at the table, not a person: two of these labels can
-# be on the Board and in a log line at the same time as a name (02/AD5, 02/AD16 — prose says seat, never wind).
-SEATS = ["Player 1", "Player 2", "Player 3", "Player 4"]
+# What the four seats are called until somebody renames one: the **defaults** a fresh Table seeds itself
+# from, and the count that decides how many seats a Table has (AD3). The live labels are the Table's own —
+# see `Table.seat_labels`. A seat is a place at the table, not a person: two labels can be on the Board and
+# in a log line at the same time as a name (02/AD5, 02/AD16 — prose says seat, never wind).
+SEAT_LABELS = ["Player 1", "Player 2", "Player 3", "Player 4"]
 CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"   # no O/o, no I/i/l, no 0/1 — 01/FR3
 CODE_LENGTH = 6                                       # 02/FR13 — six of them, and never dealt twice
+NAME_LIMIT = 12                                       # 05/FR8 — how long a seat's label may be, in characters
+
+# Every character `str.splitlines()` breaks a line on — the yardstick `render.py` measures a Board by. Nine
+# of them, not the two a player would name (05/ERR-01): one U+2028 in a label split the settlement's money
+# line into `Bo pays Wife` / `y (empty): $1.60`. Judged on the raw text, before any trimming, because a
+# character that survives to the label can reach a screen.
+LINE_BREAKS = "\n\r\v\f\x1c\x1d\x1e\x85\u2028\u2029"
+
+# The whole rule in the one message a rejected name costs (05/FR6, 05/AD10): one read, no second screen, and
+# the bound read from `NAME_LIMIT` rather than typed a second time — the `CODE_LENGTH`-versus-"six
+# characters" trap (05/ERR-11). Every clause here is one `_seat_name` really applies.
+NAME_CONDITIONS = ("Name not accepted: 1-%d characters after trimming, no line break, no leading @, not a "
+                   "duplicate of another seat or a seated player, and not a reserved word this bot uses."
+                   % NAME_LIMIT)
 HELP = "Send /new to create a new session, or /join to join an existing one"
 
 # The amount buttons after the tai ladder, in today's exact order (01/AD15). Keys are score.AMOUNTS
@@ -22,9 +38,19 @@ SPECIAL_AMOUNTS = {"kang": "Kang", "kang_an": "Kang 暗", "animal": "🐈",
                    "animal_an": "🐈 暗", "flower": "🥀", "flower_an": "🥀 暗"}
 CANCEL = "Cancel"
 BACK = "Back"
+# The feeder button that means *nobody* fed it (02/FR4). Named because two places read it: the who-fed row
+# and the list of words a seat may not be called (05/AD12). ERR-13 — `render.entry_line`'s `" on Zi Mo"` is
+# prose inside a sentence, not this label, and cannot import it: `render.py` does not depend on `table.py`.
+ZI_MO = "Zi Mo"
 # 02/AD12 — `win`, not `round`: a round is what survives between two `/end`s, and this button takes back
 # one scored Entry, not the night.
 UNDO_LAST = "Undo last win"
+# The fourth thing `/settings` offers, and the only one that is not a money rule: it is there because that
+# is the screen a seated player already comes to when they want something about the night changed (05/FR2).
+CHANGE_NAMES = "Change player names"
+# The ask that tap opens (05/FR4). The words live here with the rule rather than in `render.py` (05/AD10):
+# only a render-time tail belongs there, and this is a question the rules layer asks and answers.
+ASK_SEAT_NAME = "Enter the player's name:"
 # The three answers the settle-up screen accepts (04/D1). Named, because the words are the whole safety:
 # `Keep playing` says what the player gets, where `Back` beside a destructive button would not, and each
 # of the other two names what it does to the night instead of saying "confirm".
@@ -42,22 +68,36 @@ OUTDATED = "That message is outdated, tap on the new message or wait for it to b
 # markup carried, in its own words (01/AD15).
 SETTINGS = {"rate": "Pay Rate", "shooter": "Shooter", "maxtai": "Max Tai"}
 
+# The bot's own words that share a screen with a seat button, composed from the constants those screens draw
+# (05/AD12). A hand-typed copy of this vocabulary goes stale in silence the first time a label moves, which
+# is how the four settings rules drifted apart once already; every word here is the one a button is built
+# from. Matched `casefold()`ed for equality, never with `in` (05/ERR-12).
+RESERVED_SEAT_NAMES = tuple(word.casefold() for word in (
+    ZI_MO, CANCEL, BACK, KEEP_PLAYING, UNDO_LAST, RESET_SCOREBOARD, CLOSE_SESSION, CHANGE_NAMES,
+    *SETTINGS.values()))
+
 # The taps that change something, and so have to name the version of the screen they were drawn for
 # (01/FR16). `s` is exempt: whether a seat is free is the seat's own decision, and versioning those
 # would lock out a joiner who has not seen the newest Board. `b` is exempt because it is the way out
 # of a stale screen — versioning it would trap the player there.
-VERSIONED = ("w", "a", "p", "x", "k", "g", "v", "u")
+VERSIONED = ("w", "a", "p", "x", "k", "g", "v", "u", "n")
 
 # Which taps ask for what (02/FR11). Named because they are read by `_tap` in order, and a fourth hand-
 # maintained tuple of kinds is the trap that let the four settings rules drift apart in four places.
 # `_NEEDS_SEAT` is the night's money; `_NEEDS_RULES` is what the night pays out.
 _NEEDS_SEAT = ("w", "a", "p", "k", "u")
-_NEEDS_RULES = ("g", "v")
+_NEEDS_RULES = ("g", "v", "n")
 
 # One refusal, said at two doors (02b/D13): a bare `/join` and `/join CODE` both land on it when the player
 # is already bound to a session, and the sentence cannot be allowed to read differently between them.
 # The `%s` is the code they are already in.
 IN_SESSION_LEAVE_FIRST = "You are in session %s. /leave it first to join another session."
+
+# One more refusal with two doors: a seat somebody else is sitting in, met first by a tap on the seat picker
+# and again by a name typed for a seat that filled while the question was outstanding (05/FR12). The channel
+# differs — a tap has a receipt to show a popup on, a typed message does not (04/D1) — so the words are named
+# once here and each door chooses how to say them.
+SEAT_TAKEN = "%s is taken. Pick another seat."
 
 # The verbs and what the slash menu says each one does — the spec's Command Surface table,
 # in the one place both the menu and any help text can read it from.
@@ -85,6 +125,17 @@ def amount_label(kind, ntai):
 class User(NamedTuple):
     user_id: int
     name: str
+
+
+class Ask(NamedTuple):
+    """
+    The one question outstanding for a player, and the seat it is about when it is about a seat (05/AD7).
+
+    The seat is readable only where the ask is popped, so it cannot outlive the question it belongs to.
+    See `Room.asked` for what ends an ask and why no Table rides on one (05/AD8).
+    """
+    kind: str
+    seat: int = None
 
 
 class Board(NamedTuple):
@@ -206,7 +257,10 @@ class Table:
         self.code = code
         self.members = set()
         self.names = {}
-        self.occupants = [None] * len(SEATS)
+        # A copy, so two live Tables can call slot 3 the same thing without meeting (FR16) — the one fact
+        # this list owns is that it belongs to exactly one Table.
+        self.seat_labels = list(SEAT_LABELS)
+        self.occupants = [None] * len(self.seat_labels)
         self.rate = 0.1
         self.shooter = True
         self.maxtai = 5
@@ -229,8 +283,13 @@ class Table:
         return [u for u in self.occupants if u is not None]
 
     def seat_label(self, seat):
-        """What the seat is called — a slot name, whether or not anybody is in it (02/AD6)."""
-        return SEATS[seat]
+        """
+        What this Table calls the seat — a slot name, whether or not anybody is in it (02/AD6).
+
+        Still the only label read (AD2): every screen asks here rather than holding its own copy, so no
+        two screens can ever disagree about what a seat is called.
+        """
+        return self.seat_labels[seat]
 
     def is_free(self, seat):
         """
@@ -240,8 +299,25 @@ class Table:
         """
         return self.occupants[seat] is None
 
+    def rename_taken(self, candidate, seat):
+        """
+        Whether this Table already calls somebody *else* by that name (05/FR9).
+
+        The union is one fact and lives in one read, off `seats_view`: every other seat's label, plus the
+        name of whoever is sitting in a seat. `names` is not that union (05/ERR-03) — `add_member` puts
+        seatless members in it, so refusing a name because a bystander holds it would blame this player for
+        somebody who is not in any row. Compared `casefold()`ed, so `BO` is Bo's seat as much as `Bo` is.
+        """
+        words = set()
+        for index, (_, label, name, _) in enumerate(self.seats_view()):
+            if index != seat:
+                words.add(label.casefold())
+            if name is not None:
+                words.add(name.casefold())
+        return candidate.casefold() in words
+
     def free_seats(self):
-        return [seat for seat in range(len(SEATS)) if self.is_free(seat)]
+        return [seat for seat in range(len(self.seat_labels)) if self.is_free(seat)]
 
     def occupant_name(self, seat):
         """Whoever holds the seat, or None. Never the slot's own label — see `is_free`."""
@@ -284,10 +360,17 @@ class Table:
         return self.seat_of(user_id) is not None
 
     def seats_view(self):
-        """One row per seat: its label, whoever holds it, and the money sitting there."""
+        """
+        One row per seat: the **slot's** name, what this Table calls it, whoever holds it, and the money
+        sitting there.
+
+        The first two are different facts and both are needed (05/AD18): the slot is `Player 1` … `Player 4`
+        by number and never changes, which is what keeps the Board a grid a player can scan; the label is
+        this Table's own word for the seat, and it is what the buttons and the night's sentences say.
+        """
         balances = self.balances
-        return [(self.seat_label(seat), self.occupant_name(seat), balances[seat])
-                for seat in range(len(SEATS))]
+        return [(SEAT_LABELS[seat], self.seat_labels[seat], self.occupant_name(seat), balances[seat])
+                for seat in range(len(self.seat_labels))]
 
     def add_member(self, user):
         self.members.add(user.user_id)
@@ -321,7 +404,14 @@ class Room:
         # night they were never invited to, and they would never know it was a different night.
         # The window is the process lifetime — a deploy forgets these, and that gap is accepted (02/AS3).
         self.spent = set()
-        self.asked = {}                       # who was asked what, by user id — one question each (01/AD21)
+        # Who was asked what, by user id — **one question per player, and no Table on it** (01/AD21, as
+        # amended by 05/FR14). An ask dies to any answer, any tap, or any command: a tap is an answer to
+        # something else, and a command never was an answer. The one ask that survives its own answer is a
+        # rejected name, which re-arms for the same seat (05/FR6) — safe only because FR14 makes every tap
+        # clear it. No Table is stored here (05/AD8): every move that could change which Table a player is
+        # bound to is a command or a tap, and both end the ask, so an answer always lands on the Table the
+        # asker stands at.
+        self.asked = {}
 
     def table_of(self, user):
         return next((t for t in self.tables.values() if user.user_id in t.members), None)
@@ -333,17 +423,22 @@ class Room:
         parts = text.split()
         command = parts[0].lower() if text.startswith("/") else ""
         if not command:
-            asked = self.asked.pop(user.user_id, None)          # one attempt per ask
+            asked = self.asked.pop(user.user_id, None)          # any answer ends the ask (01/AD21, 05/FR14)
             answer = text.strip()
-            if asked and not answer:
-                # A sticker, a photo, a forwarded nothing: it is input, so it ends the ask (01/AD21), but it
-                # is not an attempt at an answer. Reading it as one refused a player for a message they
-                # never typed — `No live session with code .` — so they are shown where they stand instead.
+            if asked is None or not answer:
+                # Either no question was outstanding — this is an ordinary message — or the answer is
+                # empty: a sticker, a photo, a forwarded nothing. It is input, so it ends the ask (01/AD21),
+                # but it is not an attempt at an answer. Reading it as one refused a player for a message
+                # they never typed — `No live session with code .` — so they are shown where they stand
+                # instead. Checked before any `asked.kind` read, because there is nothing to read when no
+                # ask was outstanding (05/ERR-02).
                 return self._board(user)
-            if asked == "code":
+            if asked.kind == "code":
                 return self._join(user, answer)
-            if asked == "rate":
+            if asked.kind == "rate":
                 return self._apply_rate(user, answer)
+            if asked.kind == "name":
+                return self._apply_name(user, asked.seat, answer)
             # /start, a stray photo, and any verb the menu no longer offers — including a typed /board
             # and the /close this bot deleted. None of them is refused: the answer is where they stand.
             return self._board(user)
@@ -370,14 +465,15 @@ class Room:
         rather than answered with generic help the player cannot act on.
 
         This is conversational state, which is the family that produced the old stuck chats, so it is
-        kept as small as it can be: a set of user ids, and *any* further input from that player — a
-        code, a wrong code, any command — clears it. A wrong code therefore costs one refusal and
+        kept as small as it can be: one `Ask` per player, and *any* further input from that player — a
+        code, a wrong code, any command, any tap — ends it (01/AD21 as amended by 05/FR14; only a rejected
+        name re-arms, and that is 05/FR6). A wrong code therefore costs one refusal and
         nothing else, and nobody can be left inside a prompt they never meant to enter.
         """
         held = self.table_of(user)
         if held:
             return [Line(user.user_id, IN_SESSION_LEAVE_FIRST % held.code)]
-        self.asked[user.user_id] = "code"
+        self.asked[user.user_id] = Ask("code")
         # 02b/D12 — the ask is a command, not a question. It used to name the six-character shape and show
         # an example of it (02/FR14), which is why CODE_EXAMPLE existed; the shape is on a seated player's
         # Board, and a made-up code costs exactly one refusal either way, so the example carried nothing
@@ -399,6 +495,11 @@ class Room:
         return effects
 
     def _tap(self, user, data):
+        # 05/FR14 — a tap is an answer to *something else*, so it ends whatever question this player had
+        # outstanding. First statement, ahead of the gates below, because a refused tap still happened: the
+        # player stopped asking by tapping, whichever gate the tap then fell at. Popped in the rules layer,
+        # not in public `Room.tap` (05/ERR-09), which is also where the command half of this one rule lives.
+        self.asked.pop(user.user_id, None)
         parsed = parse_token(data)
         if parsed is None:
             # The only refusal in this channel with words of its own and no screen to show with them: the
@@ -445,6 +546,8 @@ class Room:
             return self._take_a_seat(table, user, "changing settings")
         if kind == "g":
             return self._open_setting(table, user, meaning)
+        if kind == "n":
+            return self._arm_rename(table, user, meaning)
         if kind == "v":
             return self._apply_setting(table, user, meaning)
         if kind == "b":
@@ -625,7 +728,7 @@ class Room:
             # A seatless player's Board is never edited again (`_show_board` walks the seated), so a
             # popup alone would say "pick another" with nothing left on screen to pick. The fresh offer
             # beside it is convenience, not rescue: `/leave` then `/join CODE` already works (02b/D6c).
-            return [Toast("%s is taken. Pick another seat." % table.seat_label(seat)),
+            return [Toast(SEAT_TAKEN % table.seat_label(seat)),
                     self._seat_offer(table, user)]
         table.occupants[seat] = user.user_id
         table.version += 1
@@ -691,11 +794,20 @@ class Room:
         return [Line(user.user_id, "You are not in a session. " + HELP)]
 
     def _settings_rows(self, table):
-        """The three settings, then a way out that costs the player no typed command — the old bot's
-        settings markup carried `Back` for the same reason."""
-        return [[(label, token("g", table.code, table.version, key))
-                 for key, label in SETTINGS.items()],
-                self._back_row(table, "menu")]
+        """
+        The three settings, then a way out that costs the player no typed command — the old bot's
+        settings markup carried `Back` for the same reason.
+
+        The rename button goes above that way out, alone on its row, and only while some seat is free
+        (05/FR2, 04/D4): a Table with nobody to name offers a picker with no buttons in it, which is the
+        lying menu this bot has never allowed. Hiding it is not the rule, only the offer — the tap is
+        guarded again at `_open_rename` (05/ERR-05).
+        """
+        rows = [[(label, token("g", table.code, table.version, key)) for key, label in SETTINGS.items()]]
+        if table.free_seats():
+            rows.append([(CHANGE_NAMES, token("g", table.code, table.version, "names"))])
+        rows.append(self._back_row(table, "menu"))
+        return rows
 
     def _back_row(self, table, where, label=BACK):
         """The way out, labelled with the screen it leaves — so the Table never has to remember who is
@@ -765,6 +877,54 @@ class Room:
                                       "for 50 cents.")]
         return self._write_setting(table, user, "rate", wanted)
 
+    def _apply_name(self, user, seat, text):
+        """
+        The typed answer to `Enter the player's name:` (05/FR5).
+
+        Being asked grants nothing (02/ERR-04's shape, 05/FR12): the rules are read again here, one message
+        later, because the seat could have been given up in between — and the player is landed on a screen
+        they can act on, not on the score. Which Table to write into is never in doubt: no Table is stored
+        on the ask (05/AD8), so it is the one this message arrives at.
+
+        The write is `_write_setting`'s shape (05/AD11): the label moves, the version moves with it, and
+        every seated Board is redrawn in the same breath — with the actor left on the settings menu they
+        were working on (05/D9) rather than dumped back on the score.
+
+        A draft of the asker's own is not re-checked here (05/FR13, 05/ERR-08), and that is not a missing
+        guard: starting a draft takes a tap, and every tap ends an ask (05/FR14), so no answer can arrive
+        from a player halfway through a win. Only the two things that genuinely change in the gap — which
+        Table this chat is bound to, and who holds the seat — are read again.
+        """
+        table = self.table_of(user)
+        if table is None:
+            return self._board(user)
+        if not table.may_set_rules(user.user_id):
+            return self._take_a_seat(table, user, "changing player names")
+        if not table.is_free(seat):
+            # 05/FR12 — freeness is read at the answer, not at the ask: the seat was taken while the question
+            # was outstanding, and the name they typed is not swallowed by it. No popup here — a typed message
+            # hands Telegram no receipt to show one on (04/D1), so the screen answers instead (02b/D9), and it
+            # answers with the seats still free rather than the same tail over a lone `Back` (05/ERR-05).
+            refusal = [Line(user.user_id, SEAT_TAKEN % table.seat_label(seat))]
+            return refusal + ([self._name_picker(table, user)] if table.free_seats() else [])
+        label = _seat_name(text)
+        if label is None or table.rename_taken(label, seat):
+            # The shape and the availability are two reads (05/AD17) but one refusal: this bot has one
+            # sentence for "not a name I can use", and it names every rule in it at once (05/ERR-11) rather
+            # than making a player discover them one message at a time.
+            #
+            # 05/FR6 — the one ask in this bot that survives its own answer. One message says the conditions,
+            # the next message is the retry, and the player never has to find the button again. It is safe
+            # precisely because 05/FR14 makes any tap end an ask: a player who wanders off is not left inside
+            # a question, so this re-arm cannot become the stuck chat 01/AD21 was written against.
+            self.asked[user.user_id] = Ask("name", seat)
+            return [Line(user.user_id, NAME_CONDITIONS)]
+        if label == table.seat_label(seat):
+            return self._settings_screen(table, user)            # 05/FR18: nothing changed, nobody is owed
+        table.seat_labels[seat] = label
+        table.version += 1
+        return self._show_settings(table, user.user_id)
+
     def _settings_screen(self, table, user):
         """The one Board that stays on the settings menu, while the others show the score."""
         return [Board(user.user_id, render.board(table), self._settings_rows(table))]
@@ -776,7 +936,11 @@ class Room:
                 for uid in table.seated_ids()]
 
     def _open_setting(self, table, user, meaning):
-        """One setting opened: pickers where a value is one tap, a question where it is a number."""
+        """One setting opened: pickers where a value is one tap, a question where it is a number. The
+        rename is the fourth thing this screen offers and is not a setting at all — it picks a seat, so it
+        gets its own picker (05/FR3)."""
+        if meaning == "names":
+            return self._open_rename(table, user)
         if meaning == "rate":
             return self._ask_for_rate(table, user)
         rows = {"shooter": self._shooter_rows, "maxtai": self._maxtai_rows}.get(meaning)
@@ -785,14 +949,68 @@ class Room:
         return [Board(user.user_id, render.board(table),
                       rows(table) + [self._back_row(table, "picker")])]
 
+    def _open_rename(self, table, user):
+        """
+        The picker, with the two doors in front of it.
+
+        **A draft of his own** (05/FR13): the man halfway through a win does not also rename the Table that
+        win is about to be written into. This is the only door that rule gets (05/AD13) — starting a draft is
+        a tap, and every tap ends an ask (05/FR14), so no later stage can find him holding one. The popup
+        quotes `render.entering`, the same clause the `⏳` line on the screen this tap re-draws already
+        prints, so refusal and screen say one thing (02b/D10).
+
+        **No seat free** (05/ERR-05): nothing to name, and `Pick whose name to change:` above zero buttons is
+        a screen lying about what is on offer. The button hides itself in that case, but the keyboard is not
+        the rule — a replayed tap gets the shared line and the player's own Board (02b/D9).
+        """
+        pending = table.pending
+        if pending is not None and pending["holder"] == user.user_id:
+            return [Toast("Cannot change player names while %s."
+                          % render.entering(table.names[pending["holder"]]))] + self._where_you_stand(table, user)
+        if not table.free_seats():
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
+        return [self._name_picker(table, user)]
+
+    def _name_picker(self, table, user):
+        """Whose name to change, drawn on this player's own Board message (05/FR3, 01/FR12)."""
+        return Board(user.user_id, render.board(table, render.PICK_SEAT_TO_RENAME),
+                     self._rename_rows(table))
+
+    def _rename_rows(self, table):
+        """
+        One free seat per row, then the way out — one seat to a row rather than the seat offer's single
+        row, because these buttons open a typed answer and a mistap costs the player a message.
+
+        Labelled by `seat_label`, carrying the seat's *index* (05/FR17): a label that reached callback data
+        would be a name Telegram could redeliver after it stopped being true.
+        """
+        return [[(table.seat_label(seat), token("n", table.code, table.version, seat))]
+                for seat in table.free_seats()] + [self._back_row(table, "picker")]
+
+    def _arm_rename(self, table, user, meaning):
+        """
+        One seat of the picker tapped: the name is typed, not tapped, so this arms the ask and says what it
+        wants (05/FR4). Nothing else moves — a pick renames nobody, and a bump would retire the very picker
+        the player is looking at (AD24's rule for reads).
+
+        The seat rides on the ask (05/AD7) instead of being remembered on the Table, so it cannot outlive
+        the question: any answer, any tap, any command ends it (05/FR14).
+        """
+        seat = _seat_index(meaning)
+        if seat is None:
+            return [Toast(OUTDATED)] + self._where_you_stand(table, user)
+        self.asked[user.user_id] = Ask("name", seat)
+        return [Line(user.user_id, ASK_SEAT_NAME)]
+
     def _ask_for_rate(self, table, user):
         """
         The rate is the one setting typed rather than tapped: the old bot accepted any number, and a
         row of four buttons would quietly narrow what a night can be run at. It is asked, not
-        remembered as a mode — one outstanding question per player, cleared by whatever they send next
-        (01/AD21). The board already shows the current rate, so the question needs no restating.
+        remembered as a mode — one outstanding question per player, ended by whatever they send next,
+        tap, or command (01/AD21 as amended by 05/FR14). The board already shows the current rate, so the
+        question needs no restating.
         """
-        self.asked[user.user_id] = "rate"
+        self.asked[user.user_id] = Ask("rate")
         return [Line(user.user_id, "What rate? Eg: 0.2 for 20 cents, 1.5 for $1.50.")]
 
     def _shooter_rows(self, table):
@@ -1014,13 +1232,13 @@ class Room:
         there is no person to name and the win is booked into the slot all the same (02/AD5).
         """
         return [(table.name_for(seat), token("w", table.code, table.version, seat))
-                for seat in range(len(SEATS))]
+                for seat in range(len(table.seat_labels))]
 
     def _payer_row(self, table):
         """Every seat but the winner's, filled or empty (02/FR4), plus Zi Mo."""
         return [(table.name_for(seat), token("p", table.code, table.version, seat))
-                for seat in range(len(SEATS)) if seat != table.pending["winner"]] + [
-                ("Zi Mo", token("p", table.code, table.version, "z"))]
+                for seat in range(len(table.seat_labels)) if seat != table.pending["winner"]] + [
+                (ZI_MO, token("p", table.code, table.version, "z"))]
 
     def _amount_rows(self, table):
         """The tai ladder, then the specials two to a row — six across is unusable on a phone."""
@@ -1048,7 +1266,8 @@ def _digits(text):
 
 
 def _seat_index(meaning):
-    return int(meaning) if _digits(meaning) and 0 <= int(meaning) < len(SEATS) else None
+    """A seat token carries an index, judged against the seat count — this parser holds no Table (AD3)."""
+    return int(meaning) if _digits(meaning) and 0 <= int(meaning) < len(SEAT_LABELS) else None
 
 def _setting_value(meaning):
     """
@@ -1076,6 +1295,34 @@ def _rate_value(text):
     if not _digits(text.replace(".", "")) or text.count(".") > 1:
         return None
     return float(text) or None
+
+
+def _seat_name(text):
+    """
+    `Wifey`, or None — the shape a seat's name has to fill before anybody asks whether the Table can spare
+    it (05/FR8). Text in, value out, exactly like `_rate_value` beside it: this family does not take a Table
+    and it does not return three things (05/AD17).
+
+    The raw text is judged for line breaks **first** (05/ERR-01): `str.splitlines()` — the yardstick
+    `render.py` measures a Board by — breaks on nine characters rather than two, so the character that would
+    add a line to a screen is refused before any of the rest is considered. Then trim, then collapse every
+    interior run with `str.split()` (05/AS7), and measure the length on the collapsed form: the words a
+    player reads are what gets judged, not the keystrokes they happened to use.
+
+    Then the two rules that are about the words themselves: no leading `@` — that is how you tag a person, not
+    what a seat answers to — and none of the bot's own vocabulary, listed once in `RESERVED_SEAT_NAMES` and
+    matched for equality, so `Backpacking` is a name and `Back` is not (05/FR8, 05/ERR-12).
+
+    Whether the name is *available* is a Table's fact, not this function's — see `Table.rename_taken`.
+    """
+    if any(c in LINE_BREAKS for c in text):
+        return None
+    label = " ".join(text.split())
+    if not (1 <= len(label) <= NAME_LIMIT):
+        return None
+    if label.startswith("@") or label.casefold() in RESERVED_SEAT_NAMES:
+        return None
+    return label
 
 
 def _tai_number(meaning, cap):

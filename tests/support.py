@@ -124,6 +124,38 @@ def tap_end_exit(r, t, who, label):
     return r.tap(who, buttons_for(r.message(who, "/end"), who.user_id)[label])
 
 
+def rename_picker(r, t, who):
+    """
+    Open the seat picker that `Change player names` draws, and return what that tap drew.
+
+    The one way these tests reach that screen, and it taps the button by the word printed on it — the
+    `tap_end_exit` convention: the words are the contract, so a token scheme change costs this function
+    instead of every test that renames a seat.
+    """
+    return r.tap(who, buttons_for(r.message(who, "/settings"), who.user_id)[table.CHANGE_NAMES])
+
+
+def arm_rename(r, t, who, seat_label):
+    """
+    Reach the picker and tap the seat printed as `seat_label`, returning what that tap said.
+
+    The one way these tests arm a rename, so none of them hand-builds an `n` token: they choose the seat the
+    way a player reads it, off the screen they were just shown (spec.md Part 3's durability rule).
+    """
+    return r.tap(who, buttons_for(rename_picker(r, t, who), who.user_id)[seat_label])
+
+
+def rename(r, t, who, seat_label, name):
+    """
+    Arm a rename for the seat printed as `seat_label`, then type `name` as the answer.
+
+    The one way these tests complete a rename: both halves are what a player does, in the order they do it,
+    so the ask, the tap, and the write are all reached for real.
+    """
+    arm_rename(r, t, who, seat_label)
+    return r.message(who, name)
+
+
 def tokens_of(effects):
     return [tok for e in effects for row in getattr(e, "rows", ()) for _, tok in row]
 

@@ -44,12 +44,13 @@ def test_the_readme_names_every_verb_the_bot_has():
     assert not silent, "README never mentions %s" % sorted(silent)
 
 
-# S8.2 — undo is the one thing a player taps that is not a verb, so the verb net above cannot see it go.
-# The label is the constant the keyboard row is built from (`table.UNDO_LAST`, beside the other button
-# labels): a doc that never names it describes a bot with the hole this mission filled still in it.
-def test_both_docs_describe_the_undo_button():
+# S8.2 (05/S8.1) — the two things a player taps that are not verbs, so the verb net above cannot see them go.
+# The labels are the constants the keyboard rows are built from (`table.UNDO_LAST`, `table.CHANGE_NAMES`):
+# a doc that never names one describes a bot with the hole it filled still in it.
+def test_both_docs_describe_the_buttons_that_are_not_verbs():
     for path, doc in DOCS:
-        assert table.UNDO_LAST in doc, "%s never mentions %s" % (path, table.UNDO_LAST)
+        for label in (table.UNDO_LAST, table.CHANGE_NAMES):
+            assert label in doc, "%s never mentions %s" % (path, label)
 
 
 # S7.3 — the operator knobs are read from the environment by exactly one file; a table of variables that

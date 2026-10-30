@@ -124,6 +124,40 @@ def test_a_message_with_no_text_at_all_still_refreshes_the_board():
     assert [e for e in effects if isinstance(e, table.Line)] == []
 
 
+# S2.1 (FR14) — an ask is one question, and a tap is an answer to *something else*. A rate left armed
+# while the player goes and taps a winner would eat the number they type next, which is how a chat gets
+# stuck: the player meant `0.2` as a message to the table, not as the rate.
+def test_a_tap_ends_the_rate_ask_so_the_next_number_is_an_ordinary_message():
+    r, t = seated_table()
+    tap(r, t, HOST, "g", "rate")
+
+    tap(r, t, HOST, "w", 1)                            # any tap, on any screen
+    effects = r.message(HOST, "0.2")
+
+    assert t.rate == 0.1, "nothing was written — the ask was already over"
+    assert any(isinstance(e, table.Board) for e in effects), "the ordinary message is answered where they stand"
+    assert [e for e in effects if isinstance(e, table.Line)] == [], "and nobody is refused for a rate"
+
+
+# S2.2 (FR14 across kinds) — the rule is about tapping, not about which question was open or which Table
+# the button belonged to. Cy was never in Al's session, so the tap is refused by the authority gate — and a
+# refused tap still happened: the code ask is gone, and the code they then type is an ordinary message from
+# a chat with no Table rather than a `/join` that lands them in a session by the back door.
+def test_a_tap_aimed_at_a_session_the_player_is_not_in_still_ends_the_code_ask():
+    r = table.Room(rng=random.Random(7))
+    r.message(HOST, "/new")
+    code = r.table_of(HOST).code
+    r.message(CYD, "/join")                           # the slash menu can only send a bare /join
+
+    refused = r.tap(CYD, table.token("s", code, 0, 0))
+    assert r.asked == {}, "the ask died to the tap, not to the answer"
+    effects = r.message(CYD, code)
+
+    assert "not in session" in next(e.text for e in refused if isinstance(e, table.Toast)).lower()
+    assert r.table_of(CYD) is None, "and no seat was taken by the typed code either"
+    assert "not in a session" in next(e.text for e in effects if isinstance(e, table.Line)).lower()
+
+
 # S6.9 — the picker *is* their options. A line naming winner buttons they cannot tap yet would be the
 # lying kind of option line (slice 4's ruling: the buttons are the feedback).
 def test_a_plain_message_from_an_unseated_member_is_the_picker_they_already_hold():

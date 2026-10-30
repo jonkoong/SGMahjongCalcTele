@@ -78,6 +78,11 @@ PICK_WINNER = "Pick who won the round:"
 # score a night they are not standing in. Same colon for the same reason — the buttons below are the list.
 CHOOSE_SEAT = "Choose which player you are:"
 
+# …and the third thing the last line can be asked to do (05/FR3): the rename picker offers one button per
+# free seat, so it says whose name the buttons below are for. Same colon, same reason — the buttons are the
+# list. It outranks the `⏳` line exactly as `CHOOSE_SEAT` does: whoever drew this screen asked to rename.
+PICK_SEAT_TO_RENAME = "Pick whose name to change:"
+
 # …and when the session is full there is nothing to choose, so the line points at the one verb that works
 # instead of promising buttons that are not there (02b/E2).
 SESSION_FULL = "Full — /leave to join another session."
@@ -119,9 +124,16 @@ def _board(table, entries, tail=None):
 
 
 def _seat_lines(table):
-    """One line per seat: its label, whoever holds it or `empty`, and the money sitting there (01/AD4)."""
-    return ["%s  %-14s %s" % (label, name or "empty", money(value))
-            for label, name, value in table.seats_view()]
+    """
+    One line per seat: the slot, whoever or whatever is in it, and the money sitting there (01/AD4).
+
+    Column one is the **slot** — `Player 1` … `Player 4`, always — so the Board keeps its shape and a seat
+    somebody has renamed is still findable by number (05/AD18). Column two is whoever is sitting there; with
+    nobody in it, it says what this Table calls the seat, or `empty` if nobody renamed it. The name the
+    buttons and the night's sentences use is the second column's, never the first — `name_for`, not the slot.
+    """
+    return ["%s  %-14s %s" % (slot, name or (label if label != slot else "empty"), money(value))
+            for slot, label, name, value in table.seats_view()]
 
 
 def settlement(table):
@@ -161,7 +173,7 @@ def transfer_names(table):
     owes and is owed exactly like a player — it just has no one to say, and the Board already calls that
     row `empty`. Handing the kernel `None` instead would read `None pays Di: $3.20`.
     """
-    return [name or "%s (empty)" % label for label, name, _ in table.seats_view()]
+    return [name or "%s (empty)" % label for _, label, name, _ in table.seats_view()]
 
 
 def _log_lines(table, entries):
